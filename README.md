@@ -253,6 +253,21 @@ chmod +x org/security/CREDENTIAL_AUDIT.sh
 psql "$DATABASE_URL" -f org/security/RLS_POLICIES.sql
 ```
 
+## Community Feedback (Optional)
+
+Forge includes an opt-in feedback system under `org/feedback/`.
+
+It can generate anonymized structural telemetry (process usage, skill-gap categories, engine health) and benchmark your local usage against community averages.
+
+Files:
+- `org/feedback/FEEDBACK_AGENT.md`
+- `org/feedback/PRIVACY_POLICY.md`
+- `org/feedback/feedback_agent.js`
+- `org/feedback/privacy_filter.js`
+- `org/feedback/BENCHMARKS.md`
+
+By default it is off. Review privacy docs before enabling.
+
 ## License
 
 Use this however you want. Build something great.

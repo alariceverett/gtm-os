@@ -1,5 +1,5 @@
 // Shared database connection for decision engine
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const { Client } = require('pg');
 
 const DB_URL = process.env.DATABASE_URL;
