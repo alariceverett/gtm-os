@@ -258,6 +258,46 @@ Forge includes a comprehensive security layer. **Read this before deploying.**
 | `DATABASE_URL` | PostgreSQL connection string | Set by setup.sh |
 | `ANTHROPIC_API_KEY` | For LLM calls | Set in OpenClaw config |
 
+## Community Feedback
+
+Forge includes an opt-in feedback system that helps improve the framework for everyone. The **Feedback Agent** periodically analyzes how your instance uses Forge — processes, skills, decisions, file structure — anonymizes everything through a strict privacy filter, and posts structural observations to the Forge GitHub repo.
+
+**Nothing proprietary ever leaves your instance.** No business names, no decisions, no people, no data. Just structural patterns like "5 of 7 processes used" and "skill gaps in 3 categories."
+
+### What You Get Back
+
+- **Community Benchmarks** — see how your org's process adoption, skill coverage, and engine usage compare to the anonymized community average
+- **Priority Skill Packs** — when common skill gaps are identified across instances, opt-in users get auto-built skills delivered first
+- **Forge Contributors** — optional listing in CONTRIBUTORS.md
+- **Early Access** — new features ship to feedback contributors before general release
+
+### Quick Start
+
+```bash
+# Enable during setup (setup.sh asks), or manually:
+echo 'FORGE_FEEDBACK=true' >> /home/node/.openclaw/.env.feedback
+echo 'FORGE_FEEDBACK_TOKEN=ghp_your_token' >> /home/node/.openclaw/.env.feedback
+
+# Preview what would be sent (dry run):
+source /home/node/.openclaw/.env.feedback
+node org/feedback/feedback_agent.js
+
+# Actually post:
+node org/feedback/feedback_agent.js --post
+```
+
+### Files
+
+| File | Purpose |
+|---|---|
+| [`org/feedback/FEEDBACK_AGENT.md`](org/feedback/FEEDBACK_AGENT.md) | Full documentation |
+| [`org/feedback/PRIVACY_POLICY.md`](org/feedback/PRIVACY_POLICY.md) | Plain-language privacy explanation |
+| [`org/feedback/feedback_agent.js`](org/feedback/feedback_agent.js) | The feedback agent script |
+| [`org/feedback/privacy_filter.js`](org/feedback/privacy_filter.js) | Privacy scrubbing module |
+| [`org/feedback/BENCHMARKS.md`](org/feedback/BENCHMARKS.md) | Your local benchmark report (auto-generated) |
+
+Disabled by default. Opt in during `setup.sh` or see [`org/feedback/FEEDBACK_AGENT.md`](org/feedback/FEEDBACK_AGENT.md) for details.
+
 ## License
 
 Use this however you want. Build something great.

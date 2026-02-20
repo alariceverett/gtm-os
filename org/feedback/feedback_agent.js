@@ -367,6 +367,173 @@ async function postIssue(issue) {
 }
 
 // ============================================================
+// Benchmarks — fetch community averages and compare locally
+// ============================================================
+
+const BENCHMARK_URL = `https://raw.githubusercontent.com/${REPO}/main/community_benchmarks.json`;
+const BENCHMARKS_MD = path.join(__dirname, 'BENCHMARKS.md');
+
+function computeLocalMetrics(items) {
+  const metrics = {};
+  for (const item of items) {
+    if (item.category === 'Process Usage') {
+      const m = item.body.match(/Total registered processes: (\d+)/);
+      const m2 = item.body.match(/Processes with at least 1 run: (\d+)/);
+      if (m) metrics.processes_registered = parseInt(m[1]);
+      if (m2) metrics.processes_with_runs = parseInt(m2[1]);
+      if (metrics.processes_registered > 0) {
+        metrics.process_adoption_rate = +(metrics.processes_with_runs / metrics.processes_registered).toFixed(2);
+      }
+    }
+    if (item.category === 'Skill Gaps') {
+      const m = item.body.match(/Total skill gaps logged: (\d+)/);
+      const cats = (item.body.match(/^- .+: \d+$/gm) || []).length;
+      if (m) metrics.total_skill_gaps = parseInt(m[1]);
+      metrics.skill_gap_categories = cats;
+    }
+    if (item.category === 'Decision Engine Health') {
+      const md = item.body.match(/Decisions logged: (\d+)/);
+      const mr = item.body.match(/Delegations per decision: ([\d.]+)/);
+      const ms = item.body.match(/Steps per decision: ([\d.]+)/);
+      if (md) metrics.decisions_logged = parseInt(md[1]);
+      if (mr && mr[1] !== 'N/A') metrics.delegations_per_decision = parseFloat(mr[1]);
+      if (ms && ms[1] !== 'N/A') metrics.steps_per_decision = parseFloat(ms[1]);
+    }
+    if (item.category === 'File Structure') {
+      const m = item.body.match(/Template files present: (\d+)/);
+      const mc = item.body.match(/Custom files added: (\d+)/);
+      if (m) metrics.template_files_retained = parseInt(m[1]);
+      if (mc) metrics.custom_files_added = parseInt(mc[1]);
+    }
+  }
+  return metrics;
+}
+
+async function fetchBenchmarks() {
+  const https = require('https');
+  return new Promise((resolve) => {
+    https.get(BENCHMARK_URL, { headers: { 'User-Agent': 'Forge-Feedback-Agent/1.0' } }, (res) => {
+      if (res.statusCode !== 200) { resolve(null); res.resume(); return; }
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        try { resolve(JSON.parse(body)); } catch { resolve(null); }
+      });
+    }).on('error', () => resolve(null));
+  });
+}
+
+function assess(local, avg) {
+  if (local == null || avg == null || avg === 0) return '⚪ No data';
+  const ratio = local / avg;
+  if (ratio >= 1.15) return '🟢 Above average';
+  if (ratio >= 0.85) return '🟡 Average';
+  return '🔴 Below average';
+}
+
+function fmtVal(v) {
+  return v != null ? String(v) : '—';
+}
+
+function writeBenchmarkReport(localMetrics, community) {
+  const avg = community?.averages || {};
+  const now = new Date().toISOString().slice(0, 19) + 'Z';
+  const instanceCount = community?.instance_count || 0;
+  const minInstances = community?.minimum_instances || 5;
+  const hasEnoughData = instanceCount >= minInstances;
+
+  const metricRows = [
+    ['Processes registered', localMetrics.processes_registered, avg.processes_registered],
+    ['Processes with runs', localMetrics.processes_with_runs, avg.processes_with_runs],
+    ['Process adoption rate', localMetrics.process_adoption_rate, avg.process_adoption_rate],
+    ['Skill gap categories', localMetrics.skill_gap_categories, avg.skill_gap_categories],
+    ['Total skill gaps logged', localMetrics.total_skill_gaps, avg.total_skill_gaps],
+    ['Decisions logged', localMetrics.decisions_logged, avg.decisions_logged],
+    ['Delegations per decision', localMetrics.delegations_per_decision, avg.delegations_per_decision],
+    ['Steps per decision', localMetrics.steps_per_decision, avg.steps_per_decision],
+    ['Template files retained', localMetrics.template_files_retained, avg.template_files_retained],
+    ['Custom files added', localMetrics.custom_files_added, avg.custom_files_added],
+  ];
+
+  const tableRows = metricRows.map(([name, local, communityVal]) => {
+    const delta = (local != null && communityVal != null)
+      ? (local - communityVal > 0 ? '+' : '') + (local - communityVal).toFixed(1)
+      : '—';
+    const assessment = hasEnoughData ? assess(local, communityVal) : '⚪ No data';
+    return `| ${name} | ${fmtVal(local)} | ${hasEnoughData ? fmtVal(communityVal) : '—'} | ${delta} | ${assessment} |`;
+  });
+
+  const insights = [];
+  if (!hasEnoughData) {
+    insights.push(`- Community benchmarks require at least ${minInstances} contributing instances. Currently: ${instanceCount}. Keep contributing — benchmarks will appear once the threshold is met.`);
+  } else {
+    // Generate insights from the data
+    if (localMetrics.process_adoption_rate != null && avg.process_adoption_rate != null) {
+      if (localMetrics.process_adoption_rate < avg.process_adoption_rate * 0.85) {
+        insights.push('- 📋 Your process adoption rate is below average. Consider reviewing registered processes — some may need better integration into your workflow, or unused ones could be removed.');
+      } else if (localMetrics.process_adoption_rate > avg.process_adoption_rate * 1.15) {
+        insights.push('- ✅ Strong process adoption — you\'re using more of your registered processes than most Forge instances.');
+      }
+    }
+    if (localMetrics.delegations_per_decision != null && avg.delegations_per_decision != null) {
+      if (localMetrics.delegations_per_decision < avg.delegations_per_decision * 0.7) {
+        insights.push('- 🔀 Low delegation ratio. Your CEO agent may be handling too much directly — consider delegating more to division leads.');
+      }
+    }
+    if (localMetrics.template_files_retained != null && avg.template_files_retained != null) {
+      if (localMetrics.template_files_retained < avg.template_files_retained * 0.85) {
+        insights.push('- 📂 You\'ve removed more template files than average. Some removed files may contain valuable framework features — review what\'s missing.');
+      }
+    }
+    if (insights.length === 0) {
+      insights.push('- Your instance is tracking close to community averages across all metrics. Looking good!');
+    }
+  }
+
+  const md = `# Forge Community Benchmarks
+
+_Auto-generated by the Forge Feedback Agent. Do not edit manually — this file is overwritten on each run._
+
+_Last updated: ${now}_
+_Community instances contributing: ${instanceCount}_
+
+---
+
+## Your Instance vs Community Average
+
+| Metric | Your Value | Community Avg | Delta | Assessment |
+|---|---|---|---|---|
+${tableRows.join('\n')}
+
+### Assessment Key
+
+- 🟢 **Above average** — your usage exceeds the community norm
+- 🟡 **Average** — within normal range
+- 🔴 **Below average** — potential area for improvement
+- ⚪ **No data** — insufficient data for comparison
+
+---
+
+## Insights
+
+${insights.join('\n')}
+
+---
+
+## How Benchmarks Work
+
+Community benchmarks are aggregated from anonymized feedback submitted by opt-in Forge instances. The averages are published as a public JSON file in the Forge repo (\`community_benchmarks.json\`) and fetched by your feedback agent after each submission.
+
+- **No individual instance data is identifiable** in the benchmark file
+- **Minimums apply** — benchmarks only appear when enough instances have contributed (minimum ${minInstances}) to prevent fingerprinting
+- **Your local data never leaves** for benchmark comparison — the community averages come to you
+`;
+
+  fs.writeFileSync(BENCHMARKS_MD, md);
+  return md;
+}
+
+// ============================================================
 // Main
 // ============================================================
 
@@ -403,6 +570,8 @@ async function main() {
     console.log('🔒 DRY RUN — nothing was posted.');
     console.log('   To post: node feedback_agent.js --post');
     console.log('   To post without confirmation: node feedback_agent.js --post --confirm');
+    // Still fetch benchmarks in dry-run mode
+    await runBenchmarks(items);
     return;
   }
 
@@ -426,6 +595,41 @@ async function main() {
     console.error(`❌ Failed to post: ${e.message}`);
     process.exit(1);
   }
+
+  // --- Fetch and display benchmarks ---
+  await runBenchmarks(items);
+}
+
+async function runBenchmarks(items) {
+  console.log('\n📊 Fetching community benchmarks...');
+  const localMetrics = computeLocalMetrics(items);
+  const community = await fetchBenchmarks();
+
+  if (!community) {
+    console.log('   Benchmarks not yet available (community_benchmarks.json not found in repo).');
+    console.log('   A benchmark file will be published once enough instances are contributing.');
+    // Still write a local report with just our data
+    writeBenchmarkReport(localMetrics, null);
+    console.log(`   Local metrics written to ${BENCHMARKS_MD}`);
+    return;
+  }
+
+  writeBenchmarkReport(localMetrics, community);
+  console.log(`   Benchmark report written to ${BENCHMARKS_MD}`);
+
+  // Print summary to console
+  const avg = community.averages || {};
+  console.log('\n   Your Instance vs Community:');
+  if (localMetrics.process_adoption_rate != null && avg.process_adoption_rate != null) {
+    console.log(`   • Process adoption: ${(localMetrics.process_adoption_rate * 100).toFixed(0)}% (community: ${(avg.process_adoption_rate * 100).toFixed(0)}%)`);
+  }
+  if (localMetrics.delegations_per_decision != null && avg.delegations_per_decision != null) {
+    console.log(`   • Delegations/decision: ${localMetrics.delegations_per_decision} (community: ${avg.delegations_per_decision})`);
+  }
+  if (localMetrics.template_files_retained != null && avg.template_files_retained != null) {
+    console.log(`   • Template files kept: ${localMetrics.template_files_retained} (community: ${avg.template_files_retained})`);
+  }
+  console.log(`\n   Full report: org/feedback/BENCHMARKS.md`);
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });

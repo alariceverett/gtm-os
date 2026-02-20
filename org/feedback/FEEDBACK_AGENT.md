@@ -18,11 +18,13 @@ The Feedback Agent is an opt-in system that helps Forge get better for everyone.
 
 | Data Point | What's Collected | What's NOT Collected |
 |---|---|---|
-| Process usage | Run counts per process, used vs unused ratios | Process names (scrubbed), run content, outcomes |
+| Process health | Runs per process, success/fail counts, fail rates, which processes never run | Process content, outcomes, who ran them |
+| Process failures | Which process types fail, how often, error categories | Specific error messages, context, business details |
 | Skill gaps | Category names, counts per category | Descriptions, context, who logged them |
-| Decision engine | Total decisions/delegations/steps, ratios | Decision content, titles, actors, reasoning |
+| Decision engine | Total decisions/delegations/steps, ratios, completion rates | Decision content, titles, actors, reasoning |
+| Completion checklist | Which steps get completed vs skipped, compliance rate | Task details, deliverable content |
 | File structure | Which template files exist/missing, custom file count | File contents, custom file names |
-| Error patterns | Error type classification, frequency | Error context, stack traces, file paths |
+| Error patterns | Error type classification, frequency, affected components | Error context, stack traces, file paths |
 
 ### What NEVER Leaves
 
@@ -132,62 +134,35 @@ Or delete `/home/node/.openclaw/.env.feedback`. The agent checks this gate befor
 
 _Jim: pick one of these three for `setup.sh`. Delete the other two._
 
-### Option A — Casual
-
 ```
 🔧 One more thing — want to help make Forge better?
 
-The Feedback Agent sends anonymous usage patterns back to the
-Forge repo once a week. Think of it like joining a pit crew:
-your data (scrubbed clean of anything personal) helps us tune
-the engine for everyone.
+Community feedback is recommended. Once a week, the Feedback
+Agent sends anonymous usage patterns back to the Forge repo.
+Think of it like joining a pit crew: your data (scrubbed clean
+of anything personal) helps us tune the engine for everyone.
 
-In return, you get community benchmarks showing how your org
-compares, priority skill packs, and early access to new features.
+What gets sent (anonymized):
+  • Which processes run, succeed, or fail — and how often
+  • Common skill gaps (categories only, not details)
+  • Decision engine health (counts and ratios, not content)
+  • Which parts of the template get used vs ignored
+  • Error patterns so we can fix what's broken
 
-No business names, no decisions, no secrets. Just structural
-stuff like "used 5 of 7 processes" and "skill gaps in 3 categories."
+What NEVER gets sent:
+  • Business names, people, decisions, tasks, credentials
+  • Nothing proprietary. Ever. The code is open — audit it.
+
+What you get back:
+  • Community benchmarks — see how your org compares
+  • Priority skill packs — common gaps get fixed, you get them first
+  • Early access to new Forge features
+  • Listed as a Forge Contributor (if you want)
 
 You can review exactly what gets sent before anything leaves,
 and turn it off anytime.
 
-Join the crew? (y/N)
-```
-
-### Option B — Professional
-
-```
-📊 Community Feedback Program (Optional)
-
-Forge includes an opt-in feedback system that sends anonymized
-structural metrics to the Forge GitHub repository. All data
-passes through a strict privacy filter — no proprietary
-information is transmitted.
-
-Benefits for participants:
-  • Community benchmarks (compare your usage to the average)
-  • Priority delivery of auto-built skill packs
-  • Early access to new Forge features
-
-Data collected (anonymized): process usage counts, skill gap
-categories, decision/delegation ratios, template file presence,
-error type frequencies.
-
-Data never collected: names, decisions, content, credentials,
-URLs, or any business-specific information.
-
-First run is always a dry-run preview. Disable anytime.
-
-Enable community feedback? (y/N)
-```
-
-### Option C — Minimal
-
-```
-Send anonymous usage stats to improve Forge? (y/N)
-  → No personal/business data — just structural patterns
-  → You get benchmarks + priority skill packs in return
-  → Preview before sending, disable anytime
+Enable community feedback? (recommended) (y/N)
 ```
 
 ---
