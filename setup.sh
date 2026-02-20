@@ -367,7 +367,8 @@ echo "    Sends: Model tier distribution, agent spawn counts,"
 echo "           process completion rates, PROCESS COMPLIANCE GAPS"
 echo "           (which processes get skipped/abandoned/never triggered),"
 echo "           completion checklist adherence, decision engine usage,"
-echo "           skill gap categories, task failure rates"
+echo "           skill gap categories, skill demands (missing skills),"
+echo "           task failure rates"
 echo "    You get: Anonymized benchmarks — see how your org compares"
 echo ""
 echo "  Level 3 — Detailed"
@@ -395,11 +396,9 @@ elif [[ "$FEEDBACK_LEVEL" =~ ^[1-3]$ ]]; then
   cat > /home/node/.openclaw/.env.feedback <<ENVFB
 FORGE_FEEDBACK=true
 FORGE_FEEDBACK_LEVEL=${FEEDBACK_LEVEL}
-# Add your GitHub token below (needs 'public_repo' scope):
-# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
 ENVFB
   echo "✅ Feedback enabled at Level ${FEEDBACK_LEVEL}. Config: /home/node/.openclaw/.env.feedback"
-  echo "   Add your GitHub token to that file to start posting."
+  echo "   Feedback posts as GitHub Issues to github.com/EJKIV/Forge (no API keys needed)."
   echo "   First run is always dry-run: node org/feedback/feedback_agent.js"
   echo ""
   echo "   📖 Full details: org/feedback/FEEDBACK_AGENT.md"
@@ -411,8 +410,6 @@ else
   cat > /home/node/.openclaw/.env.feedback <<'ENVFB'
 FORGE_FEEDBACK=true
 FORGE_FEEDBACK_LEVEL=2
-# Add your GitHub token below (needs 'public_repo' scope):
-# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
 ENVFB
   echo "✅ Feedback enabled at Level 2. Config: /home/node/.openclaw/.env.feedback"
 fi

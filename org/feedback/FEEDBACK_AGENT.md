@@ -37,6 +37,7 @@ Everything in Level 1, plus rich operational signals that help us understand how
 | **Completion checklist adherence** | Per-step completion rate across all 5 checklist steps; overall compliance % | Task details, deliverable content |
 | **Decision engine usage** | Decisions/day, avg approval time, distribution across authority levels | Decision content, titles, actors, reasoning |
 | **Skill gaps** | Category names and counts (e.g., "deployment: 4", "testing: 2") | Descriptions, context, who logged them |
+| **Skill demands (missing skills)** | Anonymized domain of skills agents needed but didn't exist, frequency of demand, whether a workaround was found | Skill names, task context, agent identity |
 | **Task failure rates** | Failure count by category (build, deploy, research, etc.) | Error messages, task details, business context |
 
 #### Process Compliance Detail (Level 2)
@@ -137,8 +138,6 @@ Benchmarks are written to `org/feedback/BENCHMARKS.md` after each feedback cycle
 cat > /home/node/.openclaw/.env.feedback <<'EOF'
 FORGE_FEEDBACK=true
 FORGE_FEEDBACK_LEVEL=2
-# GitHub token (needs 'public_repo' scope):
-# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
 EOF
 ```
 
@@ -160,6 +159,52 @@ Review the output. To post:
 ```bash
 node org/feedback/feedback_agent.js --post
 ```
+
+---
+
+## Feedback Delivery Methods
+
+### Primary: GitHub Issues *(default — works out of the box)*
+
+The default delivery method is creating a **GitHub Issue** on the Forge repo. No API keys, no environment variables, no webhook configuration needed — just a network connection to GitHub.
+
+**How it works:**
+
+1. The feedback agent generates the telemetry JSON
+2. On `--post`, it creates a GitHub Issue on [`github.com/EJKIV/Forge`](https://github.com/EJKIV/Forge)
+
+**Issue format:**
+
+| Field | Value |
+|---|---|
+| **Title** | `[Telemetry] Instance {instance_id_short} — Level {level} — {date}` |
+| **Label** | `telemetry` |
+| **Body** | The full telemetry JSON wrapped in a code block |
+
+Example title: `[Telemetry] Instance a3f8c2d1 — Level 2 — 2026-02-20`
+
+The repo must be accessible from your instance. That's it. No tokens required for public issue creation via the `gh` CLI or GitHub API with no auth (if the repo allows it). If the repo requires authentication, set a GitHub token:
+
+```bash
+# Optional — only needed if unauthenticated issue creation is blocked
+echo 'FORGE_FEEDBACK_TOKEN=ghp_your_token_here' >> /home/node/.openclaw/.env.feedback
+```
+
+### Secondary: Webhook (optional)
+
+If you prefer to route telemetry to your own endpoint:
+
+```bash
+echo 'FORGE_FEEDBACK_WEBHOOK=https://your-endpoint.example.com/telemetry' >> /home/node/.openclaw/.env.feedback
+```
+
+### Secondary: Email (optional)
+
+```bash
+echo 'FORGE_FEEDBACK_EMAIL=telemetry@example.com' >> /home/node/.openclaw/.env.feedback
+```
+
+Webhook and email are optional overrides. If neither is set, GitHub Issues is used.
 
 ### Automate (Optional)
 

@@ -286,7 +286,7 @@ Forge includes an opt-in feedback system with **3 granularity levels** you choos
 | Level | What's Sent | What You Get Back |
 |---|---|---|
 | **1 — Minimal** | Version + heartbeat only | Listed as community member |
-| **2 — Standard** *(default)* | Model tiers, agent spawns, **process compliance gaps**, checklist adherence, decision engine usage, skill gap categories, failure rates | Anonymized benchmarks — compare your org to the community |
+| **2 — Standard** *(default)* | Model tiers, agent spawns, **process compliance gaps**, checklist adherence, decision engine usage, skill gap categories, **skill demands (missing skills)**, failure rates | Anonymized benchmarks — compare your org to the community |
 | **3 — Detailed** | Everything in L2 + decision patterns, cycle times, template modification order, error categories, delegation depth, file change heatmap | Priority skill packs, contributor listing, early access |
 
 **Process compliance is the centerpiece of Level 2+** — which processes get skipped, abandoned, or never triggered. This is the #1 signal for improving Forge.
@@ -307,14 +307,13 @@ Forge includes an opt-in feedback system with **3 granularity levels** you choos
 cat > /home/node/.openclaw/.env.feedback <<'EOF'
 FORGE_FEEDBACK=true
 FORGE_FEEDBACK_LEVEL=2
-# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
 EOF
 
 # Dry run (always preview first):
 source /home/node/.openclaw/.env.feedback
 node org/feedback/feedback_agent.js
 
-# Post:
+# Post (creates a GitHub Issue on github.com/EJKIV/Forge — no API keys needed):
 node org/feedback/feedback_agent.js --post
 ```
 

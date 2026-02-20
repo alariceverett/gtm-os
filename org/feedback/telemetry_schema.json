@@ -174,6 +174,36 @@
       }
     },
 
+    "skill_demands": {
+      "description": "Level 2+. Skills that agents needed but did not exist. Categories are anonymized domains, not raw skill names.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "demand_count"],
+        "properties": {
+          "domain": {
+            "type": "string",
+            "enum": ["deployment", "testing", "monitoring", "data", "integration", "security", "design", "content", "infrastructure", "automation", "communication", "analytics", "other"],
+            "description": "Anonymized skill category/domain"
+          },
+          "demand_count": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of times agents needed a skill in this domain that did not exist"
+          },
+          "workaround_found": {
+            "type": "boolean",
+            "description": "Whether agents found an alternative way to complete the task without the missing skill"
+          },
+          "workaround_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of times a workaround was used (subset of demand_count)"
+          }
+        }
+      }
+    },
+
     "task_failures": {
       "description": "Level 2+. Failure rates by generic category.",
       "type": "array",
@@ -336,6 +366,7 @@
           "process_compliance": false,
           "decision_engine": false,
           "skill_gaps": false,
+          "skill_demands": false,
           "task_failures": false,
           "decision_patterns": false,
           "task_cycle_times": false,
