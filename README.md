@@ -237,6 +237,22 @@ This template encodes several principles:
 | `DATABASE_URL` | PostgreSQL connection string | Set by setup.sh |
 | `ANTHROPIC_API_KEY` | For LLM calls | Set in OpenClaw config |
 
+## Security Baseline
+
+Security assets are now included under `org/security/`:
+
+- `org/security/SECURITY_CHECKLIST.md`
+- `org/security/CREDENTIAL_AUDIT.sh`
+- `org/security/RLS_POLICIES.sql`
+
+Recommended post-setup commands:
+
+```bash
+chmod +x org/security/CREDENTIAL_AUDIT.sh
+./org/security/CREDENTIAL_AUDIT.sh
+psql "$DATABASE_URL" -f org/security/RLS_POLICIES.sql
+```
+
 ## License
 
 Use this however you want. Build something great.
