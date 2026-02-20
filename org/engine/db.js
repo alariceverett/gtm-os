@@ -1,7 +1,10 @@
 // Shared database connection for decision engine
 const { Client } = require('pg');
 
-const DB_URL = process.env.DATABASE_URL || 'postgresql://localhost:5432/postgres';
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is required. See setup.sh to configure your database.');
+}
+const DB_URL = process.env.DATABASE_URL;
 
 function getClient() {
   return new Client({

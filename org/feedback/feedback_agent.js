@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const { scrub, scrubObject, validate } = require('./privacy_filter');
 
 // --- Config ---
@@ -64,7 +64,7 @@ function collectProcessUsage() {
         process.exit(0);
       })();
     `;
-    const output = execSync(`node -e "${script.replace(/"/g, '\\"')}"`, {
+    const output = execFileSync('node', ['-e', script], {
       timeout: 15000, encoding: 'utf-8', env: process.env
     }).trim();
     const rows = JSON.parse(output || '[]');
@@ -146,7 +146,7 @@ function collectDecisionHealth() {
         process.exit(0);
       })();
     `;
-    const output = execSync(`node -e "${script.replace(/"/g, '\\"')}"`, {
+    const output = execFileSync('node', ['-e', script], {
       timeout: 15000, encoding: 'utf-8', env: process.env
     }).trim();
     const data = JSON.parse(output || '{}');
