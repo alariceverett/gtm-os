@@ -1,4 +1,5 @@
 // Shared database connection for decision engine
+require('dotenv').config();
 const { Client } = require('pg');
 
 const DB_URL = process.env.DATABASE_URL || 'postgresql://localhost:5432/postgres';
