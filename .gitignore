@@ -1,0 +1,21 @@
+# Environment & credentials
+.env*
+*.env
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+org/logs/
+
+# Memory (personal to each instance)
+memory/
+MEMORY.md
+
+# Runtime
+*.pid

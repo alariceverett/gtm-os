@@ -48,7 +48,7 @@ An opinionated, self-bootstrapping template for running an AI organization on [O
 - **Node.js** 18+ (for engine scripts)
 - **psql** CLI (for setup script)
 
-## Quick Start
+## Quick Start (New Instance)
 
 ```bash
 # 1. Copy template to your OpenClaw workspace
@@ -66,6 +66,12 @@ openclaw gateway start
 #    It'll ask your name, goals, and domain
 #    Then seed skill gaps for auto-discovery
 ```
+
+## Retrofit an Existing Instance
+
+Already have an OpenClaw agent with its own identity, memories, and conventions? You don't need to start over.
+
+See **[RETROFIT.md](RETROFIT.md)** for a step-by-step guide to adding the Forge framework to an existing instance — without touching your `SOUL.md`, `MEMORY.md`, or daily logs.
 
 ## File Structure
 
