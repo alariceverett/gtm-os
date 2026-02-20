@@ -1,0 +1,15 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "An opinionated, self-bootstrapping template for running an AI organization on [OpenClaw](https://openclaw.com). Point it at any problem domain and it builds itself: decision tracking, delegation chains, quality systems, learning loops, and auto-discovered skills.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.18.0"
+  }
+}
