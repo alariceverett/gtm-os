@@ -1,32 +1,102 @@
 # Forge Feedback Agent
 
-The Feedback Agent is an opt-in system that helps Forge get better for everyone. It monitors how your instance uses the framework — processes, skills, decisions, file structure — anonymizes everything through a strict privacy filter, and posts structural observations to the Forge GitHub repo.
+The Feedback Agent is an opt-in system that helps Forge get better for everyone. It monitors how your instance uses the framework — processes, skills, decisions, file structure — anonymizes everything through a strict privacy filter, and reports structural observations back to the Forge project.
 
-**Nothing proprietary ever leaves your instance.** Not your business name, not your decisions, not your people, not your data. Just anonymized patterns: "3 out of 7 processes were used," "skill gaps logged in 4 categories," "DELEGATION_SYSTEM.md was deleted." That's it.
+**Nothing proprietary ever leaves your instance.** Not your business name, not your decisions, not your people, not your data. Just anonymized structural patterns.
 
 ---
 
-## How It Works
+## Granularity Levels
 
-1. **Collects structural data** — process run counts, skill gap categories, decision/delegation ratios, which template files exist, error type frequencies
-2. **Scrubs everything** through `privacy_filter.js` — removes names, emails, URLs, IPs, credentials, quoted strings, large numbers, and anything not on the safe-term allowlist
-3. **Validates the output** — a second pass confirms nothing sensitive survived
-4. **Posts to GitHub** — a single weekly issue to [EJKIV/Forge](https://github.com/EJKIV/Forge) with anonymized observations
-5. **Fetches community benchmarks** — compares your anonymized metrics against the community average and writes a local report
+During setup, you choose how much anonymized data to share. You can change this anytime.
 
-### What It Monitors
+### Level 1 — Minimal
+
+The lightest touch. Just tells us you exist and which version you're running.
+
+| Data Point | Description |
+|---|---|
+| Forge version | Template version hash |
+| Heartbeat | Alive/dead signal (timestamp only) |
+| Instance ID | Random UUID generated at setup (not tied to identity) |
+
+**What you get:** Listed as a Forge community member.
+
+---
+
+### Level 2 — Standard *(default)*
+
+Everything in Level 1, plus rich operational signals that help us understand how Forge is actually used. **Process compliance is the centerpiece.**
 
 | Data Point | What's Collected | What's NOT Collected |
 |---|---|---|
-| Process health | Runs per process, success/fail counts, fail rates, which processes never run | Process content, outcomes, who ran them |
-| Process failures | Which process types fail, how often, error categories | Specific error messages, context, business details |
-| Skill gaps | Category names, counts per category | Descriptions, context, who logged them |
-| Decision engine | Total decisions/delegations/steps, ratios, completion rates | Decision content, titles, actors, reasoning |
-| Completion checklist | Which steps get completed vs skipped, compliance rate | Task details, deliverable content |
-| File structure | Which template files exist/missing, custom file count | File contents, custom file names |
-| Error patterns | Error type classification, frequency, affected components | Error context, stack traces, file paths |
+| **Model tier distribution** | % of calls per tier (routine/complex/strategic/premium) — are the 80/15/4/1% targets holding? | Prompt content, model responses, token counts |
+| **Agent spawn counts** | Count of spawns per role category (builder, writer, ops, etc.) | Agent names, task details, delegation content |
+| **Process completion rates** | Per registered process: started / completed / abandoned counts | Process content, actor names, outcomes |
+| **Process compliance gaps** | Which defined processes are NEVER triggered; which steps get skipped most; lowest completion-rate processes; tasks started without triggering any process | Which tasks, who skipped, business context |
+| **Completion checklist adherence** | Per-step completion rate across all 5 checklist steps; overall compliance % | Task details, deliverable content |
+| **Decision engine usage** | Decisions/day, avg approval time, distribution across authority levels | Decision content, titles, actors, reasoning |
+| **Skill gaps** | Category names and counts (e.g., "deployment: 4", "testing: 2") | Descriptions, context, who logged them |
+| **Task failure rates** | Failure count by category (build, deploy, research, etc.) | Error messages, task details, business context |
 
-### What NEVER Leaves
+#### Process Compliance Detail (Level 2)
+
+Process compliance is the #1 signal. At Level 2, you share:
+
+```
+compliance_summary:
+  registered_processes: 7
+  processes_never_triggered: ["process-id-hash-1", "process-id-hash-2"]
+  processes_by_completion_rate:
+    - process_hash: "abc123"
+      started: 14
+      completed: 12
+      abandoned: 2
+      completion_rate: 0.857
+  steps_most_skipped:
+    - step_name: "quality_rating"    # generic step names only
+      skip_rate: 0.43
+    - step_name: "skill_gap_check"
+      skip_rate: 0.31
+  tasks_without_process: 8          # tasks that started with no process triggered
+  checklist_compliance:
+    step_1_decision_engine: 0.91
+    step_2_skill_gaps: 0.67
+    step_3_universal_check: 0.54
+    step_4_forge_sync: 0.48
+    step_5_verify_complete: 0.82
+  overall_process_health: 72        # 0-100 score
+```
+
+**What you get:**
+- Access to **anonymized community benchmarks** — how does your org's process health compare?
+- Priority skill packs when common gaps are identified
+- See `org/feedback/BENCHMARKS.md` for your latest comparison
+
+---
+
+### Level 3 — Detailed
+
+Everything in Level 2, plus deeper patterns that help us understand *how* Forge is used, not just *whether* it's used.
+
+| Data Point | What's Collected | What's NOT Collected |
+|---|---|---|
+| **Decision patterns** | Which tier decisions happen most, escalation frequency, decision-to-delegation ratio by tier | Decision content, actors, reasoning |
+| **Task cycle times** | Median/p90 duration by category (build, deploy, etc.) in bucketed ranges | Individual task durations, task details |
+| **Template modification order** | Which template files get modified first after setup (signals confusion or poor fit) | File contents, custom file names |
+| **Failure/error categories** | Anonymized error type classification and frequency | Error messages, stack traces, context |
+| **Agent delegation depth** | How deep do delegation chains go? (max, avg, distribution) | Who delegated to whom, task details |
+| **File modification heatmap** | Which `org/` template files change most frequently (signals instability) | File contents, custom files, diff content |
+
+**What you get:**
+- Everything in Level 2
+- **Priority skill packs** — delivered before general release
+- **Contributor listing** in Forge CONTRIBUTORS.md (optional, your chosen name)
+- **Early access** to new Forge features and template updates
+
+---
+
+## What NEVER Leaves (Any Level)
 
 - Business names, people names, agent names
 - Decision content, task details, reasoning steps
@@ -34,82 +104,69 @@ The Feedback Agent is an opt-in system that helps Forge get better for everyone.
 - Client/customer information of any kind
 - URLs, IPs, email addresses, credentials
 - Anything in quotes (treated as potentially proprietary)
-- Any number above 10 (bucketed into ranges)
+- File contents or custom file names
+- Prompt content or model responses
+- Any PII whatsoever
+
+The privacy filter (`privacy_filter.js`) is conservative: anything not on the allowlist gets stripped. All output passes two validation checks before leaving. The code is open — audit it anytime.
 
 ---
 
-## What You Get Back
+## Incentives
 
-Feedback isn't a one-way street. Opt-in contributors receive tangible benefits:
+| Level | What You Get |
+|---|---|
+| **Level 1** | Listed as a Forge community member |
+| **Level 2** | Access to anonymized benchmarks — see how your org compares across process health, model usage, skill coverage, and more |
+| **Level 3** | Priority skill packs, contributor listing in Forge repo, early access to improvements and new features |
 
-### 🏆 Community Benchmarks
-
-Every time the feedback agent runs, it fetches the latest community averages and shows you how your org compares. A local report is written to `org/feedback/BENCHMARKS.md` with metrics like:
-
-- **Process adoption** — "You use 5/7 processes (community avg: 3.2/6.8)"
-- **Skill coverage** — "4 gap categories (community avg: 6.1)"
-- **Decision engine activity** — "2.3 delegations/decision (community avg: 1.8)"
-- **Template retention** — "17/19 files kept (community avg: 14.2/19)"
-
-You see exactly where your org is ahead and where it might be underutilizing the framework.
-
-### 📦 Priority Skill Packs
-
-When the feedback system identifies common skill gaps across multiple instances (e.g., "deployment" gaps appearing in 40% of orgs), the Forge team builds auto-skill packs to fill them. **Feedback contributors get these delivered first** — before they hit the main repo.
-
-### 👤 Forge Contributors
-
-Opt-in users can be listed in `CONTRIBUTORS.md` in the Forge repo. This is entirely optional — you choose whether to be listed and under what name. No identifying information is required.
-
-### 🚀 Early Access
-
-New Forge features, framework improvements, and template updates ship to feedback contributors before general release. You're helping shape the roadmap — you should see the results first.
+Benchmarks are written to `org/feedback/BENCHMARKS.md` after each feedback cycle.
 
 ---
 
 ## Enabling the Feedback Agent
 
-### Step 1: Set Environment Variables
+### During Setup
+
+`setup.sh` asks you to pick a granularity level (1/2/3). Default is Level 2.
+
+### Manual Setup
 
 ```bash
-# Required — enables the agent
-export FORGE_FEEDBACK=true
-
-# Required for posting — your GitHub personal access token
-# (needs 'repo' or 'public_repo' scope for EJKIV/Forge)
-export FORGE_FEEDBACK_TOKEN=ghp_your_token_here
+# Set level and enable
+cat > /home/node/.openclaw/.env.feedback <<'EOF'
+FORGE_FEEDBACK=true
+FORGE_FEEDBACK_LEVEL=2
+# GitHub token (needs 'public_repo' scope):
+# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
+EOF
 ```
 
-Store these in `/home/node/.openclaw/.env.feedback` (never in workspace files):
+### Changing Level
 
-```bash
-echo 'FORGE_FEEDBACK=true' >> /home/node/.openclaw/.env.feedback
-echo 'FORGE_FEEDBACK_TOKEN=ghp_your_token_here' >> /home/node/.openclaw/.env.feedback
-```
+Edit `/home/node/.openclaw/.env.feedback` and change `FORGE_FEEDBACK_LEVEL` to 1, 2, or 3. Takes effect on next run.
 
-### Step 2: Dry Run First
+### Dry Run
 
-Your first run is always a dry run. It shows exactly what would be posted:
+Your first run is always a dry run showing exactly what would be sent:
 
 ```bash
 source /home/node/.openclaw/.env.feedback
 node org/feedback/feedback_agent.js
 ```
 
-Review the output. If you're comfortable with it, proceed to posting:
+Review the output. To post:
 
 ```bash
 node org/feedback/feedback_agent.js --post
 ```
 
-### Step 3: Automate (Optional)
-
-Add a weekly cron job:
+### Automate (Optional)
 
 ```yaml
 name: forge-feedback
 schedule: "0 10 * * 0"  # Sundays at 10:00 UTC
-model: tier:complex  # See org/models.json
+model: tier:routine
 prompt: |
   Source /home/node/.openclaw/.env.feedback and run:
   node org/feedback/feedback_agent.js --post --confirm
@@ -120,50 +177,25 @@ prompt: |
 
 ## Disabling
 
-Remove the environment variable or set it to false:
-
 ```bash
 export FORGE_FEEDBACK=false
 ```
 
-Or delete `/home/node/.openclaw/.env.feedback`. The agent checks this gate before doing anything — if it's not `true`, it exits immediately.
+Or delete `/home/node/.openclaw/.env.feedback`. The agent checks this gate before doing anything.
 
 ---
 
-## Opt-In Prompt Options
+## Process Compliance Tracker
 
-_Jim: pick one of these three for `setup.sh`. Delete the other two._
+For detailed process compliance monitoring, see **[PROCESS_COMPLIANCE_TRACKER.md](PROCESS_COMPLIANCE_TRACKER.md)**.
 
-```
-🔧 One more thing — want to help make Forge better?
+This dedicated system scores every registered process on a 0-100 scale and aggregates into an org-wide "process health" score — the single most important metric for Forge effectiveness.
 
-Community feedback is recommended. Once a week, the Feedback
-Agent sends anonymous usage patterns back to the Forge repo.
-Think of it like joining a pit crew: your data (scrubbed clean
-of anything personal) helps us tune the engine for everyone.
+---
 
-What gets sent (anonymized):
-  • Which processes run, succeed, or fail — and how often
-  • Common skill gaps (categories only, not details)
-  • Decision engine health (counts and ratios, not content)
-  • Which parts of the template get used vs ignored
-  • Error patterns so we can fix what's broken
+## Telemetry Schema
 
-What NEVER gets sent:
-  • Business names, people, decisions, tasks, credentials
-  • Nothing proprietary. Ever. The code is open — audit it.
-
-What you get back:
-  • Community benchmarks — see how your org compares
-  • Priority skill packs — common gaps get fixed, you get them first
-  • Early access to new Forge features
-  • Listed as a Forge Contributor (if you want)
-
-You can review exactly what gets sent before anything leaves,
-and turn it off anytime.
-
-Enable community feedback? (recommended) (y/N)
-```
+For the exact JSON schema of what each level sends, see **[telemetry_schema.json](telemetry_schema.json)**. This is the contract — nothing outside this schema ever leaves.
 
 ---
 
@@ -172,6 +204,8 @@ Enable community feedback? (recommended) (y/N)
 | File | Purpose |
 |---|---|
 | `org/feedback/FEEDBACK_AGENT.md` | This document |
+| `org/feedback/PROCESS_COMPLIANCE_TRACKER.md` | Process compliance monitoring system |
+| `org/feedback/telemetry_schema.json` | Exact schema for each granularity level |
 | `org/feedback/feedback_agent.js` | Main agent script |
 | `org/feedback/privacy_filter.js` | Dedicated scrubbing module |
 | `org/feedback/PRIVACY_POLICY.md` | Plain-language privacy explanation |
@@ -183,4 +217,5 @@ Enable community feedback? (recommended) (y/N)
 - All output passes two validation checks before posting
 - GitHub token is stored in `.env.feedback`, never in workspace files
 - The agent runs in dry-run mode by default — you must explicitly opt into posting
+- Telemetry schema is auditable — `telemetry_schema.json` defines exactly what can be sent
 - Source code is fully readable — audit it anytime

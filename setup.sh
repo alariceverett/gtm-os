@@ -353,47 +353,68 @@ echo "🔍 Running credential audit..."
 echo ""
 echo "  🔧 One more thing — want to help make Forge better?"
 echo ""
-echo "  Community feedback is recommended. Once a week, the Feedback"
-echo "  Agent sends anonymous usage patterns back to the Forge repo."
-echo "  Think of it like joining a pit crew: your data (scrubbed clean"
-echo "  of anything personal) helps us tune the engine for everyone."
+echo "  Community feedback is opt-in. The Feedback Agent periodically"
+echo "  sends anonymized usage patterns back to help improve Forge."
 echo ""
-echo "  What gets sent (anonymized):"
-echo "    • Which processes run, succeed, or fail — and how often"
-echo "    • Common skill gaps (categories only, not details)"
-echo "    • Decision engine health (counts and ratios, not content)"
-echo "    • Which parts of the template get used vs ignored"
-echo "    • Error patterns so we can fix what's broken"
+echo "  Choose a granularity level:"
 echo ""
-echo "  What NEVER gets sent:"
-echo "    • Business names, people, decisions, tasks, credentials"
-echo "    • Nothing proprietary. Ever. The code is open — audit it."
+echo "  Level 1 — Minimal"
+echo "    Sends: Version + heartbeat (alive/dead signal only)"
+echo "    You get: Listed as a Forge community member"
 echo ""
-echo "  What you get back:"
-echo "    • Community benchmarks — see how your org compares"
-echo "    • Priority skill packs — common gaps get fixed, you get them first"
-echo "    • Early access to new Forge features"
-echo "    • Listed as a Forge Contributor (if you want)"
+echo "  Level 2 — Standard (recommended)"
+echo "    Sends: Model tier distribution, agent spawn counts,"
+echo "           process completion rates, PROCESS COMPLIANCE GAPS"
+echo "           (which processes get skipped/abandoned/never triggered),"
+echo "           completion checklist adherence, decision engine usage,"
+echo "           skill gap categories, task failure rates"
+echo "    You get: Anonymized benchmarks — see how your org compares"
 echo ""
-echo "  You can review exactly what gets sent before anything leaves,"
-echo "  and turn it off anytime."
+echo "  Level 3 — Detailed"
+echo "    Sends: Everything in Level 2 plus decision patterns,"
+echo "           task cycle times, template modification order,"
+echo "           error categories, delegation depth, file change heatmap"
+echo "    You get: Priority skill packs, contributor listing, early access"
 echo ""
-read -r -p "  Enable community feedback? (recommended) (y/N) " FEEDBACK_CHOICE
-if [[ "${FEEDBACK_CHOICE,,}" == "y" ]]; then
+echo "  What NEVER gets sent (any level):"
+echo "    • Business names, people, decisions, tasks, credentials, PII"
+echo "    • Nothing proprietary. Ever. Audit: org/feedback/telemetry_schema.json"
+echo ""
+echo "  0) Disable — no feedback"
+echo "  1) Level 1 — Minimal"
+echo "  2) Level 2 — Standard (recommended)"
+echo "  3) Level 3 — Detailed"
+echo ""
+read -r -p "  Feedback level [2]: " FEEDBACK_LEVEL
+FEEDBACK_LEVEL="${FEEDBACK_LEVEL:-2}"
+
+if [[ "$FEEDBACK_LEVEL" == "0" ]]; then
+  echo "✅ Feedback not enabled. You can enable anytime — see org/feedback/FEEDBACK_AGENT.md"
+elif [[ "$FEEDBACK_LEVEL" =~ ^[1-3]$ ]]; then
   mkdir -p /home/node/.openclaw
-  cat > /home/node/.openclaw/.env.feedback <<'ENVFB'
+  cat > /home/node/.openclaw/.env.feedback <<ENVFB
 FORGE_FEEDBACK=true
+FORGE_FEEDBACK_LEVEL=${FEEDBACK_LEVEL}
 # Add your GitHub token below (needs 'public_repo' scope):
 # FORGE_FEEDBACK_TOKEN=ghp_your_token_here
 ENVFB
-  echo "✅ Feedback enabled. Config: /home/node/.openclaw/.env.feedback"
+  echo "✅ Feedback enabled at Level ${FEEDBACK_LEVEL}. Config: /home/node/.openclaw/.env.feedback"
   echo "   Add your GitHub token to that file to start posting."
   echo "   First run is always dry-run: node org/feedback/feedback_agent.js"
   echo ""
   echo "   📖 Full details: org/feedback/FEEDBACK_AGENT.md"
   echo "   🔒 Privacy policy: org/feedback/PRIVACY_POLICY.md"
+  echo "   📋 Exact schema: org/feedback/telemetry_schema.json"
 else
-  echo "✅ Feedback not enabled. You can enable anytime — see org/feedback/FEEDBACK_AGENT.md"
+  echo "⚠️  Invalid choice '$FEEDBACK_LEVEL', defaulting to Level 2."
+  mkdir -p /home/node/.openclaw
+  cat > /home/node/.openclaw/.env.feedback <<'ENVFB'
+FORGE_FEEDBACK=true
+FORGE_FEEDBACK_LEVEL=2
+# Add your GitHub token below (needs 'public_repo' scope):
+# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
+ENVFB
+  echo "✅ Feedback enabled at Level 2. Config: /home/node/.openclaw/.env.feedback"
 fi
 
 # --- 9. Summary ---

@@ -275,45 +275,64 @@ Forge includes a comprehensive security layer. **Read this before deploying.**
 | `DATABASE_URL` | PostgreSQL connection string | Set by setup.sh |
 | `ANTHROPIC_API_KEY` | For LLM calls | Set in OpenClaw config |
 
-## Community Feedback
+## Feedback & Telemetry
 
-Forge includes an opt-in feedback system that helps improve the framework for everyone. The **Feedback Agent** periodically analyzes how your instance uses Forge — processes, skills, decisions, file structure — anonymizes everything through a strict privacy filter, and posts structural observations to the Forge GitHub repo.
+Forge includes an opt-in feedback system with **3 granularity levels** you choose during setup. The Feedback Agent periodically collects anonymized structural data about how your instance uses Forge and reports it back to improve the framework for everyone.
 
-**Nothing proprietary ever leaves your instance.** No business names, no decisions, no people, no data. Just structural patterns like "5 of 7 processes used" and "skill gaps in 3 categories."
+**Nothing proprietary ever leaves your instance.** No business names, no decisions, no people, no data, no PII. Ever. The exact schema is auditable: [`org/feedback/telemetry_schema.json`](org/feedback/telemetry_schema.json).
 
-### What You Get Back
+### Granularity Levels
 
-- **Community Benchmarks** — see how your org's process adoption, skill coverage, and engine usage compare to the anonymized community average
-- **Priority Skill Packs** — when common skill gaps are identified across instances, opt-in users get auto-built skills delivered first
-- **Forge Contributors** — optional listing in CONTRIBUTORS.md
-- **Early Access** — new features ship to feedback contributors before general release
+| Level | What's Sent | What You Get Back |
+|---|---|---|
+| **1 — Minimal** | Version + heartbeat only | Listed as community member |
+| **2 — Standard** *(default)* | Model tiers, agent spawns, **process compliance gaps**, checklist adherence, decision engine usage, skill gap categories, failure rates | Anonymized benchmarks — compare your org to the community |
+| **3 — Detailed** | Everything in L2 + decision patterns, cycle times, template modification order, error categories, delegation depth, file change heatmap | Priority skill packs, contributor listing, early access |
+
+**Process compliance is the centerpiece of Level 2+** — which processes get skipped, abandoned, or never triggered. This is the #1 signal for improving Forge.
+
+### Privacy Guarantees
+
+- No business names, people, clients, credentials, or PII — ever
+- No prompt content, file contents, or decision reasoning
+- All process IDs are SHA-256 hashed before sending
+- Privacy filter strips anything not on the allowlist
+- Two-pass validation before anything leaves
+- Open source — audit the code and schema anytime
 
 ### Quick Start
 
 ```bash
-# Enable during setup (setup.sh asks), or manually:
-echo 'FORGE_FEEDBACK=true' >> /home/node/.openclaw/.env.feedback
-echo 'FORGE_FEEDBACK_TOKEN=ghp_your_token' >> /home/node/.openclaw/.env.feedback
+# setup.sh asks during install (default: Level 2), or manually:
+cat > /home/node/.openclaw/.env.feedback <<'EOF'
+FORGE_FEEDBACK=true
+FORGE_FEEDBACK_LEVEL=2
+# FORGE_FEEDBACK_TOKEN=ghp_your_token_here
+EOF
 
-# Preview what would be sent (dry run):
+# Dry run (always preview first):
 source /home/node/.openclaw/.env.feedback
 node org/feedback/feedback_agent.js
 
-# Actually post:
+# Post:
 node org/feedback/feedback_agent.js --post
 ```
+
+### Changing Levels
+
+Edit `FORGE_FEEDBACK_LEVEL` in `/home/node/.openclaw/.env.feedback` to 1, 2, or 3. Set `FORGE_FEEDBACK=false` to disable entirely.
 
 ### Files
 
 | File | Purpose |
 |---|---|
-| [`org/feedback/FEEDBACK_AGENT.md`](org/feedback/FEEDBACK_AGENT.md) | Full documentation |
+| [`org/feedback/FEEDBACK_AGENT.md`](org/feedback/FEEDBACK_AGENT.md) | Full documentation with all 3 levels |
+| [`org/feedback/PROCESS_COMPLIANCE_TRACKER.md`](org/feedback/PROCESS_COMPLIANCE_TRACKER.md) | Process compliance monitoring & scoring |
+| [`org/feedback/telemetry_schema.json`](org/feedback/telemetry_schema.json) | Exact JSON schema — audit what gets sent |
 | [`org/feedback/PRIVACY_POLICY.md`](org/feedback/PRIVACY_POLICY.md) | Plain-language privacy explanation |
 | [`org/feedback/feedback_agent.js`](org/feedback/feedback_agent.js) | The feedback agent script |
 | [`org/feedback/privacy_filter.js`](org/feedback/privacy_filter.js) | Privacy scrubbing module |
 | [`org/feedback/BENCHMARKS.md`](org/feedback/BENCHMARKS.md) | Your local benchmark report (auto-generated) |
-
-Disabled by default. Opt in during `setup.sh` or see [`org/feedback/FEEDBACK_AGENT.md`](org/feedback/FEEDBACK_AGENT.md) for details.
 
 ## License
 

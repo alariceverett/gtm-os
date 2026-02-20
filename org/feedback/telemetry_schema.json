@@ -1,0 +1,363 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Forge Feedback Telemetry Schema",
+  "description": "Defines exactly what data is sent at each granularity level. Nothing outside this schema ever leaves the instance. All fields are anonymized — no PII, business names, client data, prompt content, or file contents.",
+  "type": "object",
+  "required": ["level", "instance_id", "forge_version", "timestamp"],
+  "properties": {
+    "level": {
+      "type": "integer",
+      "enum": [1, 2, 3],
+      "description": "Telemetry granularity level selected by the user"
+    },
+    "instance_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Random UUID generated at setup. Not tied to any identity."
+    },
+    "forge_version": {
+      "type": "string",
+      "description": "Template version hash (git commit short SHA)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of this telemetry report"
+    },
+
+    "model_tier_distribution": {
+      "description": "Level 2+. Percentage of model calls per tier.",
+      "type": "object",
+      "properties": {
+        "routine_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "complex_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "strategic_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "premium_pct": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+
+    "agent_spawns": {
+      "description": "Level 2+. Spawn counts per role category (generic names only).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role_category", "count"],
+        "properties": {
+          "role_category": {
+            "type": "string",
+            "enum": ["builder", "writer", "designer", "ops", "qa", "research", "lead", "other"]
+          },
+          "count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "process_compliance": {
+      "description": "Level 2+. The richest section — process compliance is the #1 signal.",
+      "type": "object",
+      "required": ["registered_processes", "overall_process_health"],
+      "properties": {
+        "registered_processes": {
+          "type": "integer",
+          "description": "Total registered processes in cc_processes"
+        },
+        "processes_never_triggered": {
+          "type": "integer",
+          "description": "Count of processes with zero runs in the period"
+        },
+        "processes_never_triggered_hashes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "SHA-256 hashes of process_ids that were never triggered"
+        },
+        "process_scores": {
+          "type": "array",
+          "description": "Per-process compliance data",
+          "items": {
+            "type": "object",
+            "required": ["process_hash", "started", "completed", "abandoned", "completion_rate", "score"],
+            "properties": {
+              "process_hash": {
+                "type": "string",
+                "description": "SHA-256 hash of process_id"
+              },
+              "started": { "type": "integer", "minimum": 0 },
+              "completed": { "type": "integer", "minimum": 0 },
+              "abandoned": { "type": "integer", "minimum": 0 },
+              "completion_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+              "avg_quality_rating": {
+                "type": "number", "minimum": 0, "maximum": 5,
+                "description": "Average quality rating (1-5) for completed runs"
+              },
+              "score": {
+                "type": "integer", "minimum": 0, "maximum": 100,
+                "description": "Weighted compliance score per PROCESS_COMPLIANCE_TRACKER methodology"
+              }
+            }
+          }
+        },
+        "steps_most_skipped": {
+          "type": "array",
+          "description": "Generic step names with highest skip rates",
+          "items": {
+            "type": "object",
+            "required": ["step_name", "skip_rate"],
+            "properties": {
+              "step_name": {
+                "type": "string",
+                "enum": ["quality_rating", "skill_gap_check", "universal_pattern_check", "forge_sync", "verify_complete", "decision_logging", "reasoning_steps", "after_action"]
+              },
+              "skip_rate": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "tasks_without_process": {
+          "type": "integer",
+          "description": "Tasks completed with no process triggered"
+        },
+        "checklist_compliance": {
+          "type": "object",
+          "description": "Per-step compliance rate for the 5-step completion checklist",
+          "properties": {
+            "step_1_decision_engine": { "type": "number", "minimum": 0, "maximum": 1 },
+            "step_2_skill_gaps": { "type": "number", "minimum": 0, "maximum": 1 },
+            "step_3_universal_check": { "type": "number", "minimum": 0, "maximum": 1 },
+            "step_4_forge_sync": { "type": "number", "minimum": 0, "maximum": 1 },
+            "step_5_verify_complete": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "overall_process_health": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Aggregate org-wide process health score"
+        }
+      }
+    },
+
+    "decision_engine": {
+      "description": "Level 2+. Decision engine usage stats.",
+      "type": "object",
+      "properties": {
+        "decisions_per_day": { "type": "number", "minimum": 0 },
+        "avg_approval_time_hours": {
+          "type": "number",
+          "description": "Bucketed: <1, 1-4, 4-24, 24+"
+        },
+        "authority_level_distribution": {
+          "type": "object",
+          "description": "% of decisions per authority level",
+          "properties": {
+            "ceo_autonomous_pct": { "type": "number" },
+            "ceo_inform_pct": { "type": "number" },
+            "board_approval_pct": { "type": "number" }
+          }
+        },
+        "delegation_ratio": {
+          "type": "number",
+          "description": "Avg delegations per decision"
+        }
+      }
+    },
+
+    "skill_gaps": {
+      "description": "Level 2+. Skill gap categories and counts only.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "count"],
+        "properties": {
+          "category": { "type": "string", "description": "Generic category name" },
+          "count": { "type": "integer", "minimum": 0 },
+          "resolved": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "task_failures": {
+      "description": "Level 2+. Failure rates by generic category.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "failure_count", "total_count"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["build", "deploy", "research", "design", "writing", "ops", "qa", "other"]
+          },
+          "failure_count": { "type": "integer", "minimum": 0 },
+          "total_count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "decision_patterns": {
+      "description": "Level 3 only. Deeper decision pattern analysis.",
+      "type": "object",
+      "properties": {
+        "tier_distribution": {
+          "type": "object",
+          "description": "% of decisions per decision tier",
+          "properties": {
+            "routine_pct": { "type": "number" },
+            "complex_pct": { "type": "number" },
+            "strategic_pct": { "type": "number" },
+            "premium_pct": { "type": "number" }
+          }
+        },
+        "escalation_frequency": {
+          "type": "number",
+          "description": "% of decisions that get escalated to higher authority"
+        },
+        "delegation_ratio_by_tier": {
+          "type": "object",
+          "properties": {
+            "routine": { "type": "number" },
+            "complex": { "type": "number" },
+            "strategic": { "type": "number" }
+          }
+        }
+      }
+    },
+
+    "task_cycle_times": {
+      "description": "Level 3 only. Bucketed durations by category.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["build", "deploy", "research", "design", "writing", "ops", "qa", "other"]
+          },
+          "median_hours_bucket": {
+            "type": "string",
+            "enum": ["<1h", "1-4h", "4-24h", "1-3d", "3-7d", "7d+"]
+          },
+          "p90_hours_bucket": {
+            "type": "string",
+            "enum": ["<1h", "1-4h", "4-24h", "1-3d", "3-7d", "7d+"]
+          }
+        }
+      }
+    },
+
+    "template_modification_order": {
+      "description": "Level 3 only. Which template files get modified first after setup.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file_path", "modification_rank"],
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Relative path within org/ (template files only, no custom files)"
+          },
+          "modification_rank": {
+            "type": "integer",
+            "description": "Order in which this file was first modified (1 = first)"
+          },
+          "days_after_setup": {
+            "type": "integer",
+            "description": "Days between setup and first modification"
+          }
+        }
+      }
+    },
+
+    "error_categories": {
+      "description": "Level 3 only. Anonymized error classification.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "count"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["db_connection", "permission", "timeout", "validation", "dependency", "configuration", "process_error", "unknown"]
+          },
+          "count": { "type": "integer", "minimum": 0 },
+          "affected_component": {
+            "type": "string",
+            "enum": ["engine", "feedback", "learning", "security", "skills", "other"]
+          }
+        }
+      }
+    },
+
+    "delegation_depth": {
+      "description": "Level 3 only. How deep delegation chains go.",
+      "type": "object",
+      "properties": {
+        "max_depth": { "type": "integer", "minimum": 0 },
+        "avg_depth": { "type": "number", "minimum": 0 },
+        "depth_distribution": {
+          "type": "object",
+          "description": "% of chains at each depth",
+          "properties": {
+            "depth_1": { "type": "number" },
+            "depth_2": { "type": "number" },
+            "depth_3": { "type": "number" },
+            "depth_4_plus": { "type": "number" }
+          }
+        }
+      }
+    },
+
+    "file_modification_heatmap": {
+      "description": "Level 3 only. Which org/ template files change most.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file_path", "modification_count"],
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Relative path within org/ (template files only)"
+          },
+          "modification_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of modifications in the reporting period"
+          }
+        }
+      }
+    }
+  },
+
+  "allOf": [
+    {
+      "if": { "properties": { "level": { "const": 1 } } },
+      "then": {
+        "properties": {
+          "model_tier_distribution": false,
+          "agent_spawns": false,
+          "process_compliance": false,
+          "decision_engine": false,
+          "skill_gaps": false,
+          "task_failures": false,
+          "decision_patterns": false,
+          "task_cycle_times": false,
+          "template_modification_order": false,
+          "error_categories": false,
+          "delegation_depth": false,
+          "file_modification_heatmap": false
+        }
+      }
+    },
+    {
+      "if": { "properties": { "level": { "const": 2 } } },
+      "then": {
+        "properties": {
+          "decision_patterns": false,
+          "task_cycle_times": false,
+          "template_modification_order": false,
+          "error_categories": false,
+          "delegation_depth": false,
+          "file_modification_heatmap": false
+        }
+      }
+    }
+  ]
+}
