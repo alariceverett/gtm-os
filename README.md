@@ -40,6 +40,36 @@ An opinionated, self-bootstrapping template for running an AI organization on [O
 └─────────────────────────────────────────────────────┘
 ```
 
+## Command Center — Your Operating UI
+
+Forge isn't just docs and agents — it has a **real-time visual interface**. The Command Center is a 3-zone dashboard where you see, steer, and interact with your AI org:
+
+```
+┌──────────┬────────────────────────────────┬──────────┐
+│          │                                │          │
+│  Nav     │   🏢 Office Floor (3D)          │  Comms   │
+│  Rail    │   🌳 Decision Tree              │  Panel   │
+│          │   📋 Task Board                 │          │
+│          │   ✅ Approvals                  │          │
+│          │   📊 Metrics Dashboard          │          │
+│          │   📡 Activity Stream            │          │
+│          │   ⚙️ Config                      │          │
+└──────────┴────────────────────────────────┴──────────┘
+```
+
+**The Office Floor** is the flagship view — a 3D visualization of your AI org at work. Watch agents move between division zones, see who's building, presenting, or deploying, and click any agent for details. It's situational awareness for an AI organization.
+
+- **⌘K Command Bar** — fuzzy search across agents, decisions, tasks, and actions
+- **Real-time updates** — Supabase Realtime means the UI moves as the org works
+- **Keyboard shortcuts** — navigate the entire CC without touching the mouse
+
+📖 **Full docs:**
+- [Command Center Spec](org/product/COMMAND_CENTER.md) — architecture, views, data layer
+- [Office Floor Spec](org/product/OFFICE_FLOOR.md) — 3D scene, agent avatars, poses, interactions
+- [Setup Guide](org/product/CC_SETUP_GUIDE.md) — zero to running CC, step by step
+- [UI Standards](org/product/UI_STANDARDS.md) — typography, colors, spacing, responsive breakpoints
+- [Design System Template](org/product/DESIGN_SYSTEM_TEMPLATE.md) — starter brand guide, fill in your details
+
 ## Prerequisites
 
 - **OpenClaw** installed and configured ([docs](https://openclaw.com))
@@ -126,6 +156,13 @@ workspace/
 │   │   ├── DEFAULT_STACK_PROFILE.md   # Opinionated default stack
 │   │   ├── BUILD_PLAN_TEMPLATE.md     # Execution plan template
 │   │   └── DEPLOYMENT_PROFILE.md      # Env vars, URLs, rollback
+│   ├── product/
+│   │   ├── COMMAND_CENTER.md          # CC architecture and views
+│   │   ├── OFFICE_FLOOR.md            # 3D org visualization spec
+│   │   ├── CC_SETUP_GUIDE.md          # Setup from zero to running
+│   │   ├── UI_STANDARDS.md            # Universal UI standards (customizable)
+│   │   ├── DESIGN_SYSTEM_TEMPLATE.md  # Brand design system starter
+│   │   └── APP_BOOTSTRAP.md           # App bootstrap process
 │   ├── templates/
 │   │   └── TASK_TEMPLATE.md       # Standard task structure
 │   ├── learning/
