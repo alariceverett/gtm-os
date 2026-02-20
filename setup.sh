@@ -185,10 +185,16 @@ fi
 
 # --- 4. Configure db.js ---
 echo "📝 Configuring org/engine/db.js..."
-cat > org/engine/db.js <<DBJS
+cat > org/engine/db.js <<'DBJS'
+// Shared database connection for decision engine
+require('dotenv').config();
 const { Client } = require('pg');
 
-const DB_URL = process.env.DATABASE_URL || '${DB_URL}';
+const DB_URL = process.env.DATABASE_URL;
+
+if (!DB_URL) {
+  throw new Error('DATABASE_URL is required. Set it in .env (local) or environment variables.');
+}
 
 function getClient() {
   return new Client({
