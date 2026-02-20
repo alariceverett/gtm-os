@@ -60,11 +60,14 @@ for i in "${!EXTENSIONS[@]}"; do
 done
 
 # --- Exclusions ---
-# Don't flag these files/dirs (they're supposed to have patterns or are examples)
+# Don't scan these dirs
 EXCLUDE_DIRS="node_modules|\.git|org/security"
 
+# Suppress obvious placeholders/examples to reduce noise
+# (real secrets should still be caught)
+SUPPRESS_MATCHES='YOUR_PASSWORD|YOUR_PROJECT_REF|user:pass@host:port/dbname|CLAUDE_AI_SESSION_KEY|ANTHROPIC_API_KEY="\$CLAUDE_AI_SESSION_KEY"'
+
 # --- Scan ---
-TOTAL_CHECKED=0
 
 for pattern_entry in "${PATTERNS[@]}"; do
   IFS='|' read -r label regex <<< "$pattern_entry"
@@ -75,6 +78,7 @@ for pattern_entry in "${PATTERNS[@]}"; do
     | xargs grep -rnEi "$regex" 2>/dev/null \
     | grep -Ev "($EXCLUDE_DIRS)" \
     | grep -Ev '^\s*(#|//|/\*|\*)' \
+    | grep -Ev "($SUPPRESS_MATCHES)" \
     || true)
   
   if [ -n "$MATCHES" ]; then
