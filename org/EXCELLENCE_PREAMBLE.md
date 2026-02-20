@@ -26,6 +26,23 @@ When your primary approach fails, you are not done. You've just started problem-
 
 The gap between "blocked" and "done" is where resourcefulness lives.
 
+## Verify ALL Build Environments
+
+When fixing dependency issues, build configs, or CI problems, verify the fix applies to EVERY environment the code deploys through — not just the one you're looking at.
+
+**Common environments:** local dev, GitHub Actions CI, Vercel/Netlify build, Docker.
+
+A fix that only lands in CI but not in the production build system is not a fix.
+
+**Check all of these:**
+- `vercel.json` / platform config
+- `.npmrc` / package manager config
+- `Dockerfile` / container config
+- CI workflow files (`.github/workflows/`)
+- `package.json` scripts
+
+"It works in CI" is not the same as "it works." Verify every environment the code touches, or the next deploy will teach you which one you missed.
+
 ## Failed ≠ Finished
 
 When a task fails due to infrastructure (browser down, rate limit, service unavailable), it is **not done**. It's deferred.
