@@ -184,13 +184,13 @@ Common cron jobs for the org:
 # Daily standup — each division reports async
 name: daily-standup
 schedule: "0 7 * * *"
-model: anthropic/claude-sonnet-4-20250514
+model: tier:routine  # See org/models.json for resolved model
 prompt: "Read org/WORK_QUEUE.md. For each active item, report: status, blockers, next steps. Write to org/team/meetings/standups/YYYY-MM-DD.md"
 
 # Skill builder — auto-discovers and builds needed skills
 name: skill-builder
 schedule: "0 6,18 * * *"
-model: anthropic/claude-sonnet-4-20250514
+model: tier:complex  # See org/models.json for resolved model
 prompt: |
   You are the Skill Builder. Read org/SKILL_DISCOVERY.md for your full process.
   Read org/skill-gaps.jsonl for unresolved gaps.
@@ -200,15 +200,32 @@ prompt: |
 # Weekly review — learning system aggregation
 name: weekly-review
 schedule: "0 9 * * 1"
-model: anthropic/claude-sonnet-4-20250514
+model: tier:complex  # See org/models.json for resolved model
 prompt: "Run the weekly review using org/learning/WEEKLY_REVIEW_TEMPLATE.md. Aggregate after-actions, extract patterns, update skill trees."
 
 # Prompt evolution — analyze and improve agent prompts
 name: prompt-evolution
 schedule: "0 3 * * *"
-model: anthropic/claude-sonnet-4-20250514
+model: tier:complex  # See org/models.json for resolved model
 prompt: "Run org/engine/evolve_prompt.js for each registered process. Identify improvement opportunities. Propose changes (don't apply without CEO approval)."
 ```
+
+## Model Configuration
+
+Forge uses a **4-tier model system** instead of hardcoding model names. This lets you switch between Anthropic and OpenAI (or customize models) with a single config change.
+
+| Tier | Name | Use For |
+|------|------|---------|
+| 1 | Routine | Templates, standups, simple tasks (~80% of usage) |
+| 2 | Complex | Creative work, code gen, multi-step reasoning (~15%) |
+| 3 | Strategic | High-stakes decisions, deep analysis (~4%, CEO approval) |
+| 4 | Premium | Board-level, mission-critical (<1%, board approval) |
+
+**Setup:** Run `setup.sh` and pick your provider, or edit `org/models.json` directly.
+
+**In cron jobs:** Use `model: tier:routine` / `tier:complex` / `tier:strategic` / `tier:premium`.
+
+**Full details:** See `org/MODEL_CONFIG.md` for pricing, approval requirements, and usage guidance.
 
 ## How Skill Discovery Works
 

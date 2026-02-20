@@ -109,7 +109,7 @@ Add a weekly cron job:
 ```yaml
 name: forge-feedback
 schedule: "0 10 * * 0"  # Sundays at 10:00 UTC
-model: anthropic/claude-sonnet-4-20250514
+model: tier:complex  # See org/models.json
 prompt: |
   Source /home/node/.openclaw/.env.feedback and run:
   node org/feedback/feedback_agent.js --post --confirm

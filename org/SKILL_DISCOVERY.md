@@ -67,7 +67,7 @@ Runs twice daily. Reads unresolved gaps, groups them, and builds the highest-imp
 ```yaml
 name: skill-builder
 schedule: "0 6,18 * * *"    # 6 AM and 6 PM UTC
-model: anthropic/claude-sonnet-4-20250514
+model: tier:complex  # See org/models.json
 prompt: |
   You are the Skill Builder. Your job is to identify and build the most needed skill.
 

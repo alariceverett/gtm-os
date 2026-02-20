@@ -37,10 +37,10 @@ As you work, log significant steps here. Include timestamps for billable time tr
 _This section auto-populates from session history. Don't manually edit._
 
 ```
-Model: anthropic/claude-sonnet-4.5-latest
+Model: Tier 2 (Complex)
 Tokens In: 2500 | Tokens Out: 1800 | Cost: $0.27
 
-Model: anthropic/claude-haiku-4.5-latest  
+Model: Tier 1 (Routine)
 Tokens In: 800 | Tokens Out: 400 | Cost: $0.04
 
 Total Cost: $0.31

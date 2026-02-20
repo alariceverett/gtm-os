@@ -183,6 +183,38 @@ else
   echo "   Then continue with the steps below."
 fi
 
+# --- 3b. Model provider selection ---
+echo ""
+echo "🤖 Model Provider Selection"
+echo "   Forge uses a 4-tier model system. Pick your AI provider:"
+echo "   1) anthropic (default) — Claude models"
+echo "   2) openai — GPT/o-series models"
+echo ""
+read -r -p "  Provider (anthropic/openai) [anthropic]: " MODEL_PROVIDER
+MODEL_PROVIDER="${MODEL_PROVIDER:-anthropic}"
+
+if [[ "$MODEL_PROVIDER" != "anthropic" && "$MODEL_PROVIDER" != "openai" ]]; then
+  echo "⚠️  Unknown provider '$MODEL_PROVIDER', defaulting to anthropic."
+  MODEL_PROVIDER="anthropic"
+fi
+
+# Update models.json with selected provider and tier models
+if [ -f org/models.json ] && command -v node &>/dev/null; then
+  node -e "
+    const fs = require('fs');
+    const cfg = JSON.parse(fs.readFileSync('org/models.json','utf8'));
+    cfg.provider = '$MODEL_PROVIDER';
+    cfg.tiers = { ...cfg.presets['$MODEL_PROVIDER'] };
+    fs.writeFileSync('org/models.json', JSON.stringify(cfg, null, 2) + '\n');
+  "
+  echo "✅ Model provider set to: $MODEL_PROVIDER (see org/models.json)"
+  echo "   Edit org/models.json to customize individual tier models."
+  echo "   See org/MODEL_CONFIG.md for tier details."
+else
+  echo "⚠️  Could not update models.json automatically. Edit org/models.json manually."
+fi
+echo ""
+
 # --- 4. Configure db.js ---
 echo "📝 Configuring org/engine/db.js..."
 cat > org/engine/db.js <<DBJS
