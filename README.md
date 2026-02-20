@@ -67,6 +67,18 @@ openclaw gateway start
 #    Then seed skill gaps for auto-discovery
 ```
 
+## Building Your First App
+
+Forge now includes a complete **App Bootstrap** system — go from idea to deployed app in one session.
+
+1. **[APP_BOOTSTRAP.md](org/product/APP_BOOTSTRAP.md)** — The end-to-end runbook (7 steps, zero to deployed)
+2. **[INTAKE_FIELDS.md](org/product/INTAKE_FIELDS.md)** — What the assistant needs to know (with smart defaults)
+3. **[DEFAULT_STACK_PROFILE.md](org/product/DEFAULT_STACK_PROFILE.md)** — Opinionated default stack (React + Vite + Supabase + Vercel)
+4. **[BUILD_PLAN_TEMPLATE.md](org/product/BUILD_PLAN_TEMPLATE.md)** — Milestones, schema, API, UI, tests
+5. **[DEPLOYMENT_PROFILE.md](org/product/DEPLOYMENT_PROFILE.md)** — Env vars, secrets, URLs, rollback
+
+**How it works:** Tell the assistant what you want to build. It proposes everything — stack, schema, screens, plan — with confidence levels. You correct only what's wrong. Then it builds.
+
 ## Retrofit an Existing Instance
 
 Already have an OpenClaw agent with its own identity, memories, and conventions? You don't need to start over.
@@ -108,6 +120,12 @@ workspace/
 │   │   ├── evolve_prompt.js       # Prompt improvement analysis
 │   │   ├── version_prompt.js      # Prompt version control
 │   │   └── process_report.js      # Process tracking report
+│   ├── product/
+│   │   ├── APP_BOOTSTRAP.md           # Zero-to-deployed runbook
+│   │   ├── INTAKE_FIELDS.md           # Smart-default intake fields
+│   │   ├── DEFAULT_STACK_PROFILE.md   # Opinionated default stack
+│   │   ├── BUILD_PLAN_TEMPLATE.md     # Execution plan template
+│   │   └── DEPLOYMENT_PROFILE.md      # Env vars, URLs, rollback
 │   ├── templates/
 │   │   └── TASK_TEMPLATE.md       # Standard task structure
 │   ├── learning/
