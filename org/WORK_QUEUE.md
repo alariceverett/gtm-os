@@ -32,12 +32,12 @@ _Last updated: 2026-02-21 07:30 ET_
 6. **AdZeta — daily/weekly operator briefing template**
    - Owner: Ops lead subagent
    - Output: templates + field schema
-   - Status: IN PROGRESS (run ee7ed406)
+   - Status: DONE (run ee7ed406, awaiting result extraction)
 
 7. **AdZeta — deployment verification checklist**
    - Owner: Release/Ops subagent
    - Output: pre/post deploy checks, rollback, escalation matrix
-   - Status: IN PROGRESS (run 952ee7f3)
+   - Status: DONE (run 952ee7f3, awaiting result extraction)
 
 ## NEXT (queued)
 
