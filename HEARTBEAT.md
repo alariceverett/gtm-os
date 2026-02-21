@@ -29,6 +29,11 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Update `memory/YYYY-MM-DD.md`
 - Update work queue (completed items → deleted, new items added)
 
+## Reliability Guardrail: Non-interactive GitHub checks
+- For any non-interactive remote checks in heartbeat jobs, default to SSH remotes (not HTTPS).
+- Validation command pattern: `git ls-remote git@github.com:<owner>/<repo>.git HEAD`
+- Rationale: hosts authenticated via `gh` with git protocol `ssh` can fail on HTTPS with username prompts.
+
 ## Self-Check
 - Am I about to EXECUTE something? → STOP. Delegate.
 - Am I available if {USER_NAME} messages? → If no, I'm doing the wrong work.
