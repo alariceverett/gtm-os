@@ -129,3 +129,15 @@ Implement explicit transition map in `lib/status-machine/candidate.ts`:
 3. Build Event Detail page with Kanban-ish status columns
 4. Add outreach draft template generator
 5. Implement timeline API + UI component
+
+## 11) Added v1 Intake + Shortlist Scaffold (this iteration)
+
+Implemented starter modules:
+- `src/lib/domain/types.ts`
+- `src/lib/validators/request-intake.ts`
+- `src/lib/shortlist/score.ts`
+- `src/server/services/request-intake.service.ts`
+- `src/server/services/request-intake.example.ts`
+- `docs/request-intake-shortlist-v1.md`
+
+Acceptance checks are documented in `docs/request-intake-shortlist-v1.md` under **Acceptance Checks (Scaffold)**.

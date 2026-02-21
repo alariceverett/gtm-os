@@ -17,7 +17,13 @@ Both paths feed one shared status tracker so no details get lost.
 - `docs/user-flows-v1.md` — primary user journeys and state transitions
 - `docs/data-model-v1.md` — entities, relationships, and lifecycle notes
 - `docs/implementation-scaffold-plan-v1.md` — architecture, milestones, and starter implementation plan
+- `docs/request-intake-shortlist-v1.md` — v1 intake validation + shortlist scoring scaffold and acceptance checks
 - `db/schema.sql` — SQL scaffold for v1 data model
+- `docs/large-party-outreach-workflow-v1.md` — outreach lifecycle, cadence policy, and tracking model
+- `templates/outreach/email-templates-v1.md` — reusable email variants + follow-up snippets
+- `templates/outreach/contact-form-copy-v1.md` — contact-form-safe outreach copy
+- `templates/outreach/follow-up-cadence-v1.md` — operational follow-up policy
+- `templates/outreach/tracking-fields-v1.csv` — analytics/ops tracking field dictionary
 
 ## Suggested stack
 

@@ -1,0 +1,19 @@
+field_name,location,type,required,example,notes
+candidate_status,event_candidates.current_status,enum,yes,awaiting_response,Primary pipeline state
+follow_up_due_at,event_candidates.follow_up_due_at,timestamptz,no,2026-03-10T15:00:00Z,Next action timestamp
+last_activity_at,event_candidates.last_activity_at,timestamptz,yes,2026-03-08T18:42:00Z,Updated on send/receive
+channel,outreach_messages.channel,enum,yes,email,Email vs contact_form for analytics
+subject,outreach_messages.subject,text,no,Large Party Inquiry — Mar 19,May be null for form-only submissions
+sent_or_received_at,outreach_messages.sent_or_received_at,timestamptz,yes,2026-03-08T18:40:00Z,Chronological thread ordering
+template_id,outreach_messages.structured_result,string,yes,email_formal_v1,Template variant used
+step,outreach_messages.structured_result,enum,yes,followup_1,initial|followup_1|followup_2|final
+response_outcome,outreach_messages.structured_result,enum,no,quoted,pending|needs_info|quoted|declined|no_response
+quoted_min_spend,outreach_messages.structured_result,number,no,2500,Restaurant quoted minimum spend
+deposit_required,outreach_messages.structured_result,boolean,no,true,Whether deposit is required
+deposit_amount,outreach_messages.structured_result,number,no,500,Deposit amount if known
+prix_fixe_required,outreach_messages.structured_result,boolean,no,true,Whether fixed menu is required
+private_room,outreach_messages.structured_result,boolean,no,true,Private room availability
+buyout_option,outreach_messages.structured_result,boolean,no,false,Full buyout option offered
+max_capacity,outreach_messages.structured_result,number,no,24,Maximum party size supported
+close_lost_reason,outreach_messages.structured_result,enum,no,no_response,no_response|too_expensive|no_availability|policy_mismatch
+response_sla_hours,outreach_messages.structured_result,number,no,48,Expected response window
