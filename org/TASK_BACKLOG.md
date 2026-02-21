@@ -23,3 +23,4 @@
 - Add queue-presence invariant checks in heartbeat (fail fast if queue missing)
 - Add "resolve-first" incident protocol to operating docs
 - Track delegated-vs-direct execution ratio weekly
+- Enforce Forge feedback protocol compliance (UPSTREAM_LOGGED/UPSTREAM_PENDING tags)

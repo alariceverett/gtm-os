@@ -30,6 +30,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 ## Step 5: Log
 - Update `memory/YYYY-MM-DD.md`
 - Update work queue (completed items → deleted, new items added)
+- Apply `org/FORGE_FEEDBACK_PROTOCOL.md` for any newly discovered systemic gaps (same-session upstream logging)
 
 ## Reliability Guardrail: Non-interactive GitHub checks
 - For any non-interactive remote checks in heartbeat jobs, default to SSH remotes (not HTTPS).
