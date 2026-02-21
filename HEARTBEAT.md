@@ -32,6 +32,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Update work queue (completed items → deleted, new items added)
 - Apply `org/FORGE_FEEDBACK_PROTOCOL.md` for any newly discovered systemic gaps (same-session upstream logging)
 - Run `org/SKILL_PERFORMANCE_LOOP.md` quick scan and log new skill gaps if discovered
+- Enforce `org/QUALITY_IMPROVEMENT_CHAIN.md` on all completed runs (must reach QCHAIN_OK)
 
 ## Reliability Guardrail: Non-interactive GitHub checks
 - For any non-interactive remote checks in heartbeat jobs, default to SSH remotes (not HTTPS).
