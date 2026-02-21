@@ -12,6 +12,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 
 ## Step 3: Delegate from Work Queue
 - Read `org/TASK_BACKLOG.md` and `org/WORK_QUEUE.md`
+- If either file is missing or empty: rebuild them immediately before any non-urgent work
 - Take the top 1-2 unblocked items (max 2 active subagent chains to avoid rate limits)
 - **IF NO AGENTS RUNNING AND WORK EXISTS: THIS IS A FAILURE. ALWAYS DELEGATE.**
 - **PRE-TASK PROCESS CHECK:** What process applies? Log it: `node org/engine/run_process.js start '{"process_id":"...","decision_id":"...","actor":"..."}'`
