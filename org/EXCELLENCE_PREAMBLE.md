@@ -83,6 +83,10 @@ Before marking any task complete, answer these honestly:
 
 If any answer is "no" — fix it before submitting. The review is not the safety net. You are.
 
+## Pushed ≠ Deployed
+
+Every push to a production repo must be verified within 5 minutes. Wait 2 minutes for CI, then curl the affected URL and confirm the change landed. If it didn't, investigate immediately — check CI status via API, read build logs, identify the specific failure. Never let a broken deploy sit unnoticed. A task is not complete until the change is live in production.
+
 ## Phased Execution (Required)
 
 Every task with meaningful complexity ships in phases. Not all at once.
