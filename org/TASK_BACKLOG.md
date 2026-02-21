@@ -7,6 +7,8 @@
 - Draft daily/weekly operator briefing template
 - Add alert thresholds and escalation policy
 - Add deployment verification checklist for GTM stack
+- GitHub setup baseline (repo wiring, branch policy, CI check)
+- Vercel setup baseline (project link, env mapping, first deploy)
 
 ## Restaurant app backlog
 

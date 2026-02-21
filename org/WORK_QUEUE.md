@@ -22,7 +22,12 @@ _Last updated: 2026-02-21 07:30 ET_
 4. **AdZeta — Operator setup task board UI (DB-backed)**
    - Owner: Build subagent
    - Output: `/setup` page to view/update `cc_operator_tasks`
-   - Status: IN PROGRESS (run 00ae3d51)
+   - Status: DONE (run 00ae3d51)
+
+5. **AdZeta — Supabase client scaffold (key-ready)**
+   - Owner: Build subagent
+   - Output: env validation + client factories + docs
+   - Status: IN PROGRESS (run e26a8355)
 
 ## NEXT (queued)
 
@@ -30,13 +35,24 @@ _Last updated: 2026-02-21 07:30 ET_
    - Output: minimal schema list for first dashboard/reporting loop
    - Status: DONE (awaiting result extraction)
 
-4. **Restaurant app — first production candidate slice**
+4. **AdZeta — GitHub setup baseline**
+   - Output: repo wiring check, branch/PR guardrail recommendation, CI readiness checklist
+   - Status: QUEUED
+
+5. **AdZeta — Vercel setup baseline**
+   - Output: project link plan, env mapping checklist, first-deploy runbook
+   - Status: QUEUED
+
+6. **Restaurant app — first production candidate slice**
    - Output: one user-visible flow with test checklist
    - Status: QUEUED
 
 ## BLOCKED
 
-- _None currently documented._
+- **Supabase key-dependent integration tasks**
+  - Blocker: waiting on operator completion of secure env setup tasks (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) and auth-mode decision.
+  - Owner: user
+  - ETA: pending user update in setup task board.
 
 ## Guardrails
 
