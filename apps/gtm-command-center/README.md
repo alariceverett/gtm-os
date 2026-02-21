@@ -90,3 +90,24 @@ Logs:
 cd apps/gtm-command-center
 DATABASE_URL="..." npm run kpis
 ```
+
+## Operator status pane
+
+A self-serve operator pane is available at:
+
+- `/operator` (also `/operator/status`)
+
+It shows five sections in one view:
+
+- Current
+- Blocked
+- Next
+- Done (recent)
+- Waiting-on-user
+
+Data source order:
+
+1. `public.cc_operator_tasks` (same table already in use)
+2. Optional queue override file for missing section fields (default: `.run/operator-task-queue.json`, override via `OPERATOR_QUEUE_FILE`)
+
+The pane includes a freshness timestamp and counts by state.
