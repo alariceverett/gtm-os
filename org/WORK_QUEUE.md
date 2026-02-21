@@ -10,3 +10,4 @@ _Items ranked by priority. CEO delegates from top._
 | 4 | Create operator dashboard (Pending / Follow-up due / Confirmed / Declined) | Head of Product | queued |
 | 5 | Run deploy-and-verify gate for staging and document release checklist | Head of Operations | queued |
 | 6 | Capture feature requests from group chats into backlog and weekly synthesis | Head of Product | in_progress |
+| 7 | Run Forge feedback loop (daily monitor + weekly consolidated issue) | Head of Operations | in_progress |
