@@ -37,3 +37,4 @@ _Last updated: 2026-02-21 07:30 ET_
 
 - If this file is missing/empty, recreate it immediately from current goals before any non-urgent maintenance work.
 - Empty queue is only valid if all objectives are complete or all items are explicitly blocked with owner + ETA.
+- Completion-triggered pull: when any NOW item is marked DONE, immediately pull and delegate the next highest-priority unblocked item (heartbeat remains fallback/safety check).

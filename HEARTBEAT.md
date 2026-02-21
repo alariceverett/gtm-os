@@ -8,6 +8,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 
 ## Step 2: Check subagents
 - Any completed? Process results, deliver to {USER_NAME} if needed, update queue.
+- **Auto-pull rule:** whenever a task completes, immediately dequeue and delegate the next highest-priority unblocked item (AdZeta stream first unless explicitly overridden).
 - Any stuck/long-running? Steer or kill.
 
 ## Step 3: Delegate from Work Queue
