@@ -1,0 +1,12 @@
+{
+  "name": "gtm-command-center",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "kpis": "node scripts/fetch-kpis.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

@@ -9,10 +9,10 @@ _Last updated: 2026-02-21 07:30 ET_
    - Output: locked MVP scope + acceptance criteria + first 3 build tickets
    - Status: DONE (awaiting result extraction)
 
-2. **Restaurant app — unblock map**
-   - Owner: Ops lead subagent
-   - Output: explicit blockers (if any), dependencies, and fastest unblocked deliverable
-   - Status: READY
+2. **AdZeta — data read path + first KPI query**
+   - Owner: Ops/Build
+   - Output: live DB connector + runnable KPI fetch script
+   - Status: DONE
 
 3. **AdZeta — KPI hierarchy + dashboard IA pass**
    - Owner: Product strategy subagent
