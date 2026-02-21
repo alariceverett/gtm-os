@@ -24,6 +24,7 @@ Both paths feed one shared status tracker so no details get lost.
 - `templates/outreach/contact-form-copy-v1.md` — contact-form-safe outreach copy
 - `templates/outreach/follow-up-cadence-v1.md` — operational follow-up policy
 - `templates/outreach/tracking-fields-v1.csv` — analytics/ops tracking field dictionary
+- `templates/outreach/template-variables-v1.md` — canonical placeholders + validation rules
 
 ## Suggested stack
 

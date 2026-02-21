@@ -114,3 +114,4 @@ Track weekly:
 - `templates/outreach/contact-form-copy-v1.md`
 - `templates/outreach/follow-up-cadence-v1.md`
 - `templates/outreach/tracking-fields-v1.csv`
+- `templates/outreach/template-variables-v1.md`
