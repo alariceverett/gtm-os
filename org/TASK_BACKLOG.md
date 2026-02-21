@@ -4,22 +4,23 @@ _Future work. Move to Work Queue when ready to execute._
 
 ## Critical Priority
 
-- Map current funnel stages to a standard GTM metric spine
-- Set target thresholds for stage conversion and cycle time
+- Add role-based access (owner, manager, cashier, kitchen) with RLS policies
+- Add payment handoff adapter (Stripe terminal or POS integration)
 
 ## High Priority
 
-- Build meeting templates: Daily revenue pulse, weekly forecast, weekly pipeline review
-- Define account prioritization model (ICP fit + intent + deal velocity)
-- Draft QBR structure for revenue performance and learnings
+- Reservation flow (create, seat, mark no-show)
+- Daily sales snapshot dashboard (orders, AOV, table turn time)
+- Inventory decrement hooks tied to order completion
 
 ## Medium Priority
 
-- Territory/segment performance scorecard
-- Objection-pattern tracker for PMM enablement feedback
-- Win/loss signal capture and monthly synthesis
+- Promo/discount rules engine
+- SMS-ready order notifications abstraction
+- Exportable shift report (CSV/PDF)
 
 ## Low Priority
 
-- Automation hooks for recurring report generation
-- Benchmarking against historical quarters
+- Multi-location support
+- Loyalty points prototype
+- Menu recommendation experiments

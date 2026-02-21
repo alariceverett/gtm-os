@@ -4,6 +4,9 @@
   "description": "An opinionated, self-bootstrapping template for running an AI organization on [OpenClaw](https://openclaw.com). Point it at any problem domain and it builds itself: decision tracking, delegation chains, quality systems, learning loops, and auto-discovered skills.",
   "main": "index.js",
   "scripts": {
+    "restaurant:dev": "npm --prefix apps/gtm-command-center run dev",
+    "restaurant:build": "npm --prefix apps/gtm-command-center run build",
+    "restaurant:lint": "npm --prefix apps/gtm-command-center run lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
