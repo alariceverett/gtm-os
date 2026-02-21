@@ -19,6 +19,11 @@ _Last updated: 2026-02-21 07:30 ET_
    - Output: KPI tree, dashboard IA, metric specs, trigger actions, first 3 tickets
    - Status: IN PROGRESS (run 4d47395e)
 
+4. **AdZeta — Operator setup task board UI (DB-backed)**
+   - Owner: Build subagent
+   - Output: `/setup` page to view/update `cc_operator_tasks`
+   - Status: IN PROGRESS (run 00ae3d51)
+
 ## NEXT (queued)
 
 3. **AdZeta — data contract + event schema pass**
