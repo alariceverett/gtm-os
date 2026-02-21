@@ -4,9 +4,9 @@ _Items ranked by priority. CEO delegates from top._
 
 | Rank | Task | Owner | Status |
 |------|------|-------|--------|
-| 1 | Ship restaurant app MVP vertical slice (menu browse → add to order → submit order) | Head of Product | in_progress |
-| 2 | Stand up Supabase schema + seed data for menu_items, orders, order_items, tables | Head of Operations | queued |
-| 3 | Add kitchen board view (incoming, preparing, ready) with realtime status updates | Head of Product | queued |
-| 4 | Implement delegation sprint board for restaurant stream (Builder/Designer/QA assignments) | Head of Operations | in_progress |
-| 5 | Add deploy-and-verify checklist run for staging before every merge | Head of Operations | queued |
-| 6 | Capture after-action + skill gaps from MVP run and feed Forge learning loop | Head of Product | queued |
+| 1 | Build group-dinner request intake + smart shortlist engine (NYC neighborhoods, party size, budget, cuisine) | Head of Product | in_progress |
+| 2 | Implement booking-path tracker (Resy/OpenTable/manual contact) with per-restaurant status | Head of Operations | in_progress |
+| 3 | Add large-party outreach module (email/contact-form template + follow-up cadence) | Head of Operations | queued |
+| 4 | Create operator dashboard (Pending / Follow-up due / Confirmed / Declined) | Head of Product | queued |
+| 5 | Run deploy-and-verify gate for staging and document release checklist | Head of Operations | queued |
+| 6 | Capture feature requests from group chats into backlog and weekly synthesis | Head of Product | in_progress |
