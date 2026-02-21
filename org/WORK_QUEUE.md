@@ -17,7 +17,7 @@ _Last updated: 2026-02-21 07:30 ET_
 3. **AdZeta — KPI hierarchy + dashboard IA pass**
    - Owner: Product strategy subagent
    - Output: KPI tree, dashboard IA, metric specs, trigger actions, first 3 tickets
-   - Status: IN PROGRESS (run 4d47395e)
+   - Status: DONE (run 4d47395e, awaiting result extraction)
 
 4. **AdZeta — Operator setup task board UI (DB-backed)**
    - Owner: Build subagent
@@ -27,7 +27,17 @@ _Last updated: 2026-02-21 07:30 ET_
 5. **AdZeta — Supabase client scaffold (key-ready)**
    - Owner: Build subagent
    - Output: env validation + client factories + docs
-   - Status: IN PROGRESS (run e26a8355)
+   - Status: DONE (run e26a8355, awaiting result extraction)
+
+6. **AdZeta — daily/weekly operator briefing template**
+   - Owner: Ops lead subagent
+   - Output: templates + field schema
+   - Status: IN PROGRESS (run ee7ed406)
+
+7. **AdZeta — deployment verification checklist**
+   - Owner: Release/Ops subagent
+   - Output: pre/post deploy checks, rollback, escalation matrix
+   - Status: IN PROGRESS (run 952ee7f3)
 
 ## NEXT (queued)
 
@@ -37,11 +47,11 @@ _Last updated: 2026-02-21 07:30 ET_
 
 4. **AdZeta — GitHub setup baseline**
    - Output: repo wiring check, branch/PR guardrail recommendation, CI readiness checklist
-   - Status: QUEUED
+   - Status: DONE (run a7b5694e, awaiting result extraction)
 
 5. **AdZeta — Vercel setup baseline**
    - Output: project link plan, env mapping checklist, first-deploy runbook
-   - Status: QUEUED
+   - Status: DONE (run a318df60, awaiting result extraction)
 
 6. **Restaurant app — first production candidate slice**
    - Output: one user-visible flow with test checklist
