@@ -7,18 +7,23 @@ _Last updated: 2026-02-21 07:30 ET_
 1. **AdZeta — GTM Command Center MVP slice definition**
    - Owner: Product lead subagent
    - Output: locked MVP scope + acceptance criteria + first 3 build tickets
-   - Status: READY
+   - Status: DONE (awaiting result extraction)
 
 2. **Restaurant app — unblock map**
    - Owner: Ops lead subagent
    - Output: explicit blockers (if any), dependencies, and fastest unblocked deliverable
    - Status: READY
 
+3. **AdZeta — KPI hierarchy + dashboard IA pass**
+   - Owner: Product strategy subagent
+   - Output: KPI tree, dashboard IA, metric specs, trigger actions, first 3 tickets
+   - Status: IN PROGRESS (run 4d47395e)
+
 ## NEXT (queued)
 
 3. **AdZeta — data contract + event schema pass**
    - Output: minimal schema list for first dashboard/reporting loop
-   - Status: QUEUED
+   - Status: DONE (awaiting result extraction)
 
 4. **Restaurant app — first production candidate slice**
    - Output: one user-visible flow with test checklist
