@@ -20,6 +20,8 @@
 
 ## Process/system backlog
 
+- Implement operator-mode status pane (Current/Blocked/Next/Done/Waiting-on-user) as always-available self-serve view
+
 - Add queue-presence invariant checks in heartbeat (fail fast if queue missing)
 - Add "resolve-first" incident protocol to operating docs
 - Track delegated-vs-direct execution ratio weekly
