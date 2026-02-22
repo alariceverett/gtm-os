@@ -36,6 +36,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Run `org/SKILL_PERFORMANCE_LOOP.md` quick scan and log new skill gaps if discovered
 - Enforce `org/QUALITY_IMPROVEMENT_CHAIN.md` on all completed runs (must reach QCHAIN_OK)
 - Enforce `org/AUTONOMY_IMPROVEMENT_PROTOCOL.md` (decision→delegate→apply→verify→update chain + outcome mapping)
+- Enforce `org/SWARM_QUALITY_STACK.md` gates (all 8 required for completion)
 
 ## Permanent Subagent Spawn Policy (enforced)
 - Canonical policy: `org/PERMANENT_SUBAGENT_ROSTER.md` (spawn authority + handoff consistency checks).
