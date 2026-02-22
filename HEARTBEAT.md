@@ -38,6 +38,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Enforce `org/AUTONOMY_IMPROVEMENT_PROTOCOL.md` (decision→delegate→apply→verify→update chain + outcome mapping)
 - Enforce `org/SWARM_QUALITY_STACK.md` gates (all 8 required for completion)
 - Enforce `org/SWARM_OUTPUT_ACCELERATOR.md` (14 output practices incl. no-merge-unless-demoable, interaction-debt, confidence budget, fresh-eyes teardown)
+- Enforce `org/AGENT_CONTEXT_CONTRACT.md` on all new spawns/handoffs (required context + packet schema)
 - Run `org/ops/checklists/DAILY_HARDENING_CHECKS.md` and publish GREEN/YELLOW/RED status in /ops Review Center
 - Enforce `org/QUALITY_TREND_CONTROL.md` (trend slope checks, decline alerts, and freeze/fix-burst auto-correction)
 
