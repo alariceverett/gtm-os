@@ -15,14 +15,14 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 ## Step 3: Delegate from Work Queue
 - Read `org/TASK_BACKLOG.md` and `org/WORK_QUEUE.md`
 - If either file is missing or empty: rebuild them immediately before any non-urgent work
-- Take the top 1-3 unblocked items (target 5 active subagent chains unless rate-limit signals appear)
+- Take the top 1-3 unblocked items (target 6 active subagent chains unless rate-limit signals appear)
 - **IF NO AGENTS RUNNING AND WORK EXISTS: THIS IS A FAILURE. ALWAYS DELEGATE.**
 - **PRE-TASK PROCESS CHECK:** What process applies? Log it: `node org/engine/run_process.js start '{"process_id":"...","decision_id":"...","actor":"..."}'`
 - Write a brief (WHAT/WHY/CONSTRAINTS/AUTHORITY/REPORT BACK)
 - Spawn the appropriate division lead
 - Apply permanent roster routing from `org/PERMANENT_SUBAGENT_ROSTER.md` + `org/ROLE_PLAYBOOKS.md`
 - When complete, rate the process execution: `node org/engine/run_process.js rate '{"run_id":"...","rating":1-5,"quality_notes":"..."}'`
-- Move to next item if bandwidth allows (target 5 active chains)
+- Move to next item if bandwidth allows (target 6 active chains)
 
 ## Step 4: Plan ahead
 - Move NEXT items to NOW if unblocked
@@ -35,6 +35,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Apply `org/FORGE_FEEDBACK_PROTOCOL.md` for any newly discovered systemic gaps (same-session upstream logging)
 - Run `org/SKILL_PERFORMANCE_LOOP.md` quick scan and log new skill gaps if discovered
 - Enforce `org/QUALITY_IMPROVEMENT_CHAIN.md` on all completed runs (must reach QCHAIN_OK)
+- Enforce `org/AUTONOMY_IMPROVEMENT_PROTOCOL.md` (decision→delegate→apply→verify→update chain + outcome mapping)
 
 ## Permanent Subagent Spawn Policy (enforced)
 - Canonical policy: `org/PERMANENT_SUBAGENT_ROSTER.md` (spawn authority + handoff consistency checks).
