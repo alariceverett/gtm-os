@@ -4,6 +4,12 @@ _Last updated: 2026-02-22 09:10 ET_
 
 ## NOW (active)
 
+- **Mode: Consolidation Window (7 days)**
+  - Net-new process framework expansion: PAUSED
+  - Focus: reliability, coherence, measurable outcomes
+  - Exit only when consolidation criteria in `org/CONSOLIDATE_AND_HARDEN_PLAN.md` are met
+
+
 0. **AdZeta — 48-hour evidence mode (controlled sprint)**
    - Owner: Orchestrator + swarm lanes
    - Output: KPI-linked deliveries only, proof-first updates, no scope drift
