@@ -37,7 +37,7 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Enforce `org/QUALITY_IMPROVEMENT_CHAIN.md` on all completed runs (must reach QCHAIN_OK)
 - Enforce `org/AUTONOMY_IMPROVEMENT_PROTOCOL.md` (decision→delegate→apply→verify→update chain + outcome mapping)
 - Enforce `org/SWARM_QUALITY_STACK.md` gates (all 8 required for completion)
-- Enforce `org/SWARM_OUTPUT_ACCELERATOR.md` (8 output practices + 48-hour evidence mode + KPI kill-switch)
+- Enforce `org/SWARM_OUTPUT_ACCELERATOR.md` (14 output practices incl. no-merge-unless-demoable, interaction-debt, confidence budget, fresh-eyes teardown)
 
 ## Permanent Subagent Spawn Policy (enforced)
 - Canonical policy: `org/PERMANENT_SUBAGENT_ROSTER.md` (spawn authority + handoff consistency checks).
