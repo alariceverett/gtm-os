@@ -1,0 +1,16 @@
+export const GTM_CORE_TABLES = [
+  'cc_operator_tasks',
+  'lifecycle_stages',
+  'lifecycle_events',
+  'campaign_metrics',
+  'cc_funnels',
+  'cc_funnel_steps',
+  'cc_sequence_templates',
+  'cc_sequence_enrollments',
+  'lead_magnets',
+  'teaser_products',
+  'delivery_events',
+  'meeting_notes',
+  'meeting_actions',
+  'client_updates',
+];

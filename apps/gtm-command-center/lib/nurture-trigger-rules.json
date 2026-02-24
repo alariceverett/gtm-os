@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "generated_by": "local-static-config",
+  "rules": [
+    {
+      "id": "no_reply_48h",
+      "name": "No reply for 48h",
+      "enabled": true,
+      "trigger_key": "no_reply_48h",
+      "conditions": {
+        "min_hours_since_last_reply": 48
+      },
+      "sequence_slug": "nurture-no-reply-48h",
+      "sequence_fallback_name": "No Reply Recovery Sequence",
+      "cooldown_hours": 24,
+      "notes": "Re-engage leads who have gone quiet for at least 48h."
+    },
+    {
+      "id": "meeting_complete",
+      "name": "Meeting completed",
+      "enabled": true,
+      "trigger_key": "meeting_complete",
+      "conditions": {
+        "meeting_completed": true
+      },
+      "sequence_slug": "post-meeting-followup-v1",
+      "sequence_fallback_name": "Post Meeting Follow-up",
+      "cooldown_hours": 12,
+      "notes": "Auto-enroll after a completed meeting to send recap + CTA."
+    },
+    {
+      "id": "lead_magnet_download",
+      "name": "Lead magnet downloaded",
+      "enabled": true,
+      "trigger_key": "lead_magnet_download",
+      "conditions": {
+        "lead_magnet_downloaded": true
+      },
+      "sequence_slug": "lead-magnet-nurture-v1",
+      "sequence_fallback_name": "Lead Magnet Nurture",
+      "cooldown_hours": 24,
+      "notes": "Start nurture flow after download intent signal."
+    }
+  ]
+}

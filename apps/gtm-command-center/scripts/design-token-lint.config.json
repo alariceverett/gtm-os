@@ -1,0 +1,9 @@
+{
+  "keyUiRoots": ["app", "components", "src/app", "src/components", "ui"],
+  "keyUiFiles": ["server.mjs"],
+  "includeExtensions": [".tsx", ".jsx", ".css", ".scss", ".mjs", ".js"],
+  "excludeDirs": ["node_modules", ".next", ".git", ".run", "docs"],
+  "allowTokenPatterns": ["token(", "var(--", "theme("],
+  "ignoreLinePatterns": ["design-token-lint: ignore", "design-token-lint-ignore"],
+  "reportPath": ".run/design-token-drift-report.md"
+}

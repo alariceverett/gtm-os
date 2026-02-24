@@ -11,5 +11,8 @@ if [[ -f "$ROOT_ENV" ]]; then
 fi
 
 export PORT=1981
+# Local operator mode: disable HTTP basic auth unless explicitly overridden in env.
+: "${CC_AUTH_ENABLED:=false}"
+export CC_AUTH_ENABLED
 cd "$APP_DIR"
 exec /opt/homebrew/bin/node server.mjs

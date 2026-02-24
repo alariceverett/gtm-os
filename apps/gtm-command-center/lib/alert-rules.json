@@ -1,0 +1,101 @@
+{
+  "version": 2,
+  "generated_by": "local-static-config",
+  "escalation_policy": {
+    "info": {
+      "notify": [
+        "#ops-feed"
+      ],
+      "escalate_after_minutes": 0
+    },
+    "warning": {
+      "notify": [
+        "Ops Lead"
+      ],
+      "escalate_after_minutes": 30,
+      "escalate_to": "Program Manager"
+    },
+    "critical": {
+      "notify": [
+        "Ops Lead",
+        "Platform Ops"
+      ],
+      "escalate_after_minutes": 10,
+      "escalate_to": "Engineering Manager"
+    }
+  },
+  "rules": [
+    {
+      "id": "delegations_drop_24h",
+      "name": "Delegations dropped (24h)",
+      "threshold": "delegations_24h < 10",
+      "severity": "warning",
+      "owner": "Ops Lead",
+      "sla_minutes": 60
+    },
+    {
+      "id": "completion_ratio_low",
+      "name": "Completion ratio low",
+      "threshold": "completed_24h / delegations_24h < 0.55",
+      "severity": "critical",
+      "owner": "Ops Lead",
+      "sla_minutes": 30
+    },
+    {
+      "id": "open_priorities_backlog",
+      "name": "Open priorities backlog high",
+      "threshold": "open_priorities > 25",
+      "severity": "warning",
+      "owner": "Queue Manager",
+      "sla_minutes": 90
+    },
+    {
+      "id": "active_runs_stall",
+      "name": "Active runs stalled",
+      "threshold": "active_runs = 0 for 30m",
+      "severity": "critical",
+      "owner": "Runtime Engineer",
+      "sla_minutes": 20
+    },
+    {
+      "id": "quality_7d_low",
+      "name": "Quality score degraded",
+      "threshold": "avg_quality_7d < 3.8",
+      "severity": "warning",
+      "owner": "Quality Lead",
+      "sla_minutes": 120
+    },
+    {
+      "id": "blocked_lane_growth",
+      "name": "Blocked lane growth",
+      "threshold": "blocked_items >= 3",
+      "severity": "warning",
+      "owner": "Program Manager",
+      "sla_minutes": 120
+    },
+    {
+      "id": "waiting_on_user_overdue",
+      "name": "Waiting-on-user overdue",
+      "threshold": "waiting_on_user_age > 48h",
+      "severity": "critical",
+      "owner": "Client Success",
+      "sla_minutes": 240
+    },
+    {
+      "id": "deploy_health_red",
+      "name": "Deploy/health not ready",
+      "threshold": "github_baseline != ready OR vercel_readiness != ready",
+      "severity": "info",
+      "owner": "Release Manager",
+      "sla_minutes": 240
+    },
+    {
+      "id": "service_logs_missing",
+      "name": "Service logs missing",
+      "threshold": ".run/service.out.log OR .run/service.err.log missing",
+      "severity": "info",
+      "owner": "Platform Ops",
+      "sla_minutes": 180
+    }
+  ]
+}
