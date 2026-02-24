@@ -1,0 +1,33 @@
+{
+  "marker": "operator-preference-learning-profile-v1",
+  "updated_at": "2026-02-22T17:10:00.000Z",
+  "preference_version": 1,
+  "tags": {
+    "copy-tone:concise": { "total": 4, "approved": 3, "revise": 1 },
+    "cta-style:single-dominant": { "total": 3, "approved": 2, "revise": 1 },
+    "hierarchy:summary-first": { "total": 5, "approved": 4, "revise": 1 },
+    "component-density:light": { "total": 2, "approved": 1, "revise": 1 }
+  },
+  "overrides": {
+    "copy_tone": "concise",
+    "component_density": "light",
+    "cta_style": "single-dominant",
+    "hierarchy_preference": "summary-first"
+  },
+  "summary": {
+    "copy_tone": "concise",
+    "component_density": "light",
+    "cta_style": "single-dominant",
+    "hierarchy_preference": "summary-first"
+  },
+  "signals": [
+    {
+      "burst_id": "burst-2026-02-22-3",
+      "action": "approve",
+      "reason": "Keep it concise with one dominant CTA.",
+      "tags": ["copy-tone:concise", "cta-style:single-dominant", "decision:approve"],
+      "operator": "ops-lead",
+      "at": "2026-02-22T16:35:00.000Z"
+    }
+  ]
+}

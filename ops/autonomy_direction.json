@@ -1,0 +1,15 @@
+{
+  "marker": "ops-autonomy-direction-v1",
+  "objective": "Keep the GTM operating loop reliable while moving highest-impact work forward each cycle.",
+  "quality_mode": "balanced",
+  "operating_constraints": [
+    "Never skip route-truth and golden-path checks before release posture changes.",
+    "Escalate blocking regressions with explicit owner and ETA in the same cycle.",
+    "Maintain evidence-linked review updates in /ops before closing cycle decisions."
+  ],
+  "directional_preferences": {
+    "speed_vs_polish": 0.5,
+    "risk_tolerance": "medium",
+    "review_strictness": "standard"
+  }
+}

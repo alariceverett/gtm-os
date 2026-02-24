@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "generated_by": "local-static-config",
+  "rules": [
+    {
+      "id": "delegations_drop_24h",
+      "name": "Delegations dropped (24h)",
+      "threshold": "delegations_24h < 10",
+      "severity": "warning",
+      "owner": "Ops Lead"
+    },
+    {
+      "id": "completion_ratio_low",
+      "name": "Completion ratio low",
+      "threshold": "completed_24h / delegations_24h < 0.55",
+      "severity": "critical",
+      "owner": "Ops Lead"
+    },
+    {
+      "id": "open_priorities_backlog",
+      "name": "Open priorities backlog high",
+      "threshold": "open_priorities > 25",
+      "severity": "warning",
+      "owner": "Queue Manager"
+    },
+    {
+      "id": "active_runs_stall",
+      "name": "Active runs stalled",
+      "threshold": "active_runs = 0 for 30m",
+      "severity": "critical",
+      "owner": "Runtime Engineer"
+    },
+    {
+      "id": "quality_7d_low",
+      "name": "Quality score degraded",
+      "threshold": "avg_quality_7d < 3.8",
+      "severity": "warning",
+      "owner": "Quality Lead"
+    },
+    {
+      "id": "blocked_lane_growth",
+      "name": "Blocked lane growth",
+      "threshold": "blocked_items >= 3",
+      "severity": "warning",
+      "owner": "Program Manager"
+    },
+    {
+      "id": "waiting_on_user_overdue",
+      "name": "Waiting-on-user overdue",
+      "threshold": "waiting_on_user_age > 48h",
+      "severity": "critical",
+      "owner": "Client Success"
+    },
+    {
+      "id": "deploy_health_red",
+      "name": "Deploy/health not ready",
+      "threshold": "github_baseline != ready OR vercel_readiness != ready",
+      "severity": "info",
+      "owner": "Release Manager"
+    },
+    {
+      "id": "service_logs_missing",
+      "name": "Service logs missing",
+      "threshold": ".run/service.out.log OR .run/service.err.log missing",
+      "severity": "info",
+      "owner": "Platform Ops"
+    }
+  ]
+}

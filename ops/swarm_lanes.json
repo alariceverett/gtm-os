@@ -1,0 +1,136 @@
+{
+  "active_lane_count": 6,
+  "active_lane_model_pairs": [
+    {
+      "lane_id": "67e9d8154a",
+      "model": "openai-codex/gpt-5.3-codex",
+      "model_lane": "execution",
+      "role": "builder",
+      "status": "ready"
+    },
+    {
+      "lane_id": "bb7b945da3",
+      "model": "openai/gpt-5",
+      "model_lane": "strategy",
+      "role": "planner",
+      "status": "ready"
+    },
+    {
+      "lane_id": "0f4f416fab",
+      "model": "openai/gpt-5",
+      "model_lane": "strategy",
+      "role": "planner",
+      "status": "ready"
+    },
+    {
+      "lane_id": "210537d13b",
+      "model": "openai/gpt-5",
+      "model_lane": "strategy",
+      "role": "planner",
+      "status": "ready"
+    },
+    {
+      "lane_id": "4c7eecd1c3",
+      "model": "openai/gpt-5",
+      "model_lane": "strategy",
+      "role": "planner",
+      "status": "ready"
+    },
+    {
+      "lane_id": "a0d8291e60",
+      "model": "openai/gpt-5",
+      "model_lane": "strategy",
+      "role": "planner",
+      "status": "ready"
+    }
+  ],
+  "active_subagents": 2,
+  "cap": 5,
+  "lanes": [
+    {
+      "active_session": null,
+      "current_role": "builder",
+      "handoffs": [
+        {
+          "artifacts": [
+            "org/product/BUILD_PLAN_TEMPLATE.md"
+          ],
+          "checks": [
+            "dependency map complete"
+          ],
+          "deliverables": [
+            "task breakdown",
+            "scope boundaries"
+          ],
+          "from_role": "planner",
+          "lane_id": "67e9d8154a",
+          "next_actions": [
+            "implement UI skeleton"
+          ],
+          "risks": [
+            "schema drift"
+          ],
+          "summary": "Planned implementation slices and acceptance checks.",
+          "task_title": "AdZeta \u2014 Comms + Account/Individual split views (home + ops coherence)",
+          "timestamp": "2026-02-22T09:13:00-05:00",
+          "to_role": "builder"
+        }
+      ],
+      "lane_id": "67e9d8154a",
+      "last_update": "2026-02-22T09:13:03.608260-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 Comms + Account/Individual split views (home + ops coherence)"
+    },
+    {
+      "active_session": null,
+      "current_role": "planner",
+      "handoffs": [],
+      "lane_id": "bb7b945da3",
+      "last_update": "2026-02-22T09:12:52.966253-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 Research Ledger implementation (source-of-truth for findings/decisions)"
+    },
+    {
+      "active_session": null,
+      "current_role": "planner",
+      "handoffs": [],
+      "lane_id": "0f4f416fab",
+      "last_update": "2026-02-22T09:12:52.966256-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 Intelligence Layer v1 (decision synthesis + execution handoff)"
+    },
+    {
+      "active_session": null,
+      "current_role": "planner",
+      "handoffs": [],
+      "lane_id": "210537d13b",
+      "last_update": "2026-02-22T09:12:52.966259-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 Operator review checklist placement in app (concise + discoverable)"
+    },
+    {
+      "active_session": null,
+      "current_role": "planner",
+      "handoffs": [],
+      "lane_id": "4c7eecd1c3",
+      "last_update": "2026-02-22T09:12:52.966262-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 data contract + event schema pass"
+    },
+    {
+      "active_session": null,
+      "current_role": "planner",
+      "handoffs": [],
+      "lane_id": "a0d8291e60",
+      "last_update": "2026-02-22T09:12:52.966265-05:00",
+      "status": "ready",
+      "task_title": "AdZeta \u2014 GitHub setup baseline"
+    }
+  ],
+  "ops_markers": [
+    "ops.swarm_runtime.active_lane_model_pairs",
+    "ops.swarm_runtime.spawn_audit_last_20"
+  ],
+  "spawn_audit_last_20": [],
+  "ts": "2026-02-22T11:50:25.288125-05:00"
+}

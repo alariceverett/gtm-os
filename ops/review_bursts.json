@@ -1,0 +1,132 @@
+{
+  "ts": "2026-02-22T15:46:00-05:00",
+  "policy": "Each review burst must be readable in under 20 seconds and use plain-language decision prompts.",
+  "status": "plain_language_template_applied",
+  "ui_actions": [
+    "approve_recommended",
+    "revise"
+  ],
+  "pinned_order": [
+    "RB-ARCH-001",
+    "RB-ARCH-002",
+    "RB-ARCH-003",
+    "RB-UI-001",
+    "RB-UI-002",
+    "RB-UI-003",
+    "RB-UI-004"
+  ],
+  "pending_bursts": [
+    {
+      "id": "RB-ARCH-001",
+      "priority": "P0",
+      "url": "http://127.0.0.1:1981/ops#frontend-stack-migration-target",
+      "what_decision_am_i_making": "Do we approve the migration target to Next.js App Router + TypeScript strict mode + shared design system as the single frontend stack for this reset cycle?",
+      "why_it_matters": "One approved target prevents split implementation and rework across teams.",
+      "recommended_default": "Approve default — lock this as the migration target now.",
+      "if_approve_what_happens_next": "Architecture docs and implementation tickets align to one stack path.",
+      "if_revise_what_to_provide": "Name the replacement stack target and why it beats the default.",
+      "marker": "/ops:review-burst:rb-arch-001:decision"
+    },
+    {
+      "id": "RB-ARCH-002",
+      "priority": "P0",
+      "url": "http://127.0.0.1:1981/ops#home-ia-v2-component-map",
+      "what_decision_am_i_making": "Do we approve the Home IA v2 component map as the source of truth for Home layout and content blocks?",
+      "why_it_matters": "Locking the map avoids duplicate or conflicting Home modules.",
+      "recommended_default": "Approve default — use Home IA v2 component map as canonical.",
+      "if_approve_what_happens_next": "Home build proceeds against one component map and acceptance checklist.",
+      "if_revise_what_to_provide": "Specify exact component changes (add/remove/move) before build freeze.",
+      "marker": "/ops:review-burst:rb-arch-002:decision"
+    },
+    {
+      "id": "RB-ARCH-003",
+      "priority": "P0",
+      "url": "http://127.0.0.1:1981/ops#enterprise-nav-pattern",
+      "what_decision_am_i_making": "Do we approve a persistent top nav + contextual side nav pattern for enterprise UX across core routes?",
+      "why_it_matters": "A single nav pattern reduces cognitive load and onboarding time for operators.",
+      "recommended_default": "Approve default — standardize on top + side nav now.",
+      "if_approve_what_happens_next": "Navigation implementation and QA follow one enterprise pattern.",
+      "if_revise_what_to_provide": "Define the alternate nav pattern and which routes are exceptions.",
+      "marker": "/ops:review-burst:rb-arch-003:decision"
+    },
+    {
+      "id": "RB-UI-001",
+      "priority": "P0",
+      "url": "http://127.0.0.1:1981/comms?view=account&tab=inbox",
+      "what_decision_am_i_making": "Do we keep Account Workspace + Individual Workspace split as the default this cycle?",
+      "why_it_matters": "This is the main workflow pattern; changing it now can reintroduce confusion.",
+      "recommended_default": "Approve default — keep split views as standard.",
+      "if_approve_what_happens_next": "Split views stay live and release copy remains controlled.",
+      "if_revise_what_to_provide": "State the exact layout change and where it should apply.",
+      "marker": "/ops:review-burst:rb-ui-001:decision"
+    },
+    {
+      "id": "RB-UI-002",
+      "priority": "P0",
+      "url": "http://127.0.0.1:1981/ops/reviewer-checklist",
+      "what_decision_am_i_making": "Must every review close pass the full checklist route?",
+      "why_it_matters": "It prevents incomplete sign-off from summary-only views.",
+      "recommended_default": "Approve default — checklist pass required before close.",
+      "if_approve_what_happens_next": "Reviews cannot close without checklist completion.",
+      "if_revise_what_to_provide": "Specify which checklist step can be optional and why.",
+      "marker": "/ops:review-burst:rb-ui-002:decision"
+    },
+    {
+      "id": "RB-UI-003",
+      "priority": "P1",
+      "url": "http://127.0.0.1:1981/ops#reviews",
+      "what_decision_am_i_making": "Do we wait for one more full end-to-end pass before expanding?",
+      "why_it_matters": "One clean replay reduces rollback risk.",
+      "recommended_default": "Approve default — wait for one more all-pass replay.",
+      "if_approve_what_happens_next": "Current scope stays in place until replay is posted.",
+      "if_revise_what_to_provide": "Name what can expand now and what risk you accept.",
+      "marker": "/ops:review-burst:rb-ui-003:decision"
+    },
+    {
+      "id": "RB-UI-004",
+      "priority": "P1",
+      "url": "http://127.0.0.1:1981/pilot",
+      "what_decision_am_i_making": "Should Zephyr's 47→57 (+10) result be the reference proof for this cycle?",
+      "why_it_matters": "It ties UI changes to a concrete business outcome.",
+      "recommended_default": "Approve default — use Zephyr delta as reference proof.",
+      "if_approve_what_happens_next": "Cycle summary and training use this example.",
+      "if_revise_what_to_provide": "Name the replacement example and link supporting proof.",
+      "marker": "/ops:review-burst:rb-ui-004:decision"
+    }
+  ],
+  "ops_markers": [
+    "/ops:review-bursts:sync:2026-02-22T15:46:00-05:00",
+    "/ops:review-bursts:source:architecture-home-reset-cycle",
+    "/ops:review-bursts:lifecycle-states:pending|approved|revise|implemented|closed",
+    "/ops:review-bursts:linkage:review-link:{burst_id}",
+    "/ops:review-bursts:pending-count:7",
+    "/ops:review-bursts:pinned:rb-arch-001,rb-arch-002,rb-arch-003",
+    "/ops:review-burst:actions:approve-recommended|revise",
+    "/ops:review-burst:ux:plain-language-template-v2",
+    "/ops:review-bursts:top-placement:first-block",
+    "/ops:review-burst:inline-context:always-visible",
+    "/ops:review-center:auto-upsert:on-decision",
+    "/ops:review-center:auto-implemented:on-proof-attach",
+    "/ops:review-center:auto-archive:on-close",
+    "/ops:review-burst:rb-arch-001:decision",
+    "/ops:review-burst:rb-arch-002:decision",
+    "/ops:review-burst:rb-arch-003:decision"
+  ],
+  "live_values": {
+    "pending_bursts": 7,
+    "completion_applier_pending_applies": 0,
+    "completion_applier_recent_failures": 0
+  },
+  "blockers": [
+    {
+      "name": "AUTONOMY_GAP mapping loop",
+      "owner": "Ops orchestration lead",
+      "eta": "same-day triage/fix"
+    },
+    {
+      "name": "Gateway pairing required",
+      "owner": "platform/device owner",
+      "eta": "next operator pairing window"
+    }
+  ]
+}

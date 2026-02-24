@@ -19,3 +19,9 @@ MEMORY.md
 
 # Runtime
 *.pid
+
+# App build/runtime artifacts
+apps/gtm-command-center/.next/
+apps/gtm-command-center/.run/
+.openclaw/
+.pi/

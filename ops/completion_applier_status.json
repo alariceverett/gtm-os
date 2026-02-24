@@ -1,0 +1,15 @@
+{
+  "failures": [],
+  "last_applied_commit": null,
+  "last_applied_run": null,
+  "last_cycle": {
+    "active_count": 8,
+    "applied": [],
+    "failed": [],
+    "newly_completed": [],
+    "pending_count": 0
+  },
+  "pending_applies": [],
+  "pending_count": 0,
+  "ts": "2026-02-22T10:07:18.315630-05:00"
+}
