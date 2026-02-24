@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const routes = [
   ['Home', '/'],
@@ -13,13 +17,28 @@ const routes = [
 ] as const;
 
 export function ShellNav() {
+  const pathname = usePathname();
+  
   return (
-    <nav className="flex flex-wrap gap-2">
-      {routes.map(([label, href]) => (
-        <Link key={href} href={href} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm hover:border-slate-400">
-          {label}
-        </Link>
-      ))}
+    <nav className="flex flex-wrap gap-1">
+      {routes.map(([label, href]) => {
+        const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
+        
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={cn(
+              'px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200',
+              isActive
+                ? 'bg-slate-100 text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+            )}
+          >
+            {label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

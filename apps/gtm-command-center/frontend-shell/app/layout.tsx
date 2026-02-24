@@ -1,23 +1,44 @@
 import './globals.css';
-import { ShellNav } from '@/components/shell-nav';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from './components/theme-provider';
+import { AnnouncementProvider } from './components/accessibility';
+import { SkipLink } from './components/accessibility';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata = {
-  title: 'GTM Command Center · Frontend Shell',
-  description: 'Modern app-shell migration starter',
+  title: 'GTM Command Center',
+  description: 'Your GTM motion, visualized and actionable',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ 
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body>
-        <main className="mx-auto max-w-6xl space-y-6 p-6">
-          <header className="space-y-3">
-            <h1 className="text-2xl font-bold">GTM Command Center · Frontend Shell</h1>
-            <p className="text-sm text-slate-600">Phase-1 bootstrap running side-by-side with legacy Node-rendered app.</p>
-            <ShellNav />
-          </header>
-          {children}
-        </main>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen antialiased`}>
+        <ThemeProvider>
+          <AnnouncementProvider>
+            {/* Skip links for accessibility */}
+            <SkipLink href="#main-content">
+              Skip to main content
+            </SkipLink>
+            <SkipLink href="#main-navigation">
+              Skip to navigation
+            </SkipLink>
+            
+            {children}
+          </AnnouncementProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

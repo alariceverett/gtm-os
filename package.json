@@ -7,13 +7,32 @@
     "restaurant:dev": "npm --prefix apps/gtm-command-center run dev",
     "restaurant:build": "npm --prefix apps/gtm-command-center run build",
     "restaurant:lint": "npm --prefix apps/gtm-command-center run lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "clsx": "^2.1.1",
     "dotenv": "^17.3.1",
-    "pg": "^8.18.0"
+    "lucide-react": "^0.575.0",
+    "next": "^16.1.6",
+    "pg": "^8.18.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.33",
+    "@types/react": "^19.0.0",
+    "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.0.0",
+    "jsdom": "^23.2.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.1"
   }
 }

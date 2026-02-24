@@ -50,6 +50,35 @@ Each handoff must include this schema (required):
 A receiving agent must reject handoff as incomplete if any required field is missing.
 
 ## Activation Order (recommended immediate roles)
-1. **Orchestrator Lead** — central routing and dependency management.
-2. **Code & Automation Specialist** — highest throughput for current AdZeta implementation backlog.
-3. **QA & Risk Specialist** — prevents regressions and enforces release-quality handoffs.
+1. **Orchestrator Lead** (`orchestrator`) — central routing and dependency management.
+2. **Code & Automation Specialist** (`claude-code`) — highest throughput for current AdZeta implementation backlog.
+3. **QA & Risk Specialist** (`qa-risk`) — prevents regressions and enforces release-quality handoffs.
+
+## Agent ID Mapping
+
+See `SYSTEM_AGENT_REGISTRY.md` for OpenClaw agent IDs mapped to each roster role.
+
+**Active Agents:**
+- `orchestrator` — Orchestrator Lead
+- `research` — Research & Verification
+- `claude-code` — Code & Automation
+- `data-analytics` — Data & Analytics
+- `docs-knowledge` — Docs & Knowledge
+- `qa-risk` — QA & Risk
+- `comms-delivery` — Comms & Delivery
+- `ops-runner` — Ops Runner
+- `tooling-env` — Tooling & Environment
+
+## Quick Reference: Spawn Pattern
+
+```bash
+# Spawn with Kimi via API
+sessions_spawn: {
+  "agentId": "AGENT_NAME",
+  "model": "ollama/kimi-k2.5:cloud",
+  "mode": "run" | "session",
+  "task": "...",
+  "label": "unique-id",
+  "thread": true
+}
+```

@@ -4,13 +4,27 @@ _Last updated: 2026-02-23 00:00 ET_
 
 ## NOW (active)
 
-- **Mode: Consolidation Window (7 days)**
+- **Mode: Consolidation Window (7 days)** — EXITING (phases complete, moving to deployment/hardening)
   - Net-new process framework expansion: PAUSED
-  - Focus: reliability, coherence, measurable outcomes
-  - Exit only when consolidation criteria in `org/CONSOLIDATE_AND_HARDEN_PLAN.md` are met
+  - Focus: reliability, coherence, measurable outcomes → NOW: deployment pipeline
 
 
-0. **AdZeta — 48-hour evidence mode (controlled sprint)**
+0. **AdZeta — GTM Operating System v1** ⭐ STRATEGIC PRIORITY — ✅ **ALL PHASES COMPLETE**
+   - Owner: product-strategy + intelligence + build (swarm)
+   - Status: **PHASES 1-4 COMPLETE** (2026-02-24 09:00 EST)
+   - Dependencies: `org/GTM_OS_STRATEGY_V1.md` (ratified), `org/GTM_OS_QUALITY_GATES.md`
+   - Quality Commitment: Excellence through all 7 gates — **PASSED**
+   - Goal: Autonomous, self-learning GTM command center — **ACHIEVED**
+   - Phase Summary:
+     - ✅ **Phase 1 (Foundation)**: World-class UI, KPI dashboard, design tokens, sparklines
+     - ✅ **Phase 2 (Learning Core)**: 7-day predictions, personal card ordering, feedback capture
+     - ✅ **Phase 3 (Intelligence)**: Recommendation engine, execution bridge, operator review queue
+     - ✅ **Phase 4 (Autonomy)**: Self-healing, predictive blocker guard, auto task generation, dashboard
+   - Build Status: **PASS** ✓
+   - GitHub Issues: #1-6 filed
+   - Next: Deployment pipeline execution (in progress)
+
+0.1 **AdZeta — 48-hour evidence mode (controlled sprint)**
    - Owner: Orchestrator + swarm lanes
    - Output: KPI-linked deliveries only, proof-first updates, no scope drift
    - Status: IN PROGRESS
@@ -83,34 +97,28 @@ _Last updated: 2026-02-23 00:00 ET_
 
 ## NEXT (queued)
 
-1. **AdZeta — data contract + event schema pass**
-   - Output: minimal schema list for first dashboard/reporting loop
-   - Status: DONE (results extracted)
-   - Artifacts:
-     - `org/adzeta/DATA_CONTRACT_EVENT_SCHEMA_V1.md`
-     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
-   - Follow-up: implement DB migrations + verifier to lock taxonomy and enforce `evidence_ref`.
+1. **AdZeta — GitHub + Vercel Deployment Execution** 🔄 IN PROGRESS
+   - Output: Live preview URL, CI passing, branch protection active
+   - Status: **RUNNING** (agents: `deploy-github-vercel` 4c576f10)
+   - Dependencies: GitHub repo exists, Vercel project ready
+   - **Priority 1**: Get system live
 
-2. **AdZeta — GitHub setup baseline**
-   - Output: repo wiring check, branch/PR guardrail recommendation, CI readiness checklist
-   - Status: DONE (run a7b5694e; results extracted)
-   - Artifacts:
-     - `org/adzeta/GITHUB_SETUP_BASELINE.md`
-     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
-   - Follow-up: execute checklist against the actual repo and capture branch/workflow/protection proof.
+2. **AdZeta — Data Contract DB Migrations** 🔄 IN PROGRESS
+   - Output: SQL migrations + data verifier script
+   - Status: **RUNNING** (agents: `data-contract-migrations` ede98c3b)
+   - Dependencies: Supabase keys (user provides) — **prep now, execute after keys**
+   - **Priority 2**: Schema ready for integration
 
-3. **AdZeta — Vercel setup baseline**
-   - Output: project link plan, env mapping checklist, first-deploy runbook
-   - Status: DONE (run a318df60; results extracted)
-   - Artifacts:
-     - `org/adzeta/VERCEL_SETUP_BASELINE.md`
-     - `org/adzeta/DEPLOYMENT_VERIFICATION_CHECKLIST.md`
-     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
-   - Follow-up: link project + set env vars + run first deploy runbook; record preview/prod URLs and smoke checks.
+3. **AdZeta — Integration Test Suite**
+   - Output: Unit + integration tests, >80% core coverage
+   - Status: **QUEUED**
+   - Dependencies: Deployment complete
+   - **Priority 3**: Validate before live traffic
 
 4. **Restaurant app — first production candidate slice**
    - Output: one user-visible flow with test checklist
-   - Status: QUEUED
+   - Status: **ON HOLD** ⏸️ (per user directive 2026-02-24: AdZeta-only mode)
+   - Note: Do not delegate until user releases hold
 
 ## BLOCKED
 

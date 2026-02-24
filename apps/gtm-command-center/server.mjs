@@ -2,12 +2,29 @@ import http from 'node:http';
 import { URL } from 'node:url';
 import { readFile, access, mkdir, writeFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { Pool } from 'pg';
 import { createServerSupabaseClient } from './lib/supabase-clients.mjs';
 import { resolveRuntimeMode } from './lib/supabase-env.mjs';
 import { evaluateMondayReadiness, parseWorkQueueMarkdown } from './lib/monday-readiness.mjs';
 import { collectDailyGtmSummary } from './lib/daily-gtm-summary.mjs';
 import { KPI_META, KPI_TREE, fetchOperationalKpis, kpiGateStatus, getCompletionRatio, deriveHomeKpiStripTelemetry } from './lib/kpi-telemetry.mjs';
+import {
+  generateKpiForecasts,
+  generateMockHistory,
+  formatForecastMessage
+} from './lib/predictions/kpi-forecaster.ts';
+import {
+  detectAllAnomalies,
+  generateMockMetricData,
+  formatAnomalyMessage,
+  type AnomalyReport
+} from './lib/predictions/anomaly-detector.ts';
+import {
+  generateRiskReport,
+  generateMockDealData,
+  formatRiskMessage
+} from './lib/predictions/risk-scorer.ts';
 
 const port = Number(process.env.PORT || 1981);
 const devHmrEnabled = ['1', 'true', 'yes', 'on'].includes(String(process.env.DEV_HMR || '').toLowerCase());
@@ -1623,6 +1640,282 @@ async function readFormBody(req) {
   const raw = await readRawBody(req);
   const params = new URLSearchParams(raw || '');
   return Object.fromEntries(params.entries());
+}
+
+// ===== FEEDBACK & LEARNING FUNCTIONS (GATE 3) =====
+
+async function storeFeedbackSignal(payload) {
+  assertStore();
+  const signalType = payload.signal_type;
+  const validTypes = ['explicit_positive', 'explicit_negative', 'implicit_dwell', 'implicit_skip', 'command_issued', 'override_taken', 'question_asked'];
+  if (!validTypes.includes(signalType)) {
+    throw new Error(`Invalid signal_type. Must be one of: ${validTypes.join(', ')}`);
+  }
+
+  const userId = payload.user_id || await getUserFingerprint();
+  const context = typeof payload.context === 'object' ? payload.context : {};
+  const content = payload.content || null;
+  const outcome = typeof payload.outcome === 'object' ? payload.outcome : {};
+  const learningWeight = Number.isFinite(Number(payload.learning_weight)) ? Number(payload.learning_weight) : 1.0;
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('feedback_signals')
+      .insert({
+        user_id: userId,
+        signal_type: signalType,
+        context,
+        content,
+        outcome,
+        learning_weight: learningWeight,
+        processed: false
+      })
+      .select('*')
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  const { rows } = await pool.query(
+    `INSERT INTO public.feedback_signals (user_id, signal_type, context, content, outcome, learning_weight, processed) 
+     VALUES ($1, $2, $3::jsonb, $4, $5::jsonb, $6, FALSE) 
+     RETURNING *`,
+    [userId, signalType, JSON.stringify(context), content, JSON.stringify(outcome), learningWeight]
+  );
+  return rows[0];
+}
+
+async function storeInteractionBatch(payload) {
+  assertStore();
+  const userId = payload.user_id || await getUserFingerprint();
+  const sessionId = payload.session_id || crypto.randomUUID();
+  const batchData = payload.batch_data || {};
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('interaction_batches')
+      .insert({
+        user_id: userId,
+        session_id: sessionId,
+        batch_data: batchData,
+        processed: false
+      })
+      .select('*')
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  const { rows } = await pool.query(
+    `INSERT INTO public.interaction_batches (user_id, session_id, batch_data, processed) 
+     VALUES ($1, $2, $3::jsonb, FALSE) 
+     RETURNING *`,
+    [userId, sessionId, JSON.stringify(batchData)]
+  );
+  return rows[0];
+}
+
+async function getUserPreferences(userId) {
+  if (!pool && !supabase) return getDefaultPreferences();
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('preference_models')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle();
+    if (error) throw error;
+    if (data) return data;
+    return createDefaultPreferences(userId);
+  }
+
+  const { rows } = await pool.query(
+    `SELECT * FROM public.preference_models WHERE user_id = $1`,
+    [userId]
+  );
+  if (rows[0]) return rows[0];
+  return createDefaultPreferences(userId);
+}
+
+async function createDefaultPreferences(userId) {
+  const defaults = {
+    user_id: userId,
+    model_version: 1,
+    feature_weights: {
+      dark_mode_preference: 0.5,
+      compact_ui_preference: 0.5,
+      notifications: 0.5
+    },
+    ui_config: {
+      theme: 'system',
+      density: 'balanced',
+      sidebar_collapsed: false
+    },
+    prediction_accuracy: 0.0,
+    training_examples: 0
+  };
+
+  if (!pool && !supabase) return defaults;
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('preference_models')
+      .insert(defaults)
+      .select('*')
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  const { rows } = await pool.query(
+    `INSERT INTO public.preference_models (user_id, model_version, feature_weights, ui_config, prediction_accuracy, training_examples) 
+     VALUES ($1, $2, $3::jsonb, $4::jsonb, $5, $6) 
+     RETURNING *`,
+    [userId, defaults.model_version, JSON.stringify(defaults.feature_weights), JSON.stringify(defaults.ui_config), defaults.prediction_accuracy, defaults.training_examples]
+  );
+  return rows[0];
+}
+
+async function updateUserPreferences(userId, payload) {
+  assertStore();
+  const existing = await getUserPreferences(userId);
+  const update = {};
+
+  if (payload.delta && typeof payload.delta === 'object') {
+    // Partial update with delta
+    update.feature_weights = { ...existing.feature_weights, ...payload.delta };
+  } else if (payload.feature_weights || payload.ui_config) {
+    // Full model update
+    if (payload.feature_weights) update.feature_weights = payload.feature_weights;
+    if (payload.ui_config) update.ui_config = payload.ui_config;
+  } else {
+    throw new Error('Invalid update payload. Use delta (partial) or full model.');
+  }
+
+  if (payload.training_examples !== undefined) {
+    update.training_examples = Number(payload.training_examples);
+  }
+
+  update.model_version = (existing.model_version || 1) + 1;
+  update.last_updated = new Date().toISOString();
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('preference_models')
+      .update(update)
+      .eq('user_id', userId)
+      .select('*')
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  const { rows } = await pool.query(
+    `UPDATE public.preference_models 
+     SET model_version = $2, feature_weights = $3::jsonb, ui_config = $4::jsonb, training_examples = $5, last_updated = $6
+     WHERE user_id = $1 
+     RETURNING *`,
+    [userId, update.model_version, JSON.stringify(update.feature_weights), JSON.stringify(update.ui_config), update.training_examples || existing.training_examples, update.last_updated]
+  );
+  return rows[0] || existing;
+}
+
+async function getFeedbackAnalytics() {
+  if (!pool && !supabase) {
+    return {
+      signals_by_type: {},
+      trends: [],
+      recommendations: []
+    };
+  }
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('feedback_analytics')
+    // Supabase doesn't support materialized views the same way, so we query the raw data
+    .select('signal_type, count(*), avg(learning_weight)');
+    if (error) throw error;
+    return {
+      signals_by_type: data || {},
+      trends: [], // Would need a separate query for trending
+      recommendations: generateRecommendations(data || [])
+    };
+  }
+
+  const { rows: signalsByType } = await pool.query(
+    `SELECT signal_type, COUNT(*) as count, AVG(learning_weight) as avg_weight
+     FROM public.feedback_signals
+     WHERE timestamp > NOW() - INTERVAL '30 days'
+     GROUP BY signal_type`
+  );
+
+  const { rows: trends } = await pool.query(
+    `SELECT DATE_TRUNC('day', timestamp) as day, signal_type, COUNT(*) as count
+     FROM public.feedback_signals
+     WHERE timestamp > NOW() - INTERVAL '7 days'
+     GROUP BY DATE_TRUNC('day', timestamp), signal_type
+     ORDER BY day DESC, count DESC`
+  );
+
+  return {
+    signals_by_type: signalsByType.reduce((acc, row) => {
+      acc[row.signal_type] = { count: Number(row.count), avg_weight: Number(row.avg_weight) };
+      return acc;
+    }, {}),
+    trends,
+    recommendations: generateRecommendations(signalsByType)
+  };
+}
+
+function generateRecommendations(signalsByType) {
+  const recommendations = [];
+
+  const negativeSignals = signalsByType.find(s => s.signal_type === 'explicit_negative');
+  const positiveSignals = signalsByType.find(s => s.signal_type === 'explicit_positive');
+
+  if (negativeSignals && Number(negativeSignals.count) > 5) {
+    recommendations.push({
+      type: 'alert',
+      message: `${negativeSignals.count} negative feedback signals detected. Review sections with highest negative engagement.`,
+      priority: 'high'
+    });
+  }
+
+  const dwellSignals = signalsByType.find(s => s.signal_type === 'implicit_dwell');
+  if (dwellSignals && Number(dwellSignals.count) > 20) {
+    recommendations.push({
+      type: 'insight',
+      message: 'High dwell time detected. Content is engaging users effectively.',
+      priority: 'medium'
+    });
+  }
+
+  return recommendations;
+}
+
+function getDefaultPreferences() {
+  return {
+    user_id: 'anonymous',
+    model_version: 1,
+    feature_weights: {
+      dark_mode_preference: 0.5,
+      compact_ui_preference: 0.5,
+      notifications: 0.5
+    },
+    ui_config: {
+      theme: 'system',
+      density: 'balanced',
+      sidebar_collapsed: false
+    },
+    prediction_accuracy: 0.0,
+    training_examples: 0
+  };
+}
+
+async function getUserFingerprint() {
+  // Simple user fingerprint based on IP + user agent
+  const hash = crypto.createHash('sha256');
+  return hash.digest('hex').slice(0, 32);
 }
 
 async function getTasks({ allowEmpty = false } = {}) {
@@ -8624,6 +8917,74 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { version, mode: 'dev-hmr-lite', poll_ms: devHmrPollMs });
     }
     if (req.method === 'GET' && reqUrl.pathname === '/api/command-center/kpis') return sendJson(res, 200, await getKpiAggregate());
+
+    // Prediction & Intelligence APIs
+    if (req.method === 'GET' && reqUrl.pathname === '/api/predictions/kpis') {
+      // Generate mock historical data for demonstration
+      const kpiData = {
+        delegations_24h: generateMockHistory('delegations_24h', 90, 24, 0.15),
+        completed_24h: generateMockHistory('completed_24h', 90, 18, 0.12),
+        open_priorities: generateMockHistory('open_priorities', 90, 12, 0.2),
+        active_runs: generateMockHistory('active_runs', 90, 4, 0.25),
+        pipeline_velocity: generateMockHistory('pipeline_velocity', 90, 8, 0.18),
+      };
+
+      const forecasts = generateKpiForecasts(kpiData);
+
+      return sendJson(res, 200, {
+        marker: 'kpi-predictions-v1',
+        generated_at: forecasts.generatedAt,
+        forecasts: forecasts.forecasts.map(f => ({
+          ...f,
+          display_message: formatForecastMessage(f)
+        })),
+        summary: forecasts.summary
+      });
+    }
+
+    if (req.method === 'GET' && reqUrl.pathname === '/api/predictions/anomalies') {
+      // Generate mock metric data for anomaly detection
+      const metricsData = {
+        meeting_booking_rate: generateMockMetricData('meeting_booking_rate', 30, true),
+        email_response_rate: generateMockMetricData('email_response_rate', 30, false),
+        account_engagement: generateMockMetricData('account_engagement', 30, false),
+        delegation_completion: generateMockMetricData('delegation_completion', 30, false),
+        pipeline_velocity: generateMockMetricData('pipeline_velocity', 30, false),
+      };
+
+      const report: AnomalyReport = detectAllAnomalies(metricsData);
+
+      return sendJson(res, 200, {
+        marker: 'anomaly-detection-v1',
+        generated_at: report.generatedAt,
+        health: report.health,
+        summary: report.summary,
+        anomalies: report.anomalies.map(a => ({
+          ...a,
+          display_message: formatAnomalyMessage(a)
+        }))
+      });
+    }
+
+    if (req.method === 'GET' && reqUrl.pathname === '/api/predictions/risks') {
+      // Generate mock deal data for risk scoring
+      const deals = generateMockDealData(12);
+      const report = generateRiskReport(deals);
+
+      return sendJson(res, 200, {
+        marker: 'risk-scoring-v1',
+        generated_at: report.generatedAt,
+        summary: report.summary,
+        top_risks: report.topRisks.map(deal => ({
+          ...deal,
+          display_message: formatRiskMessage(deal)
+        })),
+        improving_deals: report.improvingDeals.map(deal => ({
+          ...deal,
+          display_message: formatRiskMessage(deal)
+        }))
+      });
+    }
     if (req.method === 'GET' && reqUrl.pathname === '/api/reports/daily-gtm-summary') return sendJson(res, 200, await getDailyGtmSummaryReport());
     if (req.method === 'GET' && reqUrl.pathname === '/api/reports/weekly-scorecard') {
       const artifacts = await readStrategyArtifacts();
@@ -8850,6 +9211,85 @@ const server = http.createServer(async (req, res) => {
         apply_result: applyResult,
         run_summary: snapshot,
       });
+    }
+
+    // Preference & Learning APIs (simplified)
+    const userPrefsMatch = reqUrl.pathname.match(/^\/api\/users\/([^/]+)\/preferences$/);
+    if (userPrefsMatch && req.method === 'GET') {
+      const userId = decodeURIComponent(userPrefsMatch[1]);
+      try {
+        // Try to get preferences from database
+        let prefs = null;
+        if (pool) {
+          const result = await pool.query(
+            'SELECT user_id, card_order, updated_at FROM preference_models WHERE user_id = $1',
+            [userId]
+          );
+          if (result.rows.length > 0) {
+            prefs = result.rows[0];
+          }
+        } else if (supabase) {
+          const { data, error } = await supabase
+            .from('preference_models')
+            .select('user_id, card_order, updated_at')
+            .eq('user_id', userId)
+            .single();
+          if (!error && data) prefs = data;
+        }
+        
+        // Return defaults if no preferences found
+        if (!prefs) {
+          return sendJson(res, 200, {
+            user_id: userId,
+            card_order: ['kpi', 'objectives', 'alerts', 'intelligence'],
+            updated_at: new Date().toISOString(),
+            source: 'default',
+          });
+        }
+        
+        return sendJson(res, 200, {
+          user_id: prefs.user_id,
+          card_order: prefs.card_order || ['kpi', 'objectives', 'alerts', 'intelligence'],
+          updated_at: prefs.updated_at,
+          source: 'database',
+        });
+      } catch (err) {
+        console.error('Failed to fetch preferences:', err);
+        return sendJson(res, 500, { error: 'Failed to fetch preferences' });
+      }
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/api/feedback') {
+      try {
+        const body = await readJsonBody(req);
+        const { user_id, signal_type, section } = body || {};
+        
+        if (!user_id || !signal_type) {
+          return sendJson(res, 400, { error: 'Missing required fields: user_id, signal_type' });
+        }
+        
+        // Store feedback signal
+        if (pool) {
+          await pool.query(
+            `INSERT INTO feedback_signals (user_id, signal_type, context, timestamp, processed)
+             VALUES ($1, $2, $3, NOW(), FALSE)`,
+            [user_id, signal_type, JSON.stringify({ section: section || null })]
+          );
+        } else if (supabase) {
+          await supabase.from('feedback_signals').insert({
+            user_id,
+            signal_type,
+            context: { section: section || null },
+            timestamp: new Date().toISOString(),
+            processed: false,
+          });
+        }
+        
+        return sendJson(res, 201, { ok: true, marker: 'feedback-stored-v1' });
+      } catch (err) {
+        console.error('Failed to store feedback:', err);
+        return sendJson(res, 500, { error: 'Failed to store feedback' });
+      }
     }
 
     if (req.method === 'GET' && reqUrl.pathname === '/health') {
@@ -9825,6 +10265,75 @@ const server = http.createServer(async (req, res) => {
         : `Action ${actionId} not found.`;
       const actionState = advanced ? 'success' : 'error';
       return redirect(res, `/actions?action_msg=${encodeURIComponent(actionMsg)}&action_state=${encodeURIComponent(actionState)}`);
+    }
+
+    // ===== FEEDBACK & LEARNING API ENDPOINTS (GATE 3) =====
+    // Store feedback signal
+    if (req.method === 'POST' && reqUrl.pathname === '/api/feedback') {
+      try {
+        const body = await readJsonBody(req);
+        const signal = await storeFeedbackSignal(body);
+        return sendJson(res, 201, { id: signal.id, status: 'stored', marker: 'feedback-signal-v1' });
+      } catch (error) {
+        return sendJson(res, 400, { error: error.message, marker: 'feedback-error-v1' });
+      }
+    }
+
+    // Store batch feedback
+    if (req.method === 'POST' && reqUrl.pathname === '/api/feedback/batch') {
+      try {
+        const body = await readJsonBody(req);
+        const batch = await storeInteractionBatch(body);
+        return sendJson(res, 201, { id: batch.id, status: 'batched', marker: 'feedback-batch-v1' });
+      } catch (error) {
+        return sendJson(res, 400, { error: error.message, marker: 'feedback-batch-error-v1' });
+      }
+    }
+
+    // Get user preferences
+    const userPrefsApiMatch = reqUrl.pathname.match(/^\/api\/users\/([^/]+)\/preferences$/);
+    if (userPrefsApiMatch && req.method === 'GET') {
+      try {
+        const userId = decodeURIComponent(userPrefsApiMatch[1]);
+        const prefs = await getUserPreferences(userId);
+        return sendJson(res, 200, {
+          feature_weights: prefs.feature_weights,
+          ui_config: prefs.ui_config,
+          prediction_accuracy: prefs.prediction_accuracy,
+          marker: 'user-preferences-v1'
+        });
+      } catch (error) {
+        return sendJson(res, 404, { error: error.message, marker: 'user-preferences-error-v1' });
+      }
+    }
+
+    // Update user preferences
+    if (userPrefsApiMatch && req.method === 'POST') {
+      try {
+        const userId = decodeURIComponent(userPrefsApiMatch[1]);
+        const body = await readJsonBody(req);
+        const updated = await updateUserPreferences(userId, body);
+        return sendJson(res, 200, {
+          updated: true,
+          version: updated.model_version,
+          marker: 'user-preferences-update-v1'
+        });
+      } catch (error) {
+        return sendJson(res, 400, { error: error.message, marker: 'user-preferences-update-error-v1' });
+      }
+    }
+
+    // Get feedback analytics
+    if (req.method === 'GET' && reqUrl.pathname === '/api/feedback/analytics') {
+      try {
+        const analytics = await getFeedbackAnalytics();
+        return sendJson(res, 200, {
+          ...analytics,
+          marker: 'feedback-analytics-v1'
+        });
+      } catch (error) {
+        return sendJson(res, 500, { error: error.message, marker: 'feedback-analytics-error-v1' });
+      }
     }
 
     return send(res, 404, '<h1>Not Found</h1><p>Try <a href="/">/</a>, <a href="/targeting">/targeting</a>, <a href="/relationships">/relationships</a>, <a href="/actions">/actions</a>, <a href="/pilot">/pilot</a>, <a href="/research">/research</a>, or <a href="/ops">/ops</a>.</p>');
