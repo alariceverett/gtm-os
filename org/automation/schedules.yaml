@@ -6,7 +6,7 @@ schedules:
   # Daily standup — each division reports async
   - name: daily-standup
     schedule: "0 7 * * *"
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4-6
     fallback: ollama/kimi-k2.5:cloud
     prompt: |
       Read org/WORK_QUEUE.md. For each active item, report: status, blockers, next steps.
@@ -15,7 +15,7 @@ schedules:
   # Skill builder — auto-discovers and builds needed skills
   - name: skill-builder
     schedule: "0 6,18 * * *"
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4-6
     fallback: ollama/kimi-k2.5:cloud
     prompt: |
       You are the Skill Builder. Read org/SKILL_DISCOVERY.md for your full process.
@@ -26,7 +26,7 @@ schedules:
   # Weekly review — learning system aggregation
   - name: weekly-review
     schedule: "0 9 * * 1"
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4-6
     fallback: ollama/kimi-k2.5:cloud
     prompt: |
       Run the weekly review using org/learning/WEEKLY_REVIEW_TEMPLATE.md.
@@ -35,9 +35,19 @@ schedules:
   # Prompt evolution — analyze and improve agent prompts
   - name: prompt-evolution
     schedule: "0 3 * * *"
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4-6
     fallback: ollama/kimi-k2.5:cloud
     prompt: |
       Run org/engine/evolve_prompt.js for each registered subagent role.
       Identify drift, redundancy, or under-performance.
       Propose changes as PR into prompt repo.
+
+  # Fast tasks — use Haiku for speed
+  - name: quick-checks
+    schedule: "*/30 * * * *"
+    model: anthropic/claude-haiku-4-5
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      Quick health check: verify gateway status, queue depth, and subagent activity.
+      If all normal, reply HEARTBEAT_OK with brief summary.
+      If issues found, report immediately.
