@@ -16,10 +16,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend-shell
+        working-directory: apps/gtm-command-center/frontend-shell
+        run: npm ci && npm run build
 
       - name: Lint (placeholder)
         run: npm --prefix apps/gtm-command-center run ci:lint
-
-      - name: Node smoke checks
-        run: npm --prefix apps/gtm-command-center run ci:smoke

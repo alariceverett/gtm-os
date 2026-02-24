@@ -1,0 +1,10 @@
+# Global owners for critical paths
+* @alariceverett
+
+# Operations and configuration files
+ops/ @alariceverett
+org/ @alariceverett
+.github/ @alariceverett
+
+# GTM Command Center application
+apps/gtm-command-center/ @alariceverett
