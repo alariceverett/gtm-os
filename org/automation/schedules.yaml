@@ -1,21 +1,22 @@
 # AlEverett Automation Schedules
-# Primary: Claude (when OAuth configured)
-# Fallback: ollama/kimi-k2.5:cloud (always available, zero cost)
+# Qwen3:14b = Primary (general purpose, local, fast)
+# Kimi K2.5 = Reasoning fallback (deep context, local)
+# Claude = Paid reasoning (when OAuth'd, for complex synthesis)
 
 schedules:
-  # Daily standup — each division reports async
+  # Daily standup — Kimi for reliable long-context summarization
   - name: daily-standup
     schedule: "0 7 * * *"
-    model: anthropic/claude-sonnet-4-6
-    fallback: ollama/kimi-k2.5:cloud
+    model: ollama/kimi-k2.5:cloud
+    fallback: ollama/qwen3:14b
     prompt: |
       Read org/WORK_QUEUE.md. For each active item, report: status, blockers, next steps.
       Write summary to org/team/meetings/standups/{{ date "YYYY-MM-DD" }}.md
 
-  # Skill builder — auto-discovers and builds needed skills
+  # Skill builder — Qwen3 for fast local builds (no API cost)
   - name: skill-builder
     schedule: "0 6,18 * * *"
-    model: anthropic/claude-sonnet-4-6
+    model: ollama/qwen3:14b
     fallback: ollama/kimi-k2.5:cloud
     prompt: |
       You are the Skill Builder. Read org/SKILL_DISCOVERY.md for your full process.
@@ -23,7 +24,7 @@ schedules:
       Build the highest-priority missing skill.
       If no gaps exist, reply HEARTBEAT_OK.
 
-  # Weekly review — learning system aggregation
+  # Weekly review — Claude Sonnet for synthesis (when available)
   - name: weekly-review
     schedule: "0 9 * * 1"
     model: anthropic/claude-sonnet-4-6
@@ -32,22 +33,31 @@ schedules:
       Run the weekly review using org/learning/WEEKLY_REVIEW_TEMPLATE.md.
       Aggregate after-actions, extract patterns, update skill trees.
 
-  # Prompt evolution — analyze and improve agent prompts
+  # Prompt evolution — Kimi for deep reasoning on prompts
   - name: prompt-evolution
     schedule: "0 3 * * *"
-    model: anthropic/claude-sonnet-4-6
-    fallback: ollama/kimi-k2.5:cloud
+    model: ollama/kimi-k2.5:cloud
+    fallback: ollama/qwen3:14b
     prompt: |
       Run org/engine/evolve_prompt.js for each registered subagent role.
       Identify drift, redundancy, or under-performance.
       Propose changes as PR into prompt repo.
 
-  # Fast tasks — use Haiku for speed
+  # Fast checks — Qwen3 for speed and zero cost
   - name: quick-checks
     schedule: "*/30 * * * *"
-    model: anthropic/claude-haiku-4-5
-    fallback: ollama/kimi-k2.5:cloud
+    model: ollama/qwen3:14b
+    fallback: anthropic/claude-haiku-4-5
     prompt: |
       Quick health check: verify gateway status, queue depth, and subagent activity.
       If all normal, reply HEARTBEAT_OK with brief summary.
       If issues found, report immediately.
+
+  # Complex coding tasks — Claude Opus (when OAuth available)
+  - name: code-review
+    schedule: "0 2 * * *"
+    model: anthropic/claude-opus-4-6
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      Review open PRs for code quality, security, and alignment with standards.
+      Flag issues and suggest improvements.
