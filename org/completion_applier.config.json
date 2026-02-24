@@ -1,0 +1,7 @@
+{
+  "poll_seconds": 30,
+  "active_window_minutes": 20,
+  "lock_stale_seconds": 180,
+  "max_applies_per_tick": 3,
+  "validation_command": ""
+}

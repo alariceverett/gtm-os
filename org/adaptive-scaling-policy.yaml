@@ -1,0 +1,78 @@
+version: 1
+name: adzeta_weekend_parallel_scaling
+scope: subagent_worker_pool
+worker_range:
+  min: 1
+  max: 5
+
+goals:
+  - Keep completion throughput high without triggering failure/retry cascades.
+  - Prefer gradual ramps (one worker per decision interval).
+  - Back off quickly on reliability/rate-limit signals.
+
+decision_interval_minutes: 20
+cooldown_after_change_minutes: 20
+
+inputs:
+  telemetry_command: "python3 scripts/throughput_telemetry.py --since-days 2 --json"
+  metrics:
+    - runs_done
+    - runs_failed_or_retry
+    - runs_active_or_unknown
+    - avg_runtime_minutes_est
+
+thresholds:
+  high_fail_ratio: 0.25   # failed_or_retry / (done + failed_or_retry), min sample >= 4
+  medium_fail_ratio: 0.15
+  queue_pressure_high: 6  # active_or_unknown runs waiting/in-flight
+  queue_pressure_low: 2
+  runtime_regression_factor: 1.4  # vs last stable window
+
+step_up_rules:
+  - if: "current_workers < 5 AND fail_ratio < 0.15 AND queue_pressure >= 6 AND runtime_not_regressing"
+    action: "workers = current_workers + 1"
+    reason: "Headroom exists; increase throughput carefully."
+
+step_down_rules:
+  - if: "fail_ratio >= 0.25 OR explicit_rate_limit_signal"
+    action: "workers = max(1, current_workers - 2)"
+    reason: "Hard backoff on instability/rate limits."
+  - if: "0.15 <= fail_ratio < 0.25 OR runtime_regression"
+    action: "workers = max(1, current_workers - 1)"
+    reason: "Soft backoff to recover reliability."
+  - if: "queue_pressure <= 2 for 2 consecutive intervals"
+    action: "workers = max(1, current_workers - 1)"
+    reason: "Reduce idle parallelism."
+
+worker_profiles:
+  "1":
+    mode: stabilization
+    use_when: "High failures, active incident, or unknown environment state"
+  "2":
+    mode: conservative
+    use_when: "Default when starting weekend sprint"
+  "3":
+    mode: balanced
+    use_when: "Stable completion and moderate queue pressure"
+  "4":
+    mode: aggressive
+    use_when: "Low fail ratio and sustained queue pressure"
+  "5":
+    mode: burst
+    use_when: "Short burst only; require explicit monitoring each interval"
+
+rate_signal_backoff:
+  triggers:
+    - "429 / rate limit responses"
+    - "provider throttle warnings"
+    - "repeated timeout spikes"
+  action:
+    immediate: "drop workers by 2 (minimum 1)"
+    hold_minutes: 40
+    recovery: "No step-up until two clean intervals"
+
+safety_guards:
+  - "Change worker count at most once per interval."
+  - "Never exceed 5 workers."
+  - "If two consecutive intervals worsen fail ratio, force step-down by 1."
+  - "Keep one worker reserved for integration/fix-forward tasks when failures emerge."

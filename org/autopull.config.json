@@ -1,0 +1,13 @@
+{
+  "target_workers": 4,
+  "session_cap": 5,
+  "poll_seconds": 45,
+  "active_window_minutes": 30,
+  "lock_stale_seconds": 180,
+  "idempotency_cooldown_seconds": 900,
+  "parent_session_key": "agent:main:main",
+  "spawn_method": "sessions_spawn",
+  "event_hook_enabled": true,
+  "event_check_ms": 750,
+  "event_refill_debounce_seconds": 2
+}

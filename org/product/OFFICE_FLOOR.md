@@ -4,6 +4,8 @@
 
 ## What You See
 
+**Helper text:** Use this view to understand team activity at a glance, then click an agent to take action.
+
 A top-down (or orbit-able) 3D office space divided into zones — one per division. Each zone has:
 
 - **Furniture** — desks, chairs, whiteboards, plants (visual anchoring)
@@ -83,8 +85,8 @@ Each agent is rendered as a stylized 3D figure (low-poly humanoid). Agents displ
 | **Name** | Agent roster | Billboard text above head |
 | **Role** | Agent roster | Subtitle text |
 | **Division** | Agent config | Position in zone + color tint |
-| **Status** | Live delegation data | Aura color + pose animation |
-| **Current task** | Active delegation | Tooltip on hover |
+| **Status** | Live assignment data | Aura color + pose animation |
+| **Current task** | Active assignment | Tooltip on hover |
 
 ### 12 Animation Poses
 
@@ -149,6 +151,8 @@ Zones and positions are fully customizable — add divisions, rearrange the floo
 
 ## Camera Controls
 
+**Helper text:** Move through the floor quickly to inspect teams, focus on one agent, and return to the default view.
+
 - **Orbit** — click + drag to rotate the scene
 - **Zoom** — scroll wheel or pinch
 - **Pan** — right-click + drag (or two-finger drag)
@@ -166,20 +170,22 @@ The Office Floor isn't a static scene — it pulls real-time data from your Forg
 | Data | Source | Updates |
 |------|--------|---------|
 | Agent roster | `cc_delegations` table (distinct agents) | On org change |
-| Agent status | `cc_delegations.status` | Supabase Realtime |
-| Current tasks | `cc_delegations.task` (active) | Supabase Realtime |
+| Agent status | `cc_delegations.status` (assignment status) | Supabase Realtime |
+| Current tasks | `cc_delegations.task` (current assignment) | Supabase Realtime |
 | Division layout | Org config / `DELEGATION_SYSTEM.md` | On config change |
 | Decision activity | `cc_decisions` | Realtime (for presenting poses) |
 
-When an agent's delegation status changes in the database, their avatar transitions to the corresponding pose within seconds. No refresh needed.
+When an agent's assignment status changes in the database, their avatar shifts to the matching pose within seconds. No refresh needed.
 
 ### Fallback: Mock Data
 
-If Supabase isn't connected (or no delegations exist yet), the Office Floor renders with mock agents so the scene is never empty. This is great for demos and first impressions.
+If Supabase isn't connected (or no assignments exist yet), the Office Floor renders mock agents so the scene is never empty. This is useful for demos and first impressions.
 
 ---
 
 ## Click Interaction
+
+**Helper text:** Select an agent to review context and trigger a next step immediately.
 
 Click any agent → a detail panel slides in from the right:
 
@@ -196,8 +202,8 @@ Click any agent → a detail panel slides in from the right:
 │  • DEC-042: Approve...   │
 │  • DEC-041: Delegate...  │
 │                          │
-│  [💬 Message] [📋 Tasks]  │
-│  [📊 History] [⚙️ Config] │
+│  [💬 Send message] [📋 View tasks]  │
+│  [📊 View history] [⚙️ Open settings] │
 └─────────────────────────┘
 ```
 

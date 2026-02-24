@@ -1,0 +1,22 @@
+{
+  "execution": {
+    "model": "openai-codex/gpt-5.3-codex",
+    "purpose": "coding, integration, implementation"
+  },
+  "strategy": {
+    "model": "openai/gpt-5",
+    "purpose": "planning, prioritization, tradeoffs"
+  },
+  "design_critic": {
+    "model": "anthropic/claude-3.7-sonnet",
+    "purpose": "UX/UI critique and enterprise polish gating"
+  },
+  "qa_gate": {
+    "model": "openai/gpt-5-mini",
+    "purpose": "deterministic pass/fail checks and regression verification"
+  },
+  "release_comms": {
+    "model": "openai/gpt-5-mini",
+    "purpose": "concise proof packs and operator updates"
+  }
+}

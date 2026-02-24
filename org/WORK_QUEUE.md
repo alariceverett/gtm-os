@@ -1,6 +1,6 @@
 # WORK_QUEUE.md
 
-_Last updated: 2026-02-22 09:10 ET_
+_Last updated: 2026-02-23 00:00 ET_
 
 ## NOW (active)
 
@@ -15,6 +15,18 @@ _Last updated: 2026-02-22 09:10 ET_
    - Output: KPI-linked deliveries only, proof-first updates, no scope drift
    - Status: IN PROGRESS
    - KPI scoreboard: qualified accounts, positive replies/meetings, pilot conversion, time-to-next-human-action
+
+0.1 **AdZeta — GTM Command Center KPI hierarchy + dashboard IA (v1)**
+   - Owner: Ops/Intelligence (definitions) + Product (IA) + Build (instrumentation)
+   - Output: canonical KPI hierarchy (L0→L2), dashboard IA sections + ownership, KPI↔event mapping, smoke checks, 24–48h implementation sequence
+   - Status: DONE (artifact updated)
+   - Artifacts:
+     - `org/adzeta/KPI_HIERARCHY_AND_DASHBOARD_IA.md`
+     - `org/adzeta/DATA_CONTRACT_EVENT_SCHEMA_V1.md`
+   - Follow-ups (implementation):
+     - Add `data-verify` markers (`kpi-scoreboard-v1`, `evidence-feed-v1`, `funnel-slices-v1`, `data-quality-v1`) to `/ops`.
+     - Implement write-time enforcement for `evidence_ref` on KPI-driver event types.
+     - Add `/api/kpi/scoreboard` (or equivalent) returning event_id trace lists.
 
 
 1. **AdZeta — Comms + Account/Individual split views (home + ops coherence)**
@@ -73,15 +85,28 @@ _Last updated: 2026-02-22 09:10 ET_
 
 1. **AdZeta — data contract + event schema pass**
    - Output: minimal schema list for first dashboard/reporting loop
-   - Status: DONE (awaiting result extraction)
+   - Status: DONE (results extracted)
+   - Artifacts:
+     - `org/adzeta/DATA_CONTRACT_EVENT_SCHEMA_V1.md`
+     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
+   - Follow-up: implement DB migrations + verifier to lock taxonomy and enforce `evidence_ref`.
 
 2. **AdZeta — GitHub setup baseline**
    - Output: repo wiring check, branch/PR guardrail recommendation, CI readiness checklist
-   - Status: DONE (run a7b5694e, awaiting result extraction)
+   - Status: DONE (run a7b5694e; results extracted)
+   - Artifacts:
+     - `org/adzeta/GITHUB_SETUP_BASELINE.md`
+     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
+   - Follow-up: execute checklist against the actual repo and capture branch/workflow/protection proof.
 
 3. **AdZeta — Vercel setup baseline**
-   - Output: project link plan, env mapping checklist, firstt-deploy runbook
-   - Status: DONE (run a318df60, awaiting result extraction)
+   - Output: project link plan, env mapping checklist, first-deploy runbook
+   - Status: DONE (run a318df60; results extracted)
+   - Artifacts:
+     - `org/adzeta/VERCEL_SETUP_BASELINE.md`
+     - `org/adzeta/DEPLOYMENT_VERIFICATION_CHECKLIST.md`
+     - `org/adzeta/RB-003_EXTRACTION_PROOF_BUNDLE_2026-02-22.md`
+   - Follow-up: link project + set env vars + run first deploy runbook; record preview/prod URLs and smoke checks.
 
 4. **Restaurant app — first production candidate slice**
    - Output: one user-visible flow with test checklist

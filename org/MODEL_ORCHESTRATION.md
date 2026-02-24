@@ -26,9 +26,11 @@ Use the right model lane for each task type to improve quality and speed.
 
 ## Routing Rules
 - Every task must declare lane at spawn.
+- Every spawn must set explicit `model` using `org/MODEL_LANE_MAPPING.json`.
 - No UI merge without Design Critic + QA Gate pass.
 - No strategy decisions without Strategy Lane review.
 - No release update without Proof Gate evidence.
+- /ops must show lane -> model mapping for active runs.
 
 ## Escalation Rules
 - If design score declines 2 cycles: force Design Critic lane on all UI changes.

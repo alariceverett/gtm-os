@@ -1,0 +1,8 @@
+{
+  "parent_session_key": "agent:main:main",
+  "spawn_method": "sessions_spawn",
+  "active_window_minutes": 30,
+  "active_child_cap": 5,
+  "poll_seconds": 45,
+  "max_lanes": 6
+}

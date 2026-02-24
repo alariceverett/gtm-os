@@ -1,21 +1,21 @@
-# Command Center — Forge's Operating UI
+# Command Center — Your Executive Control Panel
 
-> **The Command Center (CC) is how you see, steer, and interact with your AI organization.** It's the default dashboard that ships with every Forge instance — a real-time operating interface, not just a chat window.
+> **Run the business from one screen.** The Command Center gives you a live view of work, decisions, approvals, and team communication.
 
 ## Why This Exists
 
-Most AI tools give you a chat box. Forge gives you an **organization**. The Command Center is how you run it: watch your agents work in 3D, approve decisions, track tasks, monitor metrics, and communicate — all from one screen.
+Most AI tools stop at chat. Forge gives you an operating system for your organization. The Command Center helps you see what is happening, decide quickly, and move work forward.
 
 ---
 
-## Architecture: 3-Zone Layout
+## Layout: 3 Main Areas
 
 ```
 ┌──────────┬─────────────────────────────────┬──────────┐
 │          │                                  │          │
 │  Left    │        Main Workspace            │  Right   │
 │  Rail    │                                  │  Panel   │
-│          │   (Office Floor / Task Board /   │ (Comms)  │
+│          │   (Office Floor / Work Board /   │ (Comms)  │
 │  Nav     │    Decisions / Metrics / etc.)   │          │
 │  240px   │                                  │  320px   │
 │          │                                  │          │
@@ -24,81 +24,101 @@ Most AI tools give you a chat box. Forge gives you an **organization**. The Comm
 └────────────────────────────────────────────┴───────────┘
 ```
 
-### Left Rail — Navigation
+### Left Rail — Navigate Fast
+**Helper text:** Use this rail to jump to any workspace and see what needs your attention now.
 
-- **View switcher** — Office Floor, Decision Tree, Task Board, Approvals, Metrics, Activity, Config
-- **Tabbed workspace** — open multiple views like browser tabs
-- **Org status** — active agents count, pending approvals badge, system health
+- **View switcher** — Office Floor, Decision Map, Work Board, Approvals, Metrics, Activity, Settings
+- **Tabs** — keep multiple views open like browser tabs
+- **Org status** — active agents, pending approvals, system health
 - Collapsible to icon-only mode on smaller screens
 
-### Main Workspace — Where the Work Happens
+### Main Workspace — Do the Work
+**Helper text:** Open a view, review context, and take action without leaving the page.
 
-The central area renders the active view. Supports tabbed navigation so you can keep multiple views open simultaneously.
+The center panel shows your active view and supports tabs so you can compare multiple workflows side by side.
 
-### Right Panel — Communications
+### Right Panel — Communicate and Respond
+**Helper text:** Stay aligned with your team by handling updates, alerts, and threaded discussion in one place.
 
-- **Messages** — async comms between you and the org
-- **Notifications** — system events, completions, alerts
-- **Comments** — inline discussion on decisions, tasks, approvals
+- **Messages** — direct updates between you and the organization
+- **Alerts** — completions, exceptions, and important events
+- **Comments** — discussion tied to tasks, decisions, and approvals
 - Collapsible, slides in as a drawer on mobile
 
 ---
 
 ## Default Views
 
-Every Forge instance ships with these views ready to go:
+Every Forge instance includes these views out of the box:
 
 ### 🏢 Office Floor
-**The flagship view.** A 3D visualization of your AI org at work, built with Three.js. Watch agents move between zones, see who's working on what, click any agent for details. This is what makes Forge feel alive.
+**Helper text:** See who is working on what right now, then click any agent to follow up.
+
+A 3D view of your AI organization in motion. Track activity in real time, open agent details, and identify bottlenecks quickly.
 
 → Full spec: [OFFICE_FLOOR.md](OFFICE_FLOOR.md)
 
-### 🌳 Decision Tree
-Visual decision flow powered by React Flow. See every decision your org has made, its status, relationships, and delegations. Nodes are color-coded by status (pending/active/complete/blocked). Zoom, pan, and click any node for full context.
+### 🌳 Decision Map
+**Helper text:** Review key decisions, understand why they were made, and unblock stalled items.
 
-**Data source:** `cc_decisions` table — flows from `record_decision.js`
+Visual flow of decisions and dependencies, color-coded by status (pending / active / complete / blocked).
 
-### 📋 Task Board
-Kanban board built with dnd-kit. Four columns: **Todo → Active → Review → Done**. Cards show assignee, priority, deadline, and blockers. Drag to reorder or move between states.
+**Data source:** `cc_decisions` table — written by `record_decision.js`
 
-**Data source:** `cc_delegations` table — tasks created via `record_delegation.js`
+### 📋 Work Board
+**Helper text:** Move work from planned to finished and spot blockers before they slow delivery.
+
+Kanban board with four columns: **To Do → In Progress → In Review → Done**. Cards show owner, priority, due date, and blockers.
+
+**Data source:** `cc_delegations` table — written by `record_delegation.js`
 
 ### ✅ Approvals
-Unified feed of everything that needs your sign-off. Decisions above the agent's authority, deployments, budget items, strategy changes. Each item shows context, the requesting agent, urgency, and one-click approve/reject.
+**Helper text:** Make fast, informed approvals on high-impact requests.
+
+Single queue for anything requiring sign-off (high-authority decisions, deployments, budget changes, strategy shifts). Each item includes context, requester, urgency, and clear actions:
+
+- **Approve request**
+- **Reject request**
 
 **Data source:** `cc_decisions` where `requires_approval = true`
 
-### 📊 Metrics Dashboard
-KPI cards with sparklines. Default metrics:
+### 📊 Metrics
+**Helper text:** Track business performance and act early when trends shift.
+
+Default KPI cards:
 - **Revenue** — total and trend
-- **Costs** — infrastructure, API, operational
+- **Costs** — infrastructure, API, operations
 - **Margins** — gross and net
 - **Throughput** — decisions/day, tasks completed/day, cycle time
 - **Quality** — process compliance %, error rate
 
-Cards are customizable — add any metric your org tracks.
+Cards are customizable so you can add any metric your team tracks.
 
-### 📡 Activity Stream
-Chronological feed of everything happening in the org. Decision made, task delegated, process started, skill built, approval requested. Filterable by division, agent, event type. Your audit trail.
+### 📡 Activity
+**Helper text:** Scan a live timeline of work, then open any event for full context.
+
+Chronological feed across the organization: decisions, assignments, process runs, approvals, and outcomes. Filter by team, agent, or event type.
 
 **Data source:** Aggregated from all `cc_*` tables
 
-### ⚙️ Config
-- **Cron management** — view, enable/disable, edit schedules for all org crons
-- **Model configuration** — tier assignments, usage tracking
-- **Settings** — org name, divisions, feature toggles
+### ⚙️ Settings
+**Helper text:** Configure schedules, models, and organization preferences.
+
+- **Manage schedules** — view, enable/disable, and edit recurring jobs
+- **Set model policy** — assign models by workload tier and track usage
+- **Update org settings** — organization name, divisions, feature toggles
 
 ---
 
 ## Command Bar (⌘K)
 
-Press `⌘K` (or `Ctrl+K`) anywhere to open the command bar. Fuzzy search across:
+Press `⌘K` (or `Ctrl+K`) from anywhere to open the command bar.
 
-- **Views** — jump to any view instantly
-- **Agents** — find an agent, see their status
-- **Decisions** — search decision history
-- **Tasks** — find a task by name or ID
-- **Actions** — create task, record decision, send message, approve item
+- **Go to view** — jump to any workspace
+- **Find agent** — locate an agent and open status
+- **Find decision** — search decision history
+- **Find task** — search by task name or ID
+- **Run action** — create task, record decision, send message, approve item
 
 Built with [cmdk](https://cmdk.paco.me/).
 
@@ -109,7 +129,7 @@ Built with [cmdk](https://cmdk.paco.me/).
 | Shortcut | Action |
 |----------|--------|
 | `⌘K` | Open command bar |
-| `⌘1–7` | Switch to view 1–7 (Office, Decisions, Tasks, Approvals, Metrics, Activity, Config) |
+| `⌘1–7` | Switch views (Office, Decisions, Work, Approvals, Metrics, Activity, Settings) |
 | `⌘[` / `⌘]` | Previous / next tab |
 | `⌘W` | Close current tab |
 | `⌘.` | Toggle right panel |
@@ -121,24 +141,24 @@ Built with [cmdk](https://cmdk.paco.me/).
 
 ## Data Layer
 
-The Command Center requires **Supabase** for data persistence. All views read from and write to these tables:
+The Command Center uses **Supabase** for persistence. Views read and write these tables:
 
 | Table | Purpose |
 |-------|---------|
 | `cc_decisions` | Decision records with status, authority level, reasoning |
-| `cc_delegations` | Task assignments with assignee, status, deadline |
-| `cc_messages` | Async communications (you ↔ org) |
-| `cc_priorities` | Priority queue items with urgency scoring |
+| `cc_delegations` | Work assignments with owner, status, due date |
+| `cc_messages` | Asynchronous communication (you ↔ org) |
+| `cc_priorities` | Prioritized work items with urgency scoring |
 | `cc_steps` | Reasoning steps linked to decisions |
 | `cc_process_runs` | Process execution tracking with timing and ratings |
 | `cc_prompt_versions` | Prompt evolution history |
-| `cc_learnings` | Organizational learnings from after-actions |
+| `cc_learnings` | Organizational learnings from after-action reviews |
 
-**API layer:** Two Supabase Edge Functions handle all CC data:
+**API layer:** Two Supabase Edge Functions handle all data access:
 - **`cc-read`** — authenticated read access with RLS
 - **`cc-write`** — authenticated write access with validation
 
-See [CC_SETUP_GUIDE.md](CC_SETUP_GUIDE.md) for the full schema and setup steps.
+See [CC_SETUP_GUIDE.md](CC_SETUP_GUIDE.md) for full schema and setup steps.
 
 ---
 
@@ -147,26 +167,26 @@ See [CC_SETUP_GUIDE.md](CC_SETUP_GUIDE.md) for the full schema and setup steps.
 | Component | Library | Why |
 |-----------|---------|-----|
 | 3D rendering | Three.js + @react-three/fiber + @react-three/drei | Office Floor |
-| Flow diagrams | @xyflow/react (React Flow) | Decision Tree |
-| Kanban | @dnd-kit/core + @dnd-kit/sortable | Task Board |
-| Command bar | cmdk | ⌘K palette |
-| State management | zustand | Lightweight, no boilerplate |
-| Charts | recharts or visx | Metrics sparklines |
+| Flow diagrams | @xyflow/react (React Flow) | Decision Map |
+| Kanban | @dnd-kit/core + @dnd-kit/sortable | Work Board |
+| Command bar | cmdk | Keyboard command palette |
+| State management | zustand | Lightweight state |
+| Charts | recharts or visx | KPI sparklines |
 | Data | Supabase (PostgreSQL + Realtime) | Persistence + live updates |
 
 ---
 
-## Real-time Updates
+## Live Updates
 
-The CC subscribes to Supabase Realtime channels for live data:
+The Command Center subscribes to Supabase Realtime channels:
 
-- **Decisions** — new decisions appear instantly in Decision Tree
-- **Delegations** — task status changes reflect on Task Board and Office Floor
-- **Messages** — comms panel updates in real-time
-- **Agent status** — Office Floor agents change pose/activity as work happens
+- **Decisions** — new items appear immediately in Decision Map
+- **Assignments** — status changes update Work Board and Office Floor
+- **Messages** — communication panel refreshes live
+- **Agent status** — Office Floor activity updates as work changes
 
-No polling. No refresh button. The org moves and the UI moves with it.
+No manual refresh required.
 
 ---
 
-*The Command Center is available as a separate starter package. These docs describe what it is and how it works — see [CC_SETUP_GUIDE.md](CC_SETUP_GUIDE.md) to set it up.*
+*The Command Center is available as a separate starter package. This doc explains the product and workflow. See [CC_SETUP_GUIDE.md](CC_SETUP_GUIDE.md) for implementation details.*

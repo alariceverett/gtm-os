@@ -19,6 +19,12 @@ If any step is missed => `AUTONOMY_GAP` incident.
 - Pilot candidate conversion
 - Time-to-next-human-action
 
+## V2 workflow enforcement (WORK_QUEUE metadata)
+- Every item in `## NOW (active)` must include a metadata line:
+  - `Outcome metric:` or `Outcome metrics:` followed by at least one measurable metric.
+- Missing metric mapping on an active NOW item is automatically flagged as `AUTONOMY_GAP`.
+- Gate checker: `python3 scripts/outcome_gate_report.py`
+
 ## Quality gates (must pass before “done”)
 - Purpose clarity in <30 seconds
 - Core flow <=5 clicks

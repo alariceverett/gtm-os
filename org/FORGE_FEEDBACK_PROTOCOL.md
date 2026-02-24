@@ -25,6 +25,18 @@ Ensure field learnings, drift, and missing scaffolding are consistently pushed u
 - Critical reliability/security gaps: immediately
 - Workflow/process gaps: within the same working block (no later than next heartbeat)
 
+## Freshness guard (active execution)
+- **Rule:** while execution is active, a Forge upstream touchpoint must be refreshed at least every **<60 minutes**.
+- **Enforcement:** run `scripts/check_upstream_freshness.py` (default threshold: 60m).
+- **Evidence log:** append each touchpoint to `org/feedback/UPSTREAM_CADENCE_LOG.md` using ISO-8601 timestamps.
+
+### Remediation when stale
+If freshness check fails:
+1. Open/update/comment on the active Forge upstream issue immediately.
+2. Append a new entry in `org/feedback/UPSTREAM_CADENCE_LOG.md` with timestamp + issue reference.
+3. Re-run `scripts/check_upstream_freshness.py` and proceed only after PASS.
+4. If upstream is unavailable, mark local status `UPSTREAM_PENDING` with reason and retry target time in queue notes.
+
 ## Quality bar
 - No vague feedback. Include concrete reproduction and acceptance test.
 - If local patch is applied, upstream communication is still mandatory.

@@ -97,6 +97,56 @@ openclaw gateway start
 #    Then seed skill gaps for auto-discovery
 ```
 
+## CI Baseline Checks
+
+A minimal GitHub Actions baseline now runs on every `push` and `pull_request`.
+
+Current checks (for `apps/gtm-command-center`):
+
+- **Lint placeholder** (`ci:lint`) — intentionally pass-oriented while lint rules are still being formalized
+- **Node smoke checks** (`ci:smoke`) — syntax validation for key runtime/script files using `node --check`
+
+Run locally:
+
+```bash
+npm --prefix apps/gtm-command-center run ci:lint
+npm --prefix apps/gtm-command-center run ci:smoke
+```
+
+Workflow file:
+
+- `.github/workflows/ci.yml`
+
+## AdZeta GTM Command Center (Current Operational Snapshot)
+
+The local-first AdZeta command center is now live at:
+
+- `http://localhost:1981/`
+- `http://localhost:1981/setup`
+
+### Operational capabilities (current)
+
+- Root multi-panel dashboard (KPI, readiness, execution board, operator actions)
+- Monday readiness API + CLI summary (`/api/readiness/monday`, `npm run readiness:monday`)
+- KPI aggregation endpoint (`/api/command-center/kpis`)
+- Funnels + sequence APIs and dashboard sections
+- Lead magnet/teaser product asset APIs + status panel
+- Meeting ingestion + follow-up advancement + client update transitions
+- Alert rules panel from local config (`apps/gtm-command-center/lib/alert-rules.json`)
+- Health + metrics endpoints (`/health`, `/api/metrics/snapshot`, `/metrics`)
+- Versioned schema migration runner + backup/safe restore drills
+
+### Monday readiness summary (latest local verification)
+
+- **State:** `NO_GO`
+- **Pass/Fail gates:** `5 pass / 2 fail`
+- **Primary blockers:**
+  - `Work queue not blocked` gate failed (`blocked=8`, required `<3`)
+  - `Waiting-on-user bounded` gate failed (`waiting_on_user=8`, required `<3`)
+- **Runtime:** connected (`runtime_mode=pg`, health endpoint OK)
+
+> For full operator docs and runbooks, see `apps/gtm-command-center/README.md`.
+
 ## Building Your First App
 
 Forge now includes a complete **App Bootstrap** system — go from idea to deployed app in one session.
