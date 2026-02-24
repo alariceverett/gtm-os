@@ -1,0 +1,43 @@
+# AlEverett Automation Schedules
+# Primary: Claude (when OAuth configured)
+# Fallback: ollama/kimi-k2.5:cloud (always available, zero cost)
+
+schedules:
+  # Daily standup — each division reports async
+  - name: daily-standup
+    schedule: "0 7 * * *"
+    model: anthropic/claude-3-5-sonnet-20241022
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      Read org/WORK_QUEUE.md. For each active item, report: status, blockers, next steps.
+      Write summary to org/team/meetings/standups/{{ date "YYYY-MM-DD" }}.md
+
+  # Skill builder — auto-discovers and builds needed skills
+  - name: skill-builder
+    schedule: "0 6,18 * * *"
+    model: anthropic/claude-3-5-sonnet-20241022
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      You are the Skill Builder. Read org/SKILL_DISCOVERY.md for your full process.
+      Read org/skill-gaps.jsonl for unresolved gaps.
+      Build the highest-priority missing skill.
+      If no gaps exist, reply HEARTBEAT_OK.
+
+  # Weekly review — learning system aggregation
+  - name: weekly-review
+    schedule: "0 9 * * 1"
+    model: anthropic/claude-3-5-sonnet-20241022
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      Run the weekly review using org/learning/WEEKLY_REVIEW_TEMPLATE.md.
+      Aggregate after-actions, extract patterns, update skill trees.
+
+  # Prompt evolution — analyze and improve agent prompts
+  - name: prompt-evolution
+    schedule: "0 3 * * *"
+    model: anthropic/claude-3-5-sonnet-20241022
+    fallback: ollama/kimi-k2.5:cloud
+    prompt: |
+      Run org/engine/evolve_prompt.js for each registered subagent role.
+      Identify drift, redundancy, or under-performance.
+      Propose changes as PR into prompt repo.
