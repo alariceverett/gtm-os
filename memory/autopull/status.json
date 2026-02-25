@@ -1,0 +1,30 @@
+{
+  "active_subagents": 5,
+  "autonomy_gap_count": 0,
+  "autonomy_gap_tasks": [],
+  "candidate_tasks": [],
+  "capacity": -5,
+  "configured_target_workers": 4,
+  "current_active": 5,
+  "idempotency_skips": 0,
+  "last_miss": {
+    "current_active": 0,
+    "idempotency_skips": 0,
+    "needed": 1,
+    "reason": "insufficient_refill",
+    "spawn_failures": 1,
+    "spawned": 0,
+    "target_workers": 4,
+    "ts": "2026-02-22T14:15:58.539939-05:00"
+  },
+  "last_refill": null,
+  "note": "at/above target_workers",
+  "pending_deferred": 4,
+  "session_cap": 5,
+  "spawn_failures": 0,
+  "spawned": false,
+  "spawned_count": 0,
+  "target_workers": 4,
+  "trigger": "startup",
+  "ts": "2026-02-25T05:08:03.256484-05:00"
+}

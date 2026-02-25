@@ -1,0 +1,9 @@
+[
+  "id",
+  "asset_type",
+  "asset_id",
+  "event_type",
+  "event_payload",
+  "asset_status_at_event",
+  "occurred_at"
+]

@@ -1,0 +1,6 @@
+{"current_active": 17, "event": "refill_miss", "idempotency_skips": 0, "needed": 12, "reason": "insufficient_refill", "spawn_failures": 1, "spawned": 0, "target_workers": 30, "ts": "2026-02-22T03:56:40.470539-05:00"}
+{"current_active": 1, "event": "refill_miss", "idempotency_skips": 0, "needed": 1, "reason": "insufficient_refill", "spawn_failures": 1, "spawned": 0, "target_workers": 4, "ts": "2026-02-22T11:45:43.877459-05:00"}
+{"current_active": 0, "event": "refill_miss", "idempotency_skips": 1, "needed": 1, "reason": "insufficient_refill", "spawn_failures": 0, "spawned": 0, "target_workers": 4, "ts": "2026-02-22T11:46:30.864231-05:00"}
+{"current_active": 0, "event": "refill_miss", "idempotency_skips": 1, "needed": 1, "reason": "insufficient_refill", "spawn_failures": 0, "spawned": 0, "target_workers": 4, "ts": "2026-02-22T11:47:17.295961-05:00"}
+{"current_active": 0, "event": "refill_miss", "idempotency_skips": 1, "needed": 1, "reason": "insufficient_refill", "spawn_failures": 0, "spawned": 0, "target_workers": 4, "ts": "2026-02-22T11:48:04.384383-05:00"}
+{"current_active": 0, "event": "refill_miss", "idempotency_skips": 0, "needed": 1, "reason": "insufficient_refill", "spawn_failures": 1, "spawned": 0, "target_workers": 4, "ts": "2026-02-22T14:15:58.539939-05:00"}

@@ -1,0 +1,34 @@
+[
+  {
+    "rank": 6,
+    "reason": "gateway connect failed: Error: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/alariceverett/.openclaw/openclaw.json\nBind: loopback",
+    "section": "next (queued)",
+    "task_key": "6b9dfbf1c3b6eaef87c0df2aac7247b6478fc973",
+    "title": "Restaurant app \u2014 first production candidate slice",
+    "ts": "2026-02-21T12:38:46.121123-05:00"
+  },
+  {
+    "rank": 4,
+    "reason": "gateway connect failed: Error: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/alariceverett/.openclaw/openclaw.json\nBind: loopback",
+    "section": "next (queued)",
+    "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+    "title": "Restaurant app \u2014 first production candidate slice",
+    "ts": "2026-02-22T03:56:40.470163-05:00"
+  },
+  {
+    "rank": 4,
+    "reason": "gateway connect failed: Error: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/alariceverett/.openclaw/openclaw.json\nBind: loopback",
+    "section": "next (queued)",
+    "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+    "title": "Restaurant app \u2014 first production candidate slice",
+    "ts": "2026-02-22T11:45:43.877110-05:00"
+  },
+  {
+    "rank": 4,
+    "reason": "gateway connect failed: Error: pairing required\nGateway call failed: Error: gateway closed (1008): pairing required\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/alariceverett/.openclaw/openclaw.json\nBind: loopback",
+    "section": "next (queued)",
+    "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+    "title": "Restaurant app \u2014 first production candidate slice",
+    "ts": "2026-02-22T14:15:58.539332-05:00"
+  }
+]

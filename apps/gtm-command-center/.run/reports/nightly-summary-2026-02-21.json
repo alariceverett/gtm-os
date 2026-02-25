@@ -1,0 +1,12 @@
+{
+  "mode": "postgres",
+  "generatedAt": "2026-02-21T17:08:10.495Z",
+  "delegations24h": 1,
+  "completed24h": 0,
+  "lifecycleMovement7d": 0,
+  "campaignSpend7d": 0,
+  "campaignRevenue7d": 0,
+  "notes": [
+    "Nightly summary scaffold; extend with alerting/routing as needed."
+  ]
+}

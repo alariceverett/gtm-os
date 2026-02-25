@@ -1,0 +1,13 @@
+[
+  "id",
+  "title",
+  "slug",
+  "status",
+  "asset_format",
+  "optin_url",
+  "owner",
+  "notes",
+  "performance_notes",
+  "created_at",
+  "updated_at"
+]

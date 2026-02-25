@@ -1,0 +1,9 @@
+{
+  "ran_at": "2026-02-21T20:47:22.254Z",
+  "mode": "dry_run",
+  "lead_key": "lead:local:sample",
+  "trigger_key": "no_reply_48h",
+  "actions_produced": 1,
+  "ready_actions": 1,
+  "blocked_actions": 0
+}

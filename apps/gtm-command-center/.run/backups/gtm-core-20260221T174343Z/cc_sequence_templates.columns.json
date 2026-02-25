@@ -1,0 +1,12 @@
+[
+  "id",
+  "slug",
+  "name",
+  "channel",
+  "status",
+  "description",
+  "step_count",
+  "metadata",
+  "created_at",
+  "updated_at"
+]

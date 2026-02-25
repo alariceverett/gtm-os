@@ -268,6 +268,79 @@ Files:
 
 By default it is off. Review privacy docs before enabling.
 
+## Database Migrations
+
+Database migrations run automatically via GitHub Actions on push to `main` and on pull requests. They are also tracked locally for development.
+
+### GitHub Actions Workflow
+
+**File:** `.github/workflows/migrations.yml`
+
+**Triggers:**
+- `push` to `main` branch (when migrations change)
+- `pull_request` to `main` branch (when migrations change)
+- `workflow_dispatch` (manual trigger with environment selection)
+
+**Required Secrets:**
+Configure these in your repository settings (Settings → Secrets and variables → Actions):
+
+| Secret | Description | How to Get |
+|--------|-------------|------------|
+| `SUPABASE_PROJECT_ID` | Your Supabase project reference | From Supabase dashboard → Project Settings → General |
+| `SUPABASE_ACCESS_TOKEN` | Personal access token for Supabase CLI | From Supabase dashboard → Account → Access Tokens |
+| `SUPABASE_DB_PASSWORD` | Database password | From Supabase dashboard → Project Settings → Database → Connection string |
+
+**Workflow Behavior:**
+- **Pull Requests:** Runs a dry-run to validate migrations without applying
+- **Push to main:** Applies pending migrations to production
+- **Manual trigger:** Applies migrations with environment selection
+
+### Local Migration Commands
+
+Use these during development:
+
+```bash
+# Check migration status
+npm run db:migrate:status
+
+# Run pending migrations
+npm run db:migrate
+
+# Preview what would run (dry-run)
+npm run db:migrate:dry
+```
+
+### Creating Migrations
+
+1. Create a new SQL file in `migrations/` with a timestamp prefix:
+   ```bash
+   touch migrations/$(date +%Y%m%d%H%M%S)_add_users_table.sql
+   ```
+
+2. Write your SQL migration in the file:
+   ```sql
+   CREATE TABLE IF NOT EXISTS users (
+     id SERIAL PRIMARY KEY,
+     email VARCHAR(255) NOT NULL UNIQUE,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+   ```
+
+3. Run locally to test:
+   ```bash
+   npm run db:migrate
+   ```
+
+4. Commit and push - the GitHub Action will handle production deployment
+
+### Migration Safety
+
+- Migrations are **idempotent** - safe to run multiple times
+- The system tracks applied migrations in `_migrations` table
+- Checksums verify migration files haven't changed after being applied
+- Failed migrations roll back - database remains consistent
+- PRs trigger dry-runs to catch issues before merge
+
 ## License
 
 Use this however you want. Build something great.

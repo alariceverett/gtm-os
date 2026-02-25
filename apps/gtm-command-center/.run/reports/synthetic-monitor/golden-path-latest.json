@@ -1,0 +1,102 @@
+{
+  "marker": "golden-path-synthetic-run-v1",
+  "run_id": "syn-mlxx0ob1",
+  "generated_at": "2026-02-22T15:41:21.805Z",
+  "base": "http://localhost:1981",
+  "status": "pass",
+  "latency_ms": 2355,
+  "pass_count": 15,
+  "fail_count": 0,
+  "steps": [
+    {
+      "name": "preflight: health",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 245
+    },
+    {
+      "name": "targeting: approve launch",
+      "pass": true,
+      "detail": "status=303 location=/actions?action_msg=Approved%20and%20launched%20into%20TOF%20Direct%20Offer%20v1%20(target%20set%20target-set-mlxx0n17-zxtye4).&action_state=success&source=targeting",
+      "latency_ms": 569
+    },
+    {
+      "name": "actions: launch tasks queued",
+      "pass": true,
+      "detail": "target_set_id=target-set-mlxx0n17-zxtye4 tasks=3",
+      "latency_ms": null
+    },
+    {
+      "name": "relationships: launch relationship row",
+      "pass": true,
+      "detail": "target_set_id=target-set-mlxx0n17-zxtye4",
+      "latency_ms": null
+    },
+    {
+      "name": "relationships: competitive intel linked",
+      "pass": true,
+      "detail": "qaid=92392278-60f8-4f58-8e07-0cf11b571587",
+      "latency_ms": 71
+    },
+    {
+      "name": "pilot: promote to discovery",
+      "pass": true,
+      "detail": "qaid=92392278-60f8-4f58-8e07-0cf11b571587",
+      "latency_ms": 67
+    },
+    {
+      "name": "pilot: promote to pilot_candidate",
+      "pass": true,
+      "detail": "qaid=92392278-60f8-4f58-8e07-0cf11b571587",
+      "latency_ms": 67
+    },
+    {
+      "name": "route-truth: home route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 291
+    },
+    {
+      "name": "route-truth: targeting route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 149
+    },
+    {
+      "name": "route-truth: actions route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 150
+    },
+    {
+      "name": "route-truth: relationships route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 147
+    },
+    {
+      "name": "route-truth: pilot route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 148
+    },
+    {
+      "name": "route-truth: comms route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 176
+    },
+    {
+      "name": "route-truth: strategy route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 136
+    },
+    {
+      "name": "route-truth: ops route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 136
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "marker": "ops-review-burst-chat-mirror-state-v1",
+  "updatedAt": "2026-02-22T18:42:59.274Z",
+  "createdAnnouncedByBurstId": {
+    "burst-2026-02-22-3": "2026-02-22T17:36:15.005Z",
+    "burst-2026-02-22-2": "2026-02-22T17:36:15.005Z",
+    "burst-2026-02-22-1": "2026-02-22T17:36:15.005Z",
+    "RB-UI-001": "2026-02-22T18:41:55.307Z",
+    "RB-UI-002": "2026-02-22T18:41:55.308Z",
+    "RB-UI-003": "2026-02-22T18:41:55.308Z",
+    "RB-UI-004": "2026-02-22T18:41:55.308Z"
+  },
+  "statusAnnouncedByBurstId": {
+    "RB-UI-001": [
+      "approved",
+      "implemented",
+      "closed"
+    ],
+    "RB-UI-002": [
+      "implemented",
+      "closed"
+    ]
+  }
+}

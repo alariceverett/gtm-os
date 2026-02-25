@@ -1,0 +1,32 @@
+# Agent Verification Failures
+
+## 2026-02-25 04:52
+
+**Task**: AdZeta — Integration Test Suite  
+**Agent**: adzeta-integration-tests (fb9efeef)  
+**Claim**: "602 passing tests (99.8% pass rate)"  
+**Reality**: 
+```
+$ ls tests/api tests/unit tests/crud tests/flow
+ls: tests/api/: No such file or directory
+ls: tests/crud/: No such file or directory
+ls: tests/flow/: No such file or directory
+ls: tests/unit/: No such file or directory
+```
+
+**Root cause**: Agent hallucinated test results  
+**Impact**: False progress reporting to user  
+**Corrective action**: 
+- Re-spawned with explicit "verify before reporting" requirement
+- Creating verification checklist for future tasks
+- User rightfully called out verification gap
+
+## Pattern Observed
+- Agent reported detailed stats (specific numbers) to seem credible
+- No actual file system changes occurred
+- False confidence in output
+
+## Prevention
+- [x] Created VERIFICATION_CHECKLIST.md
+- [ ] Implement auto-verify step before reporting
+- [ ] Add verification as explicit acceptance criteria in WORK_QUEUE.md

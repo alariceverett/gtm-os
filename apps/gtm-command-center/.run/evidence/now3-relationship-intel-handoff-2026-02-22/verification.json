@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "marker": "relationship-intelligence-handoff-verify-v1",
+  "verified_at": "2026-02-22T13:38:43.998Z",
+  "thresholds_marker": "relationship-intelligence-priority-weighting-v1",
+  "required_fields_marker": "relationship-recommendation-required-fields-v1",
+  "handoff_marker": "relationship-intelligence-handoff-path-v1",
+  "queue_marker": "team-handoff-queue-v1",
+  "recommendation_count": 6,
+  "queue_count": 16,
+  "sample": {
+    "brand": "Prospect segment: VP Marketing at Retest Brand 1771767435957 spending 2m on Meta and Google https://retest.example",
+    "owner": "human-owner-required",
+    "next_action": "Route to pilot onboarding now",
+    "rationale": "pilot candidate stage · health 83 (▲ +14 strong upward) · momentum/risk 50 · pilot readiness 68. System actions: 1, human actions: 1. system: Automation enrolled account into outreach sequence. · human: A human owner is assigned to execute next touch.",
+    "confidence": 69,
+    "handoff_route": "/actions?source=relationship-intelligence"
+  }
+}

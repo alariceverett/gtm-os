@@ -1,0 +1,14 @@
+{
+  "id": "INC-20260222-a1b2c3d4",
+  "type": "AUTONOMY_GAP",
+  "trigger_condition": "active==0 && unblocked_work>0",
+  "opened_at": "2026-02-22T08:53:10+00:00",
+  "active_at_trigger": 0,
+  "unblocked_work_at_trigger": 3,
+  "cause": "AUTONOMY_GAP",
+  "remediation": "auto-refill worker floor to target_workers=4",
+  "closure_state": "closed",
+  "refilled_at": "2026-02-22T08:53:29+00:00",
+  "closed_at": "2026-02-22T08:54:12+00:00",
+  "sla_time_to_refill_seconds": 19
+}

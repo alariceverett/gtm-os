@@ -1,0 +1,102 @@
+{
+  "marker": "golden-flow-retest-matrix-v2",
+  "generated_at": "2026-02-22T16:14:08.715Z",
+  "base": "http://localhost:1981",
+  "run_latency_ms": 2042,
+  "pass_count": 13,
+  "fail_count": 2,
+  "steps": [
+    {
+      "name": "preflight: health",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 60
+    },
+    {
+      "name": "targeting: approve launch",
+      "pass": true,
+      "detail": "status=303 location=/actions?action_msg=Approved%20and%20launched%20into%20TOF%20Direct%20Offer%20v1%20(target%20set%20target-set-mlxy6sre-xbxx5h).&action_state=success&source=targeting",
+      "latency_ms": 508
+    },
+    {
+      "name": "actions: launch tasks queued",
+      "pass": true,
+      "detail": "target_set_id=target-set-mlxy6sre-xbxx5h tasks=3",
+      "latency_ms": null
+    },
+    {
+      "name": "relationships: launch relationship row",
+      "pass": true,
+      "detail": "target_set_id=target-set-mlxy6sre-xbxx5h",
+      "latency_ms": null
+    },
+    {
+      "name": "relationships: competitive intel linked",
+      "pass": true,
+      "detail": "qaid=58adc95b-c341-4857-a81f-91e2cdaad7a2",
+      "latency_ms": 74
+    },
+    {
+      "name": "pilot: promote to discovery",
+      "pass": true,
+      "detail": "qaid=58adc95b-c341-4857-a81f-91e2cdaad7a2",
+      "latency_ms": 77
+    },
+    {
+      "name": "pilot: promote to pilot_candidate",
+      "pass": true,
+      "detail": "qaid=58adc95b-c341-4857-a81f-91e2cdaad7a2",
+      "latency_ms": 72
+    },
+    {
+      "name": "route-truth: home route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 194
+    },
+    {
+      "name": "route-truth: targeting route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 148
+    },
+    {
+      "name": "route-truth: actions route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 144
+    },
+    {
+      "name": "route-truth: relationships route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 149
+    },
+    {
+      "name": "route-truth: pilot route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 145
+    },
+    {
+      "name": "route-truth: comms route",
+      "pass": false,
+      "detail": "status=500 missing=Comms|comms-unified-table-v1",
+      "latency_ms": 175
+    },
+    {
+      "name": "route-truth: strategy route",
+      "pass": false,
+      "detail": "status=200 missing=Strategy objective",
+      "latency_ms": 137
+    },
+    {
+      "name": "route-truth: ops route",
+      "pass": true,
+      "detail": "status=200",
+      "latency_ms": 156
+    }
+  ],
+  "target_set_id": "target-set-mlxy6sre-xbxx5h",
+  "qualified_account_id": "58adc95b-c341-4857-a81f-91e2cdaad7a2"
+}

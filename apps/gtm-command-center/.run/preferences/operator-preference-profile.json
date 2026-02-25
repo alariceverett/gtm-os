@@ -1,0 +1,66 @@
+{
+  "marker": "operator-preference-learning-profile-v1",
+  "updated_at": "2026-02-22T18:44:46.470Z",
+  "preference_version": 1,
+  "tags": {
+    "decision:approve": {
+      "total": 2,
+      "approved": 2,
+      "revise": 0
+    },
+    "decision:revise": {
+      "total": 2,
+      "approved": 0,
+      "revise": 2
+    }
+  },
+  "overrides": {},
+  "signals": [
+    {
+      "burst_id": "RB-UI-001",
+      "action": "approve",
+      "reason": "looks good",
+      "tags": [
+        "decision:approve"
+      ],
+      "operator": "auth-disabled",
+      "at": "2026-02-22T18:42:42.841Z"
+    },
+    {
+      "burst_id": "RB-UI-001",
+      "action": "approve",
+      "reason": "subagent-test",
+      "tags": [
+        "decision:approve"
+      ],
+      "operator": "auth-disabled",
+      "at": "2026-02-22T18:44:46.333Z"
+    },
+    {
+      "burst_id": "RB-UI-002",
+      "action": "revise",
+      "reason": "subagent-test",
+      "tags": [
+        "decision:revise"
+      ],
+      "operator": "auth-disabled",
+      "at": "2026-02-22T18:44:46.406Z"
+    },
+    {
+      "burst_id": "RB-UI-002",
+      "action": "revise",
+      "reason": "subagent-test-repeat",
+      "tags": [
+        "decision:revise"
+      ],
+      "operator": "auth-disabled",
+      "at": "2026-02-22T18:44:46.470Z"
+    }
+  ],
+  "summary": {
+    "copy_tone": "balanced",
+    "component_density": "balanced",
+    "cta_style": "single-dominant",
+    "hierarchy_preference": "summary-first"
+  }
+}

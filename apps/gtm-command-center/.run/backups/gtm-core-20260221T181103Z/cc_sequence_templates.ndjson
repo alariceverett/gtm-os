@@ -1,0 +1,2 @@
+{"id":"c9a916d0-726c-4cd3-a561-564cea7754df","slug":"nurture-warm-leads-v1","name":"Warm Lead Nurture v1","channel":"email","status":"active","description":"3-touch nurture sequence for warm inbound leads","step_count":3,"metadata":{"cadence_days":[0,3,7]},"created_at":"2026-02-21T16:36:33.322Z","updated_at":"2026-02-21T16:36:33.322Z"}
+{"id":"a2a318e5-3835-4b27-9c87-b8d5b67ce439","slug":null,"name":"x","channel":"email","status":"active","description":null,"step_count":0,"metadata":{},"created_at":"2026-02-21T18:05:09.395Z","updated_at":"2026-02-21T18:05:09.395Z"}

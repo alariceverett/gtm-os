@@ -1,0 +1,65 @@
+{
+  "marker": "trade-show-flow-proof-v3",
+  "generated_at": "2026-02-22T12:31:48.988770Z",
+  "pass_count": 10,
+  "fail_count": 0,
+  "steps": [
+    {
+      "name": "capture api ok",
+      "pass": true,
+      "detail": "marker=trade-show-voice-memo-v1 ok=True"
+    },
+    {
+      "name": "capture extracted required fields",
+      "pass": true,
+      "detail": "account/individual/context/promised_follow_up present"
+    },
+    {
+      "name": "followup action created",
+      "pass": true,
+      "detail": "followup_action_id=2933854c-b61e-4893-a3f0-6c00dc7a78cf"
+    },
+    {
+      "name": "captures list contains v3 account",
+      "pass": true,
+      "detail": "rows=3"
+    },
+    {
+      "name": "comms form v2 labels present",
+      "pass": true,
+      "detail": "v2 clarity + preview/save ctas"
+    },
+    {
+      "name": "comms updated checklist copy present",
+      "pass": true,
+      "detail": "latest guardrail copy rendered"
+    },
+    {
+      "name": "pilot stage coherence marker",
+      "pass": true,
+      "detail": "pilot progression coherence markers"
+    },
+    {
+      "name": "pilot progression recommendation marker",
+      "pass": true,
+      "detail": "per-card recommendation marker"
+    },
+    {
+      "name": "ops review checklist card marker",
+      "pass": true,
+      "detail": "ops checklist card present"
+    },
+    {
+      "name": "ops reviewer checklist route renders",
+      "pass": true,
+      "detail": "full checklist page renders from source doc"
+    }
+  ],
+  "key_urls": [
+    "http://localhost:1981/comms#trade-show-voice-memo-v1",
+    "http://localhost:1981/api/comms/trade-show/captures",
+    "http://localhost:1981/pilot",
+    "http://localhost:1981/ops",
+    "http://localhost:1981/ops/reviewer-checklist"
+  ]
+}

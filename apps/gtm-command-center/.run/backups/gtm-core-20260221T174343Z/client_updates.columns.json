@@ -1,0 +1,11 @@
+[
+  "id",
+  "meeting_note_id",
+  "client_name",
+  "update_text",
+  "status",
+  "due_date",
+  "sent_at",
+  "created_at",
+  "updated_at"
+]

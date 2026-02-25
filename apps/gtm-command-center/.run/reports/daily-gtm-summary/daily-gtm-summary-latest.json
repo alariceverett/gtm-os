@@ -1,0 +1,208 @@
+{
+  "generated_at": "2026-02-21T20:12:01.900Z",
+  "mode": "pg",
+  "kpis": {
+    "generated_at": "2026-02-21T20:12:01.692Z",
+    "freshness": "live from postgres",
+    "cards": [
+      {
+        "key": "delegations_24h",
+        "label": "Delegations (24h)",
+        "value": 0
+      },
+      {
+        "key": "completed_24h",
+        "label": "Completed (24h)",
+        "value": 0
+      },
+      {
+        "key": "open_priorities",
+        "label": "Open priorities",
+        "value": 2
+      },
+      {
+        "key": "active_runs",
+        "label": "Active runs",
+        "value": 9
+      }
+    ]
+  },
+  "sequence_activity": {
+    "enrollment_status_counts": {
+      "queued": 3,
+      "active": 0,
+      "paused": 0,
+      "completed": 0,
+      "cancelled": 0
+    },
+    "recent_events_24h_count": 2,
+    "recent_events": [
+      {
+        "id": "bb577bd7-c385-44df-8eec-94c15e0b2ab1",
+        "event_type": "sequence_enrollment_created",
+        "lead_key": "lead-sanity-1771702817",
+        "created_at": "2026-02-21T19:40:17.274Z"
+      },
+      {
+        "id": "098f0df4-7415-4a31-875a-80b498116f33",
+        "event_type": "sequence_enrollment_created",
+        "lead_key": "monday-test-contact",
+        "created_at": "2026-02-21T19:39:03.226Z"
+      }
+    ]
+  },
+  "alerts": {
+    "rules_count": 9,
+    "severity_counts": {
+      "info": 2,
+      "warning": 4,
+      "critical": 3,
+      "other": 0
+    },
+    "rules": [
+      {
+        "id": "delegations_drop_24h",
+        "name": "Delegations dropped (24h)",
+        "threshold": "delegations_24h < 10",
+        "severity": "warning",
+        "owner": "Ops Lead",
+        "sla_minutes": 60
+      },
+      {
+        "id": "completion_ratio_low",
+        "name": "Completion ratio low",
+        "threshold": "completed_24h / delegations_24h < 0.55",
+        "severity": "critical",
+        "owner": "Ops Lead",
+        "sla_minutes": 30
+      },
+      {
+        "id": "open_priorities_backlog",
+        "name": "Open priorities backlog high",
+        "threshold": "open_priorities > 25",
+        "severity": "warning",
+        "owner": "Queue Manager",
+        "sla_minutes": 90
+      },
+      {
+        "id": "active_runs_stall",
+        "name": "Active runs stalled",
+        "threshold": "active_runs = 0 for 30m",
+        "severity": "critical",
+        "owner": "Runtime Engineer",
+        "sla_minutes": 20
+      },
+      {
+        "id": "quality_7d_low",
+        "name": "Quality score degraded",
+        "threshold": "avg_quality_7d < 3.8",
+        "severity": "warning",
+        "owner": "Quality Lead",
+        "sla_minutes": 120
+      },
+      {
+        "id": "blocked_lane_growth",
+        "name": "Blocked lane growth",
+        "threshold": "blocked_items >= 3",
+        "severity": "warning",
+        "owner": "Program Manager",
+        "sla_minutes": 120
+      },
+      {
+        "id": "waiting_on_user_overdue",
+        "name": "Waiting-on-user overdue",
+        "threshold": "waiting_on_user_age > 48h",
+        "severity": "critical",
+        "owner": "Client Success",
+        "sla_minutes": 240
+      },
+      {
+        "id": "deploy_health_red",
+        "name": "Deploy/health not ready",
+        "threshold": "github_baseline != ready OR vercel_readiness != ready",
+        "severity": "info",
+        "owner": "Release Manager",
+        "sla_minutes": 240
+      },
+      {
+        "id": "service_logs_missing",
+        "name": "Service logs missing",
+        "threshold": ".run/service.out.log OR .run/service.err.log missing",
+        "severity": "info",
+        "owner": "Platform Ops",
+        "sla_minutes": 180
+      }
+    ]
+  },
+  "readiness": {
+    "generated_at": "2026-02-21T20:12:01.698Z",
+    "readiness_state": "NO_GO",
+    "pass_count": 6,
+    "fail_count": 1,
+    "gates": [
+      {
+        "id": "GATE-01",
+        "name": "Runtime connected",
+        "pass": true,
+        "actual": "runtime_mode=pg",
+        "required": "runtime_mode in {pg,supabase}",
+        "source": "runtime"
+      },
+      {
+        "id": "GATE-02",
+        "name": "Service logs present",
+        "pass": true,
+        "actual": "out_log=true; err_log=true",
+        "required": "both service logs exist",
+        "source": ".run/service*.log"
+      },
+      {
+        "id": "GATE-03",
+        "name": "Work queue not blocked",
+        "pass": false,
+        "actual": "blocked=3",
+        "required": "blocked < 3",
+        "source": "org/WORK_QUEUE.md"
+      },
+      {
+        "id": "GATE-04",
+        "name": "Waiting-on-user bounded",
+        "pass": true,
+        "actual": "waiting_on_user=0",
+        "required": "waiting_on_user < 3",
+        "source": "org/WORK_QUEUE.md"
+      },
+      {
+        "id": "GATE-05",
+        "name": "Backup artifact available",
+        "pass": true,
+        "actual": "backup_manifest=true",
+        "required": "latest backup manifest exists",
+        "source": ".run/backups/latest/manifest.json"
+      },
+      {
+        "id": "GATE-06",
+        "name": "Nightly summary generated",
+        "pass": true,
+        "actual": "nightly_summary=true",
+        "required": "nightly summary exists",
+        "source": ".run/reports/nightly-summary-latest.md"
+      },
+      {
+        "id": "GATE-07",
+        "name": "Checklist artifact present",
+        "pass": true,
+        "actual": "checklist=true",
+        "required": "checklist file exists",
+        "source": "org/MONDAY_GO_NO_GO_CHECKLIST.md"
+      }
+    ],
+    "queue_counts": {
+      "now": 32,
+      "next": 8,
+      "blocked": 3,
+      "done": 18,
+      "waiting_on_user": 0
+    }
+  }
+}

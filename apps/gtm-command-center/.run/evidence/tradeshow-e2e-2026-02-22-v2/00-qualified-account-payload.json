@@ -1,0 +1,15 @@
+{
+  "brand": "Zephyr Botanics Expo V2",
+  "website": "https://zephyrbotanics-v2.example.com",
+  "est_spend_tier": "1m-3m",
+  "channels": ["meta_ads", "retail_media"],
+  "contact_role": "VP Growth",
+  "qualification_confidence": 82,
+  "pipeline_stage": "pilot_candidate",
+  "readiness_score": 78,
+  "readiness_status": "qualified",
+  "owner": "Alex Rivera",
+  "spearman_score": 0.82,
+  "quintile_gap": 41,
+  "order_history_sufficiency": "sufficient"
+}

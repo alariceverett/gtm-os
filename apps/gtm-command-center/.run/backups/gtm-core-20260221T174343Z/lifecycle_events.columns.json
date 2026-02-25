@@ -1,0 +1,11 @@
+[
+  "id",
+  "contact_ref",
+  "event_type",
+  "from_stage",
+  "to_stage",
+  "campaign_ref",
+  "metadata",
+  "event_at",
+  "created_at"
+]

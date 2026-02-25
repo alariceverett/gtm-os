@@ -1,0 +1,14 @@
+[
+  "id",
+  "metric_date",
+  "campaign_ref",
+  "source",
+  "impressions",
+  "clicks",
+  "spend",
+  "conversions",
+  "revenue",
+  "metadata",
+  "created_at",
+  "updated_at"
+]

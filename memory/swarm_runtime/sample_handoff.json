@@ -1,0 +1,13 @@
+{
+  "lane_id": "67e9d8154a",
+  "from_role": "planner",
+  "to_role": "builder",
+  "task_title": "AdZeta — Comms + Account/Individual split views (home + ops coherence)",
+  "summary": "Planned implementation slices and acceptance checks.",
+  "deliverables": ["task breakdown", "scope boundaries"],
+  "checks": ["dependency map complete"],
+  "risks": ["schema drift"],
+  "next_actions": ["implement UI skeleton"],
+  "artifacts": ["org/product/BUILD_PLAN_TEMPLATE.md"],
+  "timestamp": "2026-02-22T09:13:00-05:00"
+}

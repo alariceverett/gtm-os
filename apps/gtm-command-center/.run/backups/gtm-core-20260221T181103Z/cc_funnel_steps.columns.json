@@ -1,0 +1,11 @@
+[
+  "id",
+  "funnel_id",
+  "position",
+  "name",
+  "action_type",
+  "delay_days",
+  "metadata",
+  "created_at",
+  "updated_at"
+]

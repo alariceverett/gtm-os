@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Sun, 22 Feb 2026 07:11:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"local_service_url":"http://localhost:1981","local_service_port":1981,"local_service_status":"listening on :1981 (launchd-compatible)","vercel_mode_enabled":false,"runtime_mode":"pg","checks":{"database":{"ok":true,"detail":"postgres reachable"},"service_logs":{"ok":true,"detail":"service logs present"},"work_queue_file":{"ok":true,"detail":"WORK_QUEUE.md readable"},"alert_rules_file":{"ok":true,"detail":"alert rules readable"}},"overall":"connected"}

@@ -1,0 +1,10 @@
+[
+  "id",
+  "client_name",
+  "source_type",
+  "note_text",
+  "meeting_at",
+  "metadata",
+  "created_at",
+  "updated_at"
+]

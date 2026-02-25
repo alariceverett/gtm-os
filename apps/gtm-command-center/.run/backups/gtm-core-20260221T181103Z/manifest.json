@@ -1,0 +1,91 @@
+{
+  "created_at_utc": "20260221T181103Z",
+  "source_schema": "public",
+  "format": "ndjson",
+  "tables": [
+    {
+      "table": "cc_operator_tasks",
+      "file": "cc_operator_tasks.ndjson",
+      "columns_file": "cc_operator_tasks.columns.json",
+      "rows": 5
+    },
+    {
+      "table": "lifecycle_stages",
+      "file": "lifecycle_stages.ndjson",
+      "columns_file": "lifecycle_stages.columns.json",
+      "rows": 5
+    },
+    {
+      "table": "lifecycle_events",
+      "file": "lifecycle_events.ndjson",
+      "columns_file": "lifecycle_events.columns.json",
+      "rows": 0
+    },
+    {
+      "table": "campaign_metrics",
+      "file": "campaign_metrics.ndjson",
+      "columns_file": "campaign_metrics.columns.json",
+      "rows": 0
+    },
+    {
+      "table": "cc_funnels",
+      "file": "cc_funnels.ndjson",
+      "columns_file": "cc_funnels.columns.json",
+      "rows": 1
+    },
+    {
+      "table": "cc_funnel_steps",
+      "file": "cc_funnel_steps.ndjson",
+      "columns_file": "cc_funnel_steps.columns.json",
+      "rows": 3
+    },
+    {
+      "table": "cc_sequence_templates",
+      "file": "cc_sequence_templates.ndjson",
+      "columns_file": "cc_sequence_templates.columns.json",
+      "rows": 2
+    },
+    {
+      "table": "cc_sequence_enrollments",
+      "file": "cc_sequence_enrollments.ndjson",
+      "columns_file": "cc_sequence_enrollments.columns.json",
+      "rows": 1
+    },
+    {
+      "table": "lead_magnets",
+      "file": "lead_magnets.ndjson",
+      "columns_file": "lead_magnets.columns.json",
+      "rows": 2
+    },
+    {
+      "table": "teaser_products",
+      "file": "teaser_products.ndjson",
+      "columns_file": "teaser_products.columns.json",
+      "rows": 2
+    },
+    {
+      "table": "delivery_events",
+      "file": "delivery_events.ndjson",
+      "columns_file": "delivery_events.columns.json",
+      "rows": 0
+    },
+    {
+      "table": "meeting_notes",
+      "file": "meeting_notes.ndjson",
+      "columns_file": "meeting_notes.columns.json",
+      "rows": 2
+    },
+    {
+      "table": "meeting_actions",
+      "file": "meeting_actions.ndjson",
+      "columns_file": "meeting_actions.columns.json",
+      "rows": 2
+    },
+    {
+      "table": "client_updates",
+      "file": "client_updates.ndjson",
+      "columns_file": "client_updates.columns.json",
+      "rows": 2
+    }
+  ]
+}

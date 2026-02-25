@@ -1,0 +1,14 @@
+{
+  "brand": "Zephyr Botanics Expo",
+  "website": "https://zephyrbotanics.example.com",
+  "est_spend_tier": "1m-3m",
+  "qualification_confidence": 82,
+  "pipeline_stage": "discovery",
+  "readiness_score": 78,
+  "readiness_status": "qualified",
+  "owner": "Alex Rivera",
+  "spearman_score": 0.82,
+  "quintile_gap": 41,
+  "order_history_sufficiency": "sufficient",
+  "notes": "Trade show lead to validate end-to-end capture proof"
+}

@@ -1,0 +1,11 @@
+[
+  "id",
+  "sequence_template_id",
+  "lead_key",
+  "status",
+  "current_step_index",
+  "next_send_at",
+  "metadata",
+  "created_at",
+  "updated_at"
+]

@@ -7,7 +7,11 @@
     "restaurant:dev": "npm --prefix apps/gtm-command-center run dev",
     "restaurant:build": "npm --prefix apps/gtm-command-center run build",
     "restaurant:lint": "npm --prefix apps/gtm-command-center run lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "db:migrate": "node scripts/migrate.js",
+    "db:migrate:dry": "node scripts/migrate.js --dry-run",
+    "db:migrate:status": "node scripts/migrate.js --status"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +19,14 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
+  },
+  "lint-staged": {
+    "*.sql": [
+      "echo '💡 Consider running: npx supabase db lint'"
+    ]
   }
 }

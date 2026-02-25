@@ -1,0 +1,14 @@
+[
+  "id",
+  "title",
+  "slug",
+  "status",
+  "offer_type",
+  "price_cents",
+  "checkout_url",
+  "owner",
+  "notes",
+  "performance_notes",
+  "created_at",
+  "updated_at"
+]

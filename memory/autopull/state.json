@@ -1,0 +1,56 @@
+{
+  "last_miss": {
+    "current_active": 0,
+    "idempotency_skips": 0,
+    "needed": 1,
+    "reason": "insufficient_refill",
+    "spawn_failures": 1,
+    "spawned": 0,
+    "target_workers": 4,
+    "ts": "2026-02-22T14:15:58.539939-05:00"
+  },
+  "recent": [
+    {
+      "status": "deferred",
+      "task_key": "6b9dfbf1c3b6eaef87c0df2aac7247b6478fc973",
+      "title": "Restaurant app \u2014 first production candidate slice",
+      "ts": 1771695525
+    },
+    {
+      "status": "spawned",
+      "task_key": "8fedc781e53e51fcd24affc0c9f58fecdd834c60",
+      "title": "Task A",
+      "ts": 1771700016
+    },
+    {
+      "status": "spawned",
+      "task_key": "436a3e40c6b4f727c9e99611791bb2feb2f0398e",
+      "title": "Task B",
+      "ts": 1771700016
+    },
+    {
+      "status": "spawned",
+      "task_key": "74b3981378ee2b8727c7a4853bb3deb6e65a9900",
+      "title": "Task C",
+      "ts": 1771700016
+    },
+    {
+      "status": "deferred",
+      "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+      "title": "Restaurant app \u2014 first production candidate slice",
+      "ts": 1771750599
+    },
+    {
+      "status": "deferred",
+      "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+      "title": "Restaurant app \u2014 first production candidate slice",
+      "ts": 1771778743
+    },
+    {
+      "status": "deferred",
+      "task_key": "34eaa7e2b6c8aee72bb43fa5f19e538e46c0f0d6",
+      "title": "Restaurant app \u2014 first production candidate slice",
+      "ts": 1771787757
+    }
+  ]
+}

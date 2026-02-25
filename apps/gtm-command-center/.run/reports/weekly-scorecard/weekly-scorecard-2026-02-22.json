@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-02-22T00:20:03.588Z",
+  "mode": "pg",
+  "delivery": {
+    "delivery_events_7d": 0,
+    "lead_magnets_live": 1,
+    "teaser_products_live": 1,
+    "delivery_score": 0,
+    "source": "live from postgres"
+  },
+  "cac": {
+    "spend_7d": 0,
+    "conversions_7d": 0,
+    "cac_7d": "n/a",
+    "source": "live from postgres"
+  },
+  "d60_roas": {
+    "proxy_7d_roas": "n/a",
+    "actual_d60_roas": 0,
+    "actual_field": "metadata.d60_roas_actual",
+    "source": "live from postgres"
+  },
+  "control_vs_test": {
+    "control_roas_7d": "n/a",
+    "test_roas_7d": "n/a",
+    "d60_lift_pct_vs_control": "n/a",
+    "split_field": "metadata.variant_group",
+    "source": "live from postgres"
+  },
+  "signal_health_notes": [
+    "Low delivery activity in the last 7d; risk of weak learning loops.",
+    "Check tracking parity weekly (ad platform vs CRM conversion events).",
+    "Validate creative fatigue signals if CTR trends down 2+ weeks in a row."
+  ],
+  "trajectory_flag": "NO_GO",
+  "recommendation": {
+    "status": "RECOMMEND_NO_GO",
+    "summary": "Hold rollout: pilot performance is below control or operating health is off-track."
+  }
+}

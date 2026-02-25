@@ -1,0 +1,13 @@
+[
+  "id",
+  "stream",
+  "title",
+  "description",
+  "owner",
+  "status",
+  "priority",
+  "source",
+  "created_at",
+  "updated_at",
+  "completed_at"
+]

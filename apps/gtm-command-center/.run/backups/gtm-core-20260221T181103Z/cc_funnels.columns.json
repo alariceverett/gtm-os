@@ -1,0 +1,11 @@
+[
+  "id",
+  "slug",
+  "name",
+  "status",
+  "channel",
+  "goal",
+  "notes",
+  "created_at",
+  "updated_at"
+]

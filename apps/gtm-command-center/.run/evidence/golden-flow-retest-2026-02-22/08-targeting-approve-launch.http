@@ -1,0 +1,7 @@
+HTTP/1.1 303 See Other
+Location: /actions?action_msg=Approved%20and%20launched%20into%20TOF%20Direct%20Offer%20v1%20(target%20set%20target-set-mlxetcq3-srffsm).&action_state=success&source=targeting
+Date: Sun, 22 Feb 2026 07:11:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+

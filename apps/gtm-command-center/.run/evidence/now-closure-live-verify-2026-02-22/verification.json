@@ -1,0 +1,42 @@
+{
+  "marker": "now-closure-live-verify-v1",
+  "generated_at": "2026-02-22T12:02:16.397545Z",
+  "base": "http://localhost:1981",
+  "rows": [
+    {
+      "route": "/comms?view=account&tab=inbox",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/comms?view=individual&tab=inbox",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/ops",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/ops/reviewer-checklist",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/research",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/api/research-ledger",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "route": "/health",
+      "status": "PASS",
+      "detail": "status=200"
+    }
+  ]
+}
