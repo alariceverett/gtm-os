@@ -29,6 +29,26 @@ If you're about to touch a browser, write code, or do anything a task agent coul
 - Move SCHEDULED items forward if unblocked early
 - Ensure there's ALWAYS work in flight between heartbeats
 
+## Night Shift Mode (When User Sleeping)
+**Reference:** `org/TONIGHT_WORK_PLAN.md`
+
+### Check
+- Read TONIGHT_WORK_PLAN.md for current priorities
+- Check subagent status every 30 min
+- Log progress to memory/night-status-YYY-MM-DD.md
+- Respect execution boundaries (what needs approval)
+
+### Auto-Pull
+- When subagent completes, immediately spawn next
+- Target: Keep 4-6 agents running continuously
+- Priority: Phase 2 foundation work
+
+### Stop Conditions
+- Production error → Stop immediately
+- Cost >$50 → Stop immediately  
+- Blocker >1 hour → Log and pause
+- Morning arrives → Generate report
+
 ## Step 5: Log
 - Update `memory/YYYY-MM-DD.md`
 - Update work queue (completed items → deleted, new items added)
