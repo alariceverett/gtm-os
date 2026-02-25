@@ -1,0 +1,29 @@
+{
+  "gates": {
+    "files_created": {
+      "command": "ls -la {paths}",
+      "must_match": "file exists, size > 0",
+      "failure_action": "REPORT_FAILURE"
+    },
+    "code_runs": {
+      "command": "{test_command}",
+      "must_match": "exit code 0",
+      "failure_action": "REPORT_FAILURE"  
+    },
+    "count_matches": {
+      "command": "find {pattern} | wc -l",
+      "must_match": "actual count >= claimed_count",
+      "failure_action": "REPORT_FAILURE"
+    },
+    "api_responds": {
+      "command": "curl -s {url} | head -1",
+      "must_match": "non-empty response",
+      "failure_action": "REPORT_FAILURE"
+    }
+  },
+  "reporting_rules": {
+    "agent_claims": "never_accept_without_verification",
+    "report_format": "claimed_value | verified_value | match_status",
+    "my_failure": "log_and_escalate_if_systemic"
+  }
+}

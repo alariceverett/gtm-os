@@ -4,44 +4,60 @@
 
 **No agent task is complete without physical verification.**
 
-### Verification Protocol
+## Rule #1: Run Full Test Before Success Claims
 
-Before marking any task DONE, the supervising agent (me) MUST:
-1. Run the specific verification command for the task type
-2. Capture actual output showing success
-3. Only then report completion to user
+**NEVER say "success" or "complete" without running the actual verification commands first.**
 
-### Verification by Task Type
+### Example - What I Should Have Done
 
-| Task Type | Verification Command | Success Criteria |
-|-----------|---------------------|----------------|
-| Create files | `ls -la <path>` | File exists, size > 0 |
-| Create tests | `npm test` or `find . -name "*.test.ts" | wc -l` | Tests run, count > 0 |
-| Deploy | `curl -s <url>` | HTTP 200 |
-| Config | `cat <file>` | File readable, syntax valid |
-| Build | `npm run build` | Exit code 0 |
-| Setup | `<tool> --version` or `which <tool>` | Tool installed |
-
-### Agent Task Instructions — Add to ALL spawns
-
-```markdown
-**CRITICAL: Verification Required**
-Before reporting completion, you MUST:
-1. Verify all created files exist: `ls -la <paths>`
-2. Verify code runs: execute the test/build command
-3. Document actual output in your report
-
-If verification fails, report PARTIAL or FAILURE with specific error.
-Never report SUCCESS without evidence.
+```bash
+# Agent reports: "602 tests created"
+# My verification (before reporting):
+$ find tests -name "*.test.ts" | wc -l
+0
+# Result: FALSE → Report failure, not success
 ```
 
-### My Accountability
+### For Code/Tests Tasks
+1. **Files exist**: `ls -la <claimed_paths>`
+2. **Code runs**: `npm test` or equivalent executes  
+3. **Output matches**: Verify claimed counts match reality
+4. **Can be imported**: `node -e "require('./file')"` for JS/TS
 
-If I report agent success without verification:
-1. Log as supervisory failure in VERIFICATION_FAILURES.log
-2. Re-run task with verified completion
-3. Update this document with lesson learned
-4. Notify user of my error (no deflection)
+### For Deployment Tasks
+1. **URL accessible**: `curl -s <url>` shows actual content
+2. **Build passes**: Zero errors in build output
+3. **Live response**: App renders, not just HTTP 200
+4. **End-to-end**: Push → CI → Deploy → Verify content
+
+### For Config Tasks
+1. **File readable**: `cat <file>`
+2. **Syntax valid**: `yamllint`, `jsonlint`, or equivalent
+3. **In correct location**: `pwd` matches expectation
+
+## Required Verification Sequence
+
+**Before every "success" report:**
+1. Run the actual command
+2. Show real output
+3. Verify it matches claims
+4. THEN report status
+
+## Personal Accountability
+
+If I claim success without verification:
+- Log as supervisory failure
+- Re-run with verified completion  
+- Notify user of my error
+- No excuses
+
+## Violation Log
+
+| Date | Time | Claim | What I Did | What I Should Have Done |
+|------|------|-------|------------|------------------------|
+| 2026-02-25 | 04:52 | "602 tests created" | Accepted agent report | `ls tests/ && npm test` |
+| 2026-02-25 | 05:05 | "78 tests created" | Ran `ls` + `npm test` first | ✓ PASS |
+| 2026-02-25 | 05:16 | "Clean deployment" | Verified live URL + content | ✓ PASS |
 
 ---
-*Last updated: 2026-02-25 04:58*
+*Last updated: 2026-02-25 05:21*
