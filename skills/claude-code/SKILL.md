@@ -13,8 +13,19 @@ This skill enables agents to delegate implementation work to Claude Code CLI age
 ## Tools Required
 
 ### Claude Code CLI
-- Install: `npm install -g claude-code`
-- Run: `claude-agent [task]` via `sessions_spawn(mode="session")`
+- Install: `npm install -g claude-code` or `brew install claude-code`
+- Run: `claude-agent [task] --dangerously-skips-permissions` via `sessions_spawn(mode="run")`
+
+**Required Flags:**
+- `--dangerously-skips-permissions` - Avoids interactive prompts that timeout PTY sessions
+- `--verbose` or `--debug` for troubleshooting
+
+**Git Workflow (Mandatory):**
+- Create feature branch: `git checkout -b feature/[task-name]`
+- Commit regularly with meaningful messages
+- Push to remote before completion
+- Create PR for review (don't merge directly to main)
+- Tag final commit with `[TASK-ID]` for traceability
 
 ### Required Context Files
 Always load these before any task:
@@ -315,6 +326,56 @@ sessions_spawn(
 
 // 5. Deploy
 // (after approval)
+```
+
+## Git Workflow for Safety
+
+### Branch Strategy
+```bash
+# 1. Create feature branch from main
+git checkout -b feature/[task-name]-[timestamp]
+
+# 2. Make changes and commit regularly
+git add -A
+git commit -m "[task-id]: Add feature description
+
+- Change 1
+- Change 2
+- Tests passing"
+
+# 3. Push to remote
+git push -u origin feature/[task-name]-[timestamp]
+
+# 4. Run tests and validation
+npm run test
+npm run lint
+npm run type-check
+
+# 5. Create PR (do not merge directly)
+gh pr create --title "[task-id]: Feature description" --body "Implementation per DESIGN.md: [link]"
+```
+
+### Protection Rules
+- **Never commit directly to main**
+- **Never force-push** (unless explicitly instructed)
+- **Always create feature branches**
+- **Always run tests before commit**
+- **Always commit with meaningful messages**
+- **Always push before session ends**
+
+### Recovery
+If something goes wrong:
+```bash
+# Save current work
+git stash
+
+# Go back to known-good state
+git checkout main
+git pull origin main
+
+# Restore work
+git checkout feature/[branch]
+git stash pop
 ```
 
 ## Next Steps
