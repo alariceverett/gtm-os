@@ -15,12 +15,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
       
       - name: Install dependencies
         run: |
-          npm ci
-          cd apps/gtm-command-center && npm ci
+          npm install
+          cd apps/gtm-command-center && npm install
       
       - name: Run tests
         run: npm run test
